@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace TipuriPrimitive
 {
-    class Calculate
+    class CalculateDale
     {
         public int CalculDale(float m, float n, float a)
         {

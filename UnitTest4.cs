@@ -13,7 +13,7 @@ namespace TipuriPrimitive
             float lat_p = 7;
             float a = 4;
             int expected_result = 0;
-            Calculate classCalculate = new Calculate();
+            CalculateDale classCalculate = new CalculateDale();
             int result = classCalculate.CalculDale(lung_p, lat_p, a);
             Assert.AreEqual(expected_result, result);
 
