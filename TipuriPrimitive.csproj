@@ -75,6 +75,8 @@
     <Compile Include="Excel_Test1to25.cs" />
     <Compile Include="Excel_InvalidColNb.cs" />
     <Compile Include="Sportiv.cs" />
+    <Compile Include="Train_CalcBirdDistance.cs" />
+    <Compile Include="Train_InvalidData.cs" />
     <Compile Include="WdaysQGoats.cs" />
   </ItemGroup>
   <Choose>
