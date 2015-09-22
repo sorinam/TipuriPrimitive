@@ -4,7 +4,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 namespace TipuriPrimitive
 {
     [TestClass]
-    public class Mushrooms_NoSolution
+    public class Mushrooms_InvalidX
     {
         [TestMethod]
         public void Mushrooms_InvalidData()
