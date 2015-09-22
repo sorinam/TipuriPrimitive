@@ -11,7 +11,7 @@ namespace TipuriPrimitive
         public float CalculateCant(int Xdays, int Ygoats, float Zkg, int Wdays, int Qgoats)
         {
             float result;
-            result = Zkg / Xdays;
+            result = Zkg / Xdays/Ygoats*Qgoats*Wdays;
             return result;
         }
     }

@@ -13,7 +13,7 @@ namespace TipuriPrimitive
             int Ygoats = 3;
             int Zkg = 10;
             int Wdays = 1;
-            int Qgoats = 9;
+            int Qgoats =3;
             float result = 0;
             Goats goats = new Goats();
             float expected_result =2;
