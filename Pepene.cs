@@ -11,11 +11,11 @@ namespace TipuriPrimitive
         public string Verify_Kg(int i)
         {
             string result = "";
-                if (i % 2 == 0)
-            {
+            if (i % 2 == 0)
                 result = "DA";
-            }
-         return result;
+            else
+                result = "NU";
+            return result;
         }
     }
 }

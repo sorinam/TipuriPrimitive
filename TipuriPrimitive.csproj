@@ -59,6 +59,7 @@
     <Compile Include="Pavaj_FirstTest.cs" />
     <Compile Include="Pepene.cs" />
     <Compile Include="Pepene_TestDA.cs" />
+    <Compile Include="Pepene_TestNU.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Pavaj_TestRoundNeed.cs" />
     <Compile Include="Pavaj_TestDalaImproperDim.cs" />
