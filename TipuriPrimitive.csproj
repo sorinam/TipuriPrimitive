@@ -71,6 +71,7 @@
     <Compile Include="Excel_Test1to25.cs" />
     <Compile Include="Excel_InvalidColNb.cs" />
     <Compile Include="Sportiv.cs" />
+    <Compile Include="WdaysQGoats.cs" />
   </ItemGroup>
   <Choose>
     <When Condition="'$(VisualStudioVersion)' == '10.0' And '$(IsCodedUITest)' == 'True'">
