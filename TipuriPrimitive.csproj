@@ -53,9 +53,11 @@
   </Choose>
   <ItemGroup>
     <Compile Include="Calculate.cs" />
+    <Compile Include="Capre.cs" />
     <Compile Include="Excel_CalculateColumnName.cs" />
     <Compile Include="Excel_TestMoreLetters.cs" />
     <Compile Include="Excel_TestOneLetterZ.cs" />
+    <Compile Include="OneDayYGoats.cs" />
     <Compile Include="Pavaj_FirstTest.cs" />
     <Compile Include="Pepene.cs" />
     <Compile Include="Pepene_TestDA.cs" />
