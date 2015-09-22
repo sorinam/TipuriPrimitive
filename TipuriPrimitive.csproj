@@ -56,13 +56,13 @@
     <Compile Include="Excel_CalculateColumnName.cs" />
     <Compile Include="Excel_TestMoreLetters.cs" />
     <Compile Include="Excel_TestOneLetterZ.cs" />
-    <Compile Include="UnitTest1.cs" />
+    <Compile Include="Pavaj_FirstTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="UnitTest2.cs" />
-    <Compile Include="UnitTest3.cs" />
-    <Compile Include="UnitTest4.cs" />
-    <Compile Include="UnitTest5.cs" />
-    <Compile Include="UnitTest6.cs" />
+    <Compile Include="Pavaj_TestRoundNeed.cs" />
+    <Compile Include="Pavaj_TestDalaImproperDim.cs" />
+    <Compile Include="Pavaj_TestSquareImproperDim.cs" />
+    <Compile Include="Excel_Test1to25.cs" />
+    <Compile Include="Excel_InvalidColNb.cs" />
   </ItemGroup>
   <Choose>
     <When Condition="'$(VisualStudioVersion)' == '10.0' And '$(IsCodedUITest)' == 'True'">

@@ -4,7 +4,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 namespace TipuriPrimitive
 {
     [TestClass]
-    public class UnitTest3
+    public class Pavaj_TestDalaImproperDim
     {
         [TestMethod]
         public void Pavaj_TestDalaImproperDimensions()

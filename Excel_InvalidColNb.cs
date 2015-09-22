@@ -4,7 +4,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 namespace TipuriPrimitive
 {
     [TestClass]
-    public class UnitTest6
+    public class Excel_InvalidColNb
     {
         [TestMethod]
         public void Excel_InvalidColumnNumber()

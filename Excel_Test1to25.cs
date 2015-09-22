@@ -4,7 +4,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 namespace TipuriPrimitive
 {
     [TestClass]
-    public class UnitTest5
+    public class Excel_Test1to25
     {
         [TestMethod]
         public void Excel_TestOneLetterDiffZ()

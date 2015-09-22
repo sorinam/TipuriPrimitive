@@ -4,7 +4,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 namespace TipuriPrimitive
 {
     [TestClass]
-    public class UnitTest1
+    public class Pavaj_FirstTest
     {
         [TestMethod]
         public void Pavaj_SimpleCase()
