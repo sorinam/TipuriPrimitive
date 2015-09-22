@@ -7,7 +7,7 @@ namespace TipuriPrimitive
     public class UnitTest2
     {
         [TestMethod]
-        public void TestRoundNeeded()
+        public void Pavaj_TestRoundNeeded()
         {
             //length%a !=0 or high%a !=0
             float lung_p = 7;

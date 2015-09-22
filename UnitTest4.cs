@@ -7,7 +7,7 @@ namespace TipuriPrimitive
     public class UnitTest4
     {
         [TestMethod]
-        public void TestSquareImproperDimension()
+        public void Pavaj_TestSquareImproperDimension()
         {
             float lung_p = 0;
             float lat_p = 7;

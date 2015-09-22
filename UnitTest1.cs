@@ -7,7 +7,7 @@ namespace TipuriPrimitive
     public class UnitTest1
     {
         [TestMethod]
-        public void SimpleCase()
+        public void Pavaj_SimpleCase()
         {
             // length%a = 0 and high%a=0
             int lung_p = 6;

@@ -7,7 +7,7 @@ namespace TipuriPrimitive
     public class UnitTest3
     {
         [TestMethod]
-        public void TestDalaImproperDimensions()
+        public void Pavaj_TestDalaImproperDimensions()
         {
             float lung_p = 1;
             float lat_p = 7;
