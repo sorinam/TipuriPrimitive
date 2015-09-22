@@ -54,6 +54,7 @@
   <ItemGroup>
     <Compile Include="Calculate.cs" />
     <Compile Include="Excel_CalculateColumnName.cs" />
+    <Compile Include="Excel_TestOneLetterZ.cs" />
     <Compile Include="UnitTest1.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="UnitTest2.cs" />

@@ -18,6 +18,10 @@ namespace TipuriPrimitive
                 int rest;
                 Cat = (number / 26);
                 rest = number % 26;
+                if ((rest) == 0)
+                { number = (Cat - 1); }
+                else
+                { number = Cat; }
                 calc_result += ConvertNumberToLetter(rest);
             }
             else
@@ -30,7 +34,14 @@ namespace TipuriPrimitive
         {
             char[] Letters = { 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z' };
             char result;
-            result = Letters[number - 1];
+            if (number != 0)
+            {//not Z
+                result = Letters[number - 1];
+            }
+            else
+            {//is Z
+                result = 'Z';
+            }
             return result;
         }
     }
