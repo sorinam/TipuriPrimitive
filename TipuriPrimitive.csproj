@@ -57,6 +57,8 @@
     <Compile Include="Excel_CalculateColumnName.cs" />
     <Compile Include="Excel_TestMoreLetters.cs" />
     <Compile Include="Excel_TestOneLetterZ.cs" />
+    <Compile Include="OneDayOneGoat.cs" />
+    <Compile Include="OneDayQGoats.cs" />
     <Compile Include="OneDayYGoats.cs" />
     <Compile Include="Pavaj_FirstTest.cs" />
     <Compile Include="Pepene.cs" />
