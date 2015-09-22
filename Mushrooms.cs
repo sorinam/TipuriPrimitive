@@ -11,9 +11,16 @@ namespace TipuriPrimitive
         public int CalculateWhiteMushrroms(int N,int X)
         {
             int result = 0;
-            if (X>N)
-            {//no solution
+            if (X > N)
+            {//no solution- incorrect data 
                 result = -1;
+            }
+            else
+            {
+                if (N % (X + 1) == 0)
+                {//have solution
+                    result = N / (X + 1);
+                }
             }
             return result;
 
