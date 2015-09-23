@@ -53,6 +53,7 @@
   </Choose>
   <ItemGroup>
     <Compile Include="Bank_CalculateRate.cs" />
+    <Compile Include="Bank_InvalidMonthNb.cs" />
     <Compile Include="Bank_Rate.cs" />
     <Compile Include="Calculate.cs" />
     <Compile Include="Capre.cs" />
