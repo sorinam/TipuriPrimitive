@@ -52,6 +52,8 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
+    <Compile Include="Bank_CalculateRate.cs" />
+    <Compile Include="Bank_Rate.cs" />
     <Compile Include="Calculate.cs" />
     <Compile Include="Capre.cs" />
     <Compile Include="Excel_CalculateColumnName.cs" />
