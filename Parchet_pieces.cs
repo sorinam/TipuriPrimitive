@@ -20,7 +20,7 @@ namespace TipuriPrimitive
             //calculate number of pieces
             calculate = area1 / area2;
             //put extra needed
-            calculate = calculate * extra;
+            calculate = calculate * (1+extra);
             result = (int)(Math.Ceiling(calculate));
             return result;
 
