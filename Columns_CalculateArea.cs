@@ -11,7 +11,14 @@ namespace TipuriPrimitive
         public float Calculate_AreaofTriangle(float xa, float ya, float xb, float yb, float xc, float yc)
         { float result = 0;
             float area = Math.Abs(xa * yb + xb * yc + ya * xc - xc * yb - xa * yc - xb * ya);
-            result = area/2;
+            if (area == 0)
+            {//collinear points-there is no solution;
+                result = -1;
+            }
+            else
+            {
+                result = area / 2;
+            }
             return result;
         }
     }
