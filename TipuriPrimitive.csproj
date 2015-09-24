@@ -70,6 +70,7 @@
     <Compile Include="OneDayQGoats.cs" />
     <Compile Include="OneDayYGoats.cs" />
     <Compile Include="Parchet.cs" />
+    <Compile Include="ParchetInvalidDim.cs" />
     <Compile Include="Parchet_pieces.cs" />
     <Compile Include="Pavaj_FirstTest.cs" />
     <Compile Include="Pepene.cs" />
