@@ -59,6 +59,8 @@
     <Compile Include="Bank_Rate.cs" />
     <Compile Include="Calculate.cs" />
     <Compile Include="Capre.cs" />
+    <Compile Include="Columns_BuildArea.cs" />
+    <Compile Include="Columns_CalculateArea.cs" />
     <Compile Include="Excel_CalculateColumnName.cs" />
     <Compile Include="Excel_TestMoreLetters.cs" />
     <Compile Include="Excel_TestOneLetterZ.cs" />
