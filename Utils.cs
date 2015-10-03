@@ -10,7 +10,7 @@ namespace TipuriPrimitive
     {
         public double ChancetoWin(ulong TotalNumbers, ulong Numbers)
         {
-            ulong FavorabilCases = Combinations(TotalNumbers, Numbers) * Combinations(TotalNumbers - Numbers, 6 - Numbers);
+            ulong FavorabilCases = Combinations(6, Numbers) * Combinations(TotalNumbers - Numbers, 6 - Numbers);
             ulong TotalCases = Combinations(TotalNumbers, 6);
             return ((double)FavorabilCases / (double)TotalCases);
         }
