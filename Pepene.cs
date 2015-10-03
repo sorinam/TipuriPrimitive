@@ -11,7 +11,7 @@ namespace TipuriPrimitive
         public string Verify_Kg(int i)
         {
             string result = "";
-            if (i % 2 == 0)
+            if (i % 2 == 0 && i>2)
                 result = "DA";
             else
                 result = "NU";
