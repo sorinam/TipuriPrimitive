@@ -19,10 +19,6 @@ namespace TipuriPrimitive
          // return (k > n) ? 0 : Factorial(n) / (Factorial(k) * Factorial(n - k));
             return (k < n / 2) ? CalculateCombinations(n, k) : CalculateCombinations(n, n - k);
         }
-        private ulong Factorial(ulong i)
-        {
-            return (i <= 1) ? 1 : i * Factorial(i - 1);
-        }
         private ulong CalculateCombinations(uint n, uint k)
         {
             ulong result_intermediar = this.CalculateCombinationsNPerCombinanationsk(n, k);
@@ -36,5 +32,10 @@ namespace TipuriPrimitive
             return result;
         }
 
+        private ulong Factorial(ulong i)
+        {
+            return (i <= 1) ? 1 : i * Factorial(i - 1);
+        }
+       
     }
 }

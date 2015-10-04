@@ -14,6 +14,7 @@ namespace TipuriPrimitive
             ulong ExpectedChanse = 566684;
             Utils utils = new Utils();
             Assert.AreEqual(ExpectedChanse, utils.ChancetoWin(TotalNumbers, Numbers));
+            //Assert.AreEqual(ExpectedChanse, utils.Combinations(TotalNumbers, Numbers));
         }
        
     }
