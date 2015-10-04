@@ -25,5 +25,14 @@ namespace TipuriPrimitive
             Utils utils = new Utils();
             Assert.AreEqual(ExpectedChanse, utils.ChancetoWin(TotalNumbers, Numbers));
         }
+        [TestMethod]
+        public void CategoryIIILoto()
+        {
+            uint TotalNumbers = 49;
+            uint Numbers = 4;
+            decimal ExpectedChanse = 1.061941890540E-03M;
+            Utils utils = new Utils();
+            Assert.AreEqual(ExpectedChanse, utils.ChancetoWin(TotalNumbers, Numbers));
+        }
     }
 }
