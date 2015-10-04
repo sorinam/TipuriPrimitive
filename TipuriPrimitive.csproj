@@ -62,6 +62,7 @@
     <Compile Include="Columns_BuildArea.cs" />
     <Compile Include="Columns_CalculateArea.cs" />
     <Compile Include="Columns_NoSolution.cs" />
+    <Compile Include="EncryptDecrypt.cs" />
     <Compile Include="Excel_CalculateColumnName.cs" />
     <Compile Include="Excel_TestMoreLetters.cs" />
     <Compile Include="Excel_TestOneLetterZ.cs" />

@@ -32,7 +32,6 @@ namespace TipuriPrimitive
                 result = result * i;
             return result;
         }
-
         private ulong Factorial(ulong i)
         {
             return (i <= 1) ? 1 : i * Factorial(i - 1);
