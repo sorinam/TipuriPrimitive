@@ -7,14 +7,14 @@ namespace TipuriPrimitive
     public class Loto
     {
         [TestMethod]
-        public void SixNumbers()
+        public void CategoryILoto()
         {
-            ulong TotalNumbers = 49;
-            ulong Numbers = 6;
+            uint TotalNumbers = 49;
+            uint Numbers = 6;
             ulong ExpectedChanse = 566684;
-            Utils utils= new Utils();
-            Assert.AreEqual(ExpectedChanse,utils.ChancetoWin(TotalNumbers, Numbers));
-          
+            Utils utils = new Utils();
+            Assert.AreEqual(ExpectedChanse, utils.ChancetoWin(TotalNumbers, Numbers));
         }
+       
     }
 }

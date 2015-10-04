@@ -65,6 +65,7 @@
     <Compile Include="Excel_CalculateColumnName.cs" />
     <Compile Include="Excel_TestMoreLetters.cs" />
     <Compile Include="Excel_TestOneLetterZ.cs" />
+    <Compile Include="Loto.cs" />
     <Compile Include="Mushrooms.cs" />
     <Compile Include="Mushrooms_InvalidX.cs" />
     <Compile Include="Mushrooms_NoSolution.cs" />
@@ -89,6 +90,7 @@
     <Compile Include="Train_CalcBirdDist.cs" />
     <Compile Include="Train_CalcBirdDistance.cs" />
     <Compile Include="Train_InvalidData.cs" />
+    <Compile Include="Utils.cs" />
     <Compile Include="WdaysQGoats.cs" />
   </ItemGroup>
   <Choose>
