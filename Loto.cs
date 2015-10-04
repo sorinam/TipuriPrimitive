@@ -11,11 +11,19 @@ namespace TipuriPrimitive
         {
             uint TotalNumbers = 49;
             uint Numbers = 6;
-            ulong ExpectedChanse = 566684;
+            decimal ExpectedChanse = 7.1511238E-08M;
             Utils utils = new Utils();
             Assert.AreEqual(ExpectedChanse, utils.ChancetoWin(TotalNumbers, Numbers));
-            //Assert.AreEqual(ExpectedChanse, utils.Combinations(TotalNumbers, Numbers));
+            
         }
-       
+        [TestMethod]
+        public void CategoryIILoto()
+        {
+            uint TotalNumbers = 49;
+            uint Numbers = 5;
+            decimal ExpectedChanse = 1.8878966943E-05M;
+            Utils utils = new Utils();
+            Assert.AreEqual(ExpectedChanse, utils.ChancetoWin(TotalNumbers, Numbers));
+        }
     }
 }

@@ -8,11 +8,12 @@ namespace TipuriPrimitive
 {
     class Utils
     {
-        public double ChancetoWin(uint TotalNumbers, uint Numbers)
+        public decimal ChancetoWin(uint TotalNumbers, uint Numbers)
         {
-            ulong FavorabilCases = Combinations(6, Numbers) * Combinations(TotalNumbers - Numbers, 6 - Numbers);
+            ulong FavorabileCases = Combinations(6, Numbers) * Combinations(TotalNumbers - Numbers, 6 - Numbers);
             ulong TotalCases = Combinations(TotalNumbers, 6);
-            return ((double)FavorabilCases / (double)TotalCases);
+            var Result = (decimal)FavorabileCases / TotalCases;
+            return decimal.Round(Result,15);
         }
         public ulong Combinations(uint n, uint k)
         {//works only for numbers less than 20
