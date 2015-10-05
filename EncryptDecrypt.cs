@@ -6,33 +6,63 @@ namespace TipuriPrimitive
     [TestClass]
     public class EncryptDecrypt
     {
-        [TestMethod]
-        public void EncryptText()
+       [TestMethod]
+        public void EncryptText_RemoveOnlyWhiteSpaces()
         {
             string inputString = "nicaieri nu e ca acasa";
-            string[] outputString = { "jeea","ircs","ciaa","anaj","iuch" };
-            uint NumberOfColumns = 4;
-            string[] resultOfEncryption = new string[NumberOfColumns];
-            resultOfEncryption = Encrypt(inputString, NumberOfColumns);
-             for (int j=0;j<NumberOfColumns;j++)
+            string[] outputString = { "neea","ircs","ciaa","anax","iucx" };
+            uint numberOfColumns = 4;
+            uint numberOfRows;
+            string[] resultOfEncryption = new string[numberOfColumns];
+            resultOfEncryption = Encrypt(inputString, numberOfColumns,out numberOfRows);
+             for (int j=0;j<numberOfRows;j++)
              {
-                bool testResult = (outputString[j] == resultOfEncryption[j]) || (outputString[j].Contains(resultOfEncryption[j].Substring(0, (int)NumberOfColumns - 1)));
+                bool testResult = (outputString[j] == resultOfEncryption[j]) || (outputString[j].Contains(resultOfEncryption[j].Substring(0, (int)numberOfColumns - 1)));
                 Assert.IsTrue(testResult,"Expected: "+ outputString[j]+" Returned:"+ resultOfEncryption[j]);
              }         
           }
-
-        private string[] Encrypt(string inputString, uint numberOfColumns)
+        [TestMethod]
+        public void EncryptText_RemoveAllCharactersExceptLetters()
         {
-            string textWithoutWhiteSpaces = TrimAndFindWhiteSpaces(inputString);
-            int newLength = textWithoutWhiteSpaces.Length;
-            uint numberOfRows = CalculateNumberOfRows(newLength, numberOfColumns);
-            char[,] matrixOfChars = FillMatrixWithChars(textWithoutWhiteSpaces, numberOfRows, numberOfColumns);
-            string[] OutputString = GetStringsFromMatrix(matrixOfChars, numberOfRows, numberOfColumns);
-            return OutputString;
-            
-            
+            string inputString = " Nicaieri, nu e ca acasa !";
+            string[] outputString = { "Neea", "ircs", "ciaa", "anai", "iuci" };
+            uint numberOfColumns = 4;
+            uint numberOfRows;
+            string[] resultOfEncryption = new string[numberOfColumns];
+            resultOfEncryption = Encrypt(inputString, numberOfColumns,out numberOfRows);
+            for (int j = 0; j < numberOfRows; j++)
+            {
+                bool testResult = (outputString[j] == resultOfEncryption[j]) || (outputString[j].Contains(resultOfEncryption[j].Substring(0, (int)numberOfColumns - 1)));
+                Assert.IsTrue(testResult, "Expected: " + outputString[j] + " Returned:" + resultOfEncryption[j]);
+            }
+          
         }
+        private string[] Encrypt(string inputString, uint numberOfColumns, out uint numberOfRows)
+        {
+            string textWithoutWhiteSpaces = TrimWhiteSpaces(inputString);
+            string textOnlyWithLetters = RemoveOtherCharacters(textWithoutWhiteSpaces);
+            int newLength = textOnlyWithLetters.Length;
+            uint NumberOfRows = CalculateNumberOfRows(newLength, numberOfColumns);
+            char[,] matrixOfChars = FillMatrixWithChars(textOnlyWithLetters, NumberOfRows, numberOfColumns);
+            string[] OutputString = GetStringsFromMatrix(matrixOfChars, NumberOfRows, numberOfColumns);
+            numberOfRows = NumberOfRows;
+            return OutputString;       
+         }
 
+        private string RemoveOtherCharacters(string text)
+        {
+            string newText = "";
+            foreach (char c in text)
+             {
+                if (IsLetter(c))
+                    { newText += c; }              
+              }
+            return newText;
+       }
+        bool IsLetter(char c)
+        {
+            return (c >= 'A' && c <= 'Z') || (c >= 'a' && c <= 'z');
+        }
         private string[] GetStringsFromMatrix(char[,] matrixOfChars, uint numberOfRows, uint numberOfColumns)
         {
             //create output string - read matrix from rows
@@ -92,7 +122,7 @@ namespace TipuriPrimitive
             uint numberOfRows = (uint)Math.Ceiling(nbOfRows);
             return numberOfRows;
         }
-        private string TrimAndFindWhiteSpaces(string inputString)
+        private string TrimWhiteSpaces(string inputString)
         {
             string[] words = inputString.Split();
             string result = "";
