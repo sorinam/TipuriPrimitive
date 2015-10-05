@@ -15,25 +15,25 @@ namespace TipuriPrimitive
             uint numberOfRows;
             string[] resultOfEncryption = new string[numberOfColumns];
             resultOfEncryption = Encrypt(inputString, numberOfColumns,out numberOfRows);
-             for (int j=0;j<numberOfRows;j++)
-             {
-                bool testResult = (outputString[j] == resultOfEncryption[j]) || (outputString[j].Contains(resultOfEncryption[j].Substring(0, (int)numberOfColumns - 1)));
-                Assert.IsTrue(testResult,"Expected: "+ outputString[j]+" Returned:"+ resultOfEncryption[j]);
-             }         
-          }
+            for (int i = 0; i < numberOfRows; i++)
+            {
+                bool testResult = (outputString[i] == resultOfEncryption[i]) || outputString[i].StartsWith(resultOfEncryption[i].Substring(0, (int)numberOfColumns - 1));
+                Assert.IsTrue(testResult, "Expected: " + outputString[i] + " Returned:" + resultOfEncryption[i]);
+            }
+        }
         [TestMethod]
         public void EncryptText_RemoveAllCharactersExceptLetters()
         {
-            string inputString = " Nicaieri, nu e ca acasa !";
-            string[] outputString = { "Neea", "ircs", "ciaa", "anai", "iuci" };
-            uint numberOfColumns = 4;
+            string inputString = " Sanda, sa stii ca nicaieri, nu e ca acasa !";
+            string[] outputString = {"Sataaica", "asininas", "naiieuaa", "dsccrecE", "iuci" };
+            uint numberOfColumns = 8;
             uint numberOfRows;
             string[] resultOfEncryption = new string[numberOfColumns];
             resultOfEncryption = Encrypt(inputString, numberOfColumns,out numberOfRows);
-            for (int j = 0; j < numberOfRows; j++)
+            for (int i = 0; i< numberOfRows; i++)
             {
-                bool testResult = (outputString[j] == resultOfEncryption[j]) || (outputString[j].Contains(resultOfEncryption[j].Substring(0, (int)numberOfColumns - 1)));
-                Assert.IsTrue(testResult, "Expected: " + outputString[j] + " Returned:" + resultOfEncryption[j]);
+                bool testResult = (outputString[i] == resultOfEncryption[i]) || outputString[i].StartsWith(resultOfEncryption[i].Substring(0, (int)numberOfColumns - 1));
+                Assert.IsTrue(testResult, "Expected: " + outputString[i] + " Returned:" + resultOfEncryption[i]);
             }
           
         }
