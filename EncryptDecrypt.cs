@@ -16,6 +16,7 @@ namespace TipuriPrimitive
             string[] resultOfEncryption = new string[numberOfColumns];
             resultOfEncryption = Encrypt(inputString, numberOfColumns,out numberOfRows);
             Assert.IsTrue(numberOfRows > 0, "There are no data");
+            Assert.AreEqual(outputString.Length, (int)numberOfRows, "Expected rows: " + outputString.Length + " Calculate number of rows: " + numberOfRows);
             for (int i = 0; i < numberOfRows; i++)
             {
                 bool testResult = (outputString[i] == resultOfEncryption[i]) || outputString[i].StartsWith(resultOfEncryption[i].Substring(0, (int)numberOfColumns - 1));
@@ -26,12 +27,13 @@ namespace TipuriPrimitive
         public void EncryptText_RemoveAllCharactersExceptLetters()
         {
             string inputString = " Sanda, sa stii ca nicaieri, nu e ca acasa !";
-            string[] outputString = {"Sataaica", "asininas", "naiieuaa", "dsccrecE", "iuci" };
+            string[] outputString = {"Sataaica", "asininas", "naiieuaa", "dsccrecE" };
             uint numberOfColumns = 8;
             uint numberOfRows;
             string[] resultOfEncryption = new string[numberOfColumns];
             resultOfEncryption = Encrypt(inputString, numberOfColumns,out numberOfRows);
             Assert.IsTrue(numberOfRows > 0,"There are no data");
+            Assert.AreEqual(outputString.Length, (int)numberOfRows, "Expected rows: " + outputString.Length + " Calculate number of rows: " + numberOfRows);
             for (int i = 0; i< numberOfRows; i++)
             {
                 bool testResult = (outputString[i] == resultOfEncryption[i]) || outputString[i].StartsWith(resultOfEncryption[i].Substring(0, (int)numberOfColumns - 1));
@@ -48,7 +50,23 @@ namespace TipuriPrimitive
             string[] resultOfEncryption = new string[numberOfColumns];
             resultOfEncryption = Encrypt(inputString, numberOfColumns, out numberOfRows);
             Assert.AreEqual(0, (int)numberOfRows);
-
+         }
+        [TestMethod]
+        public void EncryptText_OnlyOneColumn()
+        {
+            string inputString = "nicaieri nu!";
+            string[] outputString = { "n", "i","c", "a", "i", "e", "r", "i", "n", "u" };
+            uint numberOfColumns = 1;
+            uint numberOfRows;
+            string[] resultOfEncryption = new string[numberOfColumns];
+            resultOfEncryption = Encrypt(inputString, numberOfColumns, out numberOfRows);
+            Assert.IsTrue(numberOfRows > 0, "There are no data");
+            Assert.AreEqual(outputString.Length, (int)numberOfRows, "Expected rows: " + outputString.Length + " Calculate number of rows: " + numberOfRows);
+            for (int i = 0; i < numberOfRows; i++)
+            {
+                bool testResult = (outputString[i] == resultOfEncryption[i]) ;
+                Assert.IsTrue(testResult, "Expected: " + outputString[i] + " Returned:" + resultOfEncryption[i]);
+            }
         }
         private string[] Encrypt(string inputString, uint numberOfColumns, out uint numberOfRows)
         {
