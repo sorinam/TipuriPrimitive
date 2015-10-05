@@ -9,12 +9,13 @@ namespace TipuriPrimitive
        [TestMethod]
         public void EncryptText_RemoveOnlyWhiteSpaces()
         {
-            string inputString = "nicaieri nu e ca acasa";
+            string inputString =  "nicaieri nu e ca acasa";
             string[] outputString = { "neea","ircs","ciaa","anax","iucx" };
             uint numberOfColumns = 4;
             uint numberOfRows;
             string[] resultOfEncryption = new string[numberOfColumns];
             resultOfEncryption = Encrypt(inputString, numberOfColumns,out numberOfRows);
+            Assert.IsTrue(numberOfRows > 0, "There are no data");
             for (int i = 0; i < numberOfRows; i++)
             {
                 bool testResult = (outputString[i] == resultOfEncryption[i]) || outputString[i].StartsWith(resultOfEncryption[i].Substring(0, (int)numberOfColumns - 1));
@@ -30,6 +31,7 @@ namespace TipuriPrimitive
             uint numberOfRows;
             string[] resultOfEncryption = new string[numberOfColumns];
             resultOfEncryption = Encrypt(inputString, numberOfColumns,out numberOfRows);
+            Assert.IsTrue(numberOfRows > 0,"There are no data");
             for (int i = 0; i< numberOfRows; i++)
             {
                 bool testResult = (outputString[i] == resultOfEncryption[i]) || outputString[i].StartsWith(resultOfEncryption[i].Substring(0, (int)numberOfColumns - 1));
@@ -37,17 +39,37 @@ namespace TipuriPrimitive
             }
           
         }
+        [TestMethod]
+        public void EncryptText_NullInputString()
+        {
+            string inputString = "";
+            uint numberOfColumns = 8;
+            uint numberOfRows;
+            string[] resultOfEncryption = new string[numberOfColumns];
+            resultOfEncryption = Encrypt(inputString, numberOfColumns, out numberOfRows);
+            Assert.AreEqual(0, (int)numberOfRows);
+
+        }
         private string[] Encrypt(string inputString, uint numberOfColumns, out uint numberOfRows)
         {
-            string textWithoutWhiteSpaces = TrimWhiteSpaces(inputString);
-            string textOnlyWithLetters = RemoveOtherCharacters(textWithoutWhiteSpaces);
-            int newLength = textOnlyWithLetters.Length;
-            uint NumberOfRows = CalculateNumberOfRows(newLength, numberOfColumns);
-            char[,] matrixOfChars = FillMatrixWithChars(textOnlyWithLetters, NumberOfRows, numberOfColumns);
-            string[] OutputString = GetStringsFromMatrix(matrixOfChars, NumberOfRows, numberOfColumns);
-            numberOfRows = NumberOfRows;
-            return OutputString;       
-         }
+            string[] OutputString;
+            if (inputString != null)
+            {
+                string textWithoutWhiteSpaces = TrimWhiteSpaces(inputString);
+                string textOnlyWithLetters = RemoveOtherCharacters(textWithoutWhiteSpaces);
+                int newLength = textOnlyWithLetters.Length;
+                uint NumberOfRows = CalculateNumberOfRows(newLength, numberOfColumns);
+                char[,] matrixOfChars = FillMatrixWithChars(textOnlyWithLetters, NumberOfRows, numberOfColumns);
+                OutputString = GetStringsFromMatrix(matrixOfChars, NumberOfRows, numberOfColumns);
+                numberOfRows = NumberOfRows;
+              }
+            else
+            {
+                numberOfRows = 0;
+                OutputString=new string[0];
+             }
+            return OutputString;
+       }
 
         private string RemoveOtherCharacters(string text)
         {
