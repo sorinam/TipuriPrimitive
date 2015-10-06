@@ -57,8 +57,8 @@ namespace TipuriPrimitive
         [TestMethod]
         public void EncryptTextOnlyOneColumn()
         {
-            string inputString = "nicaieri nu!";
-            string[] outputString = { "n", "i","c", "a", "i", "e", "r", "i", "n", "u" };
+            string inputString = "nicaieri nu! e asa bine $ ca & acasa !";
+            string outputString = "nicaierinueasabinecaacasa";
             uint numberOfColumns = 1;
             uint numberOfRows;
             string resultOfEncryption = "";
@@ -66,6 +66,40 @@ namespace TipuriPrimitive
             Assert.IsTrue(numberOfRows > 0, "There are no data");
             Assert.AreEqual(outputString.Length, resultOfEncryption.Length, "Expected Output length : " + outputString.Length + " Calculate  Output length : " + numberOfRows);
             Assert.AreEqual(outputString, resultOfEncryption);
+        }
+
+        [TestMethod]
+        public void DecryptText()
+        {
+            string inputString = "neeaircsciaaana&iucx" ;
+            string outputString = "nicaierinuecaacasa";
+            uint numberOfColumns = 4;
+            uint numberOfRows;
+            string resultOfDecryption = "";
+            resultOfDecryption = Decrypt(inputString, numberOfColumns, out numberOfRows);
+            Assert.IsTrue(numberOfRows > 0, "There are no data");
+            //Assert.AreEqual(outputString.Length, resultOfDecryption.Length, "Expected Output length : " + outputString.Length + " Calculate  Output length : " + numberOfRows);
+            int indexOfSpecialChar = resultOfDecryption.IndexOf('&');
+            Assert.AreEqual(outputString, resultOfDecryption.Substring(0,indexOfSpecialChar));
+
+        }
+
+        private string Decrypt(string inputString, uint numberOfColumns, out uint numberOfRows)
+        {
+            string outputString;
+            if (inputString != null)
+            {              
+                int stringLength = inputString.Length;
+                numberOfRows = (uint)(stringLength / numberOfColumns);
+                outputString = GenerateOutputStringForDecryption(inputString, numberOfColumns, numberOfRows);
+                
+            }
+            else
+            {
+                numberOfRows = 0;
+                outputString = "";
+            }
+            return outputString;
         }
 
         private string Encrypt(string inputString, uint numberOfColumns, out uint numberOfRows)
