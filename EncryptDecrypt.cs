@@ -7,7 +7,7 @@ namespace TipuriPrimitive
     public class EncryptDecrypt
     {
        [TestMethod]
-        public void EncryptTextRemoveOnlyWhiteSpaces()
+        public void EncryptTextNeedMoreRandomLetters()
         {
             string inputString =  "nicaieri nu e ca acasa";
             string outputString = "neeaircsciaaana&iucx";
@@ -26,10 +26,10 @@ namespace TipuriPrimitive
            }
     
         [TestMethod]
-        public void EncryptTextRemoveAllCharactersExceptLetters()
+        public void EncryptTextNeedOnlyOneSpecialChar()
         {
-            string inputString = " Sanda, sa stii ca nicaieri, nu e ca acas !";
-            string outputString = "Sataaicaasininasnaiieua&dsccrech";
+            string inputString = " Sanda, sa stii ca nicaieri, nu e ca acasa !";
+            string outputString = "Sataaicaasininasnaiieuaadsccrec&";
             uint numberOfColumns = 8;
             uint numberOfRows;
             string resultOfEncryption = "";
@@ -41,6 +41,21 @@ namespace TipuriPrimitive
             indexOfSpecialChar = outputString.IndexOf('&');
             //compare result until first special char
             Assert.AreEqual(outputString.Substring(0, indexOfSpecialChar), resultOfEncryption.Substring(0, indexOfSpecialChar));
+        }
+
+        [TestMethod]
+        public void EncryptTextNoNeededRandomLetters()
+        {
+            string inputString = " Sorina, sa stii ca nicaieri, nu e ca acasa !";
+            string outputString = "Snsccrecoataaicarsininasiaiieuaa";
+            uint numberOfColumns = 8;
+            uint numberOfRows;
+            string resultOfEncryption = "";
+            resultOfEncryption = Encrypt(inputString, numberOfColumns, out numberOfRows);
+            Assert.IsTrue(numberOfRows > 0, "There are no data");
+            Assert.AreEqual(outputString.Length, resultOfEncryption.Length, "Expected Output length : " + outputString.Length + " Calculate  Output length : " + numberOfRows);
+            Assert.AreEqual(outputString, resultOfEncryption);
+            
         }
 
         [TestMethod]
@@ -69,18 +84,48 @@ namespace TipuriPrimitive
         }
 
         [TestMethod]
-        public void DecryptText()
+        public void DecryptTextWithMoreRandomLetters()
         {
             string inputString = "neeaircsciaaana&iucx" ;
             string outputString = "nicaierinuecaacasa";
             uint numberOfColumns = 4;
+            Assert.IsTrue((inputString.Length % numberOfColumns == 0),"Invalid length of input string or number of columns");
             uint numberOfRows;
             string resultOfDecryption = "";
             resultOfDecryption = Decrypt(inputString, numberOfColumns, out numberOfRows);
             Assert.IsTrue(numberOfRows > 0, "There are no data");
-            //Assert.AreEqual(outputString.Length, resultOfDecryption.Length, "Expected Output length : " + outputString.Length + " Calculate  Output length : " + numberOfRows);
             int indexOfSpecialChar = resultOfDecryption.IndexOf('&');
             Assert.AreEqual(outputString, resultOfDecryption.Substring(0,indexOfSpecialChar));
+
+        }
+        [TestMethod]
+        public void DecryptTextWithOnlyOneSpecialChar()
+        {
+            string inputString = "Sataaicaasininasnaiieuaadsccrec&";
+            string outputString = "Sandasastiicanicaierinuecaacasa";
+            uint numberOfColumns = 8;
+            Assert.IsTrue((inputString.Length % numberOfColumns == 0), "Invalid length of input string or number of columns");
+            uint numberOfRows;
+            string resultOfDecryption = "";
+            resultOfDecryption = Decrypt(inputString, numberOfColumns, out numberOfRows);
+            Assert.IsTrue(numberOfRows > 0, "There are no data");
+            int indexOfSpecialChar = resultOfDecryption.IndexOf('&');
+            Assert.AreEqual(outputString, resultOfDecryption.Substring(0, indexOfSpecialChar));
+
+        }
+
+        [TestMethod]
+        public void DecryptTextWithoutRandomLetters()
+        {
+            string inputString = "Snsccrecoataaicarsininasiaiieuaa";
+            string outputString = "Sorinasastiicanicaierinuecaacasa";
+            uint numberOfColumns = 8;
+            Assert.IsTrue((inputString.Length % numberOfColumns == 0), "Invalid length of input string or number of columns");
+            uint numberOfRows;
+            string resultOfDecryption = "";
+            resultOfDecryption = Decrypt(inputString, numberOfColumns, out numberOfRows);
+            Assert.IsTrue(numberOfRows > 0, "There are no data");
+            Assert.AreEqual(outputString, resultOfDecryption);
 
         }
 
