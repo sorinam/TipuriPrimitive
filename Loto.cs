@@ -17,7 +17,7 @@ namespace TipuriPrimitive
             
         }
         [TestMethod]
-        public void CategoryIILoto()
+        public void CategoryIiLoto()
         {
             uint totalNumbers = 49;
             uint numbers = 5;
@@ -26,7 +26,7 @@ namespace TipuriPrimitive
             Assert.AreEqual(expectedChanse, utils.ChancetoWin(totalNumbers, numbers));
         }
         [TestMethod]
-        public void CategoryIIILoto()
+        public void CategoryIiiLoto()
         {
             uint totalNumbers = 49;
             uint numbers = 4;

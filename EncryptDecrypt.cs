@@ -14,7 +14,7 @@ namespace TipuriPrimitive
             uint numberOfColumns = 4;
             uint numberOfRows;
             string resultOfEncryption = "";
-            resultOfEncryption = Encrypt(inputString, numberOfColumns,out numberOfRows);
+            resultOfEncryption =Encrypt(inputString, numberOfColumns,out numberOfRows);
             Assert.IsTrue(numberOfRows > 0, "There are no data");
             Assert.AreEqual(outputString.Length, resultOfEncryption.Length, "Expected Output length : " + outputString.Length + " Calculate  Output length : " + numberOfRows);
             int indexOfSpecialChar = 0;
@@ -33,7 +33,7 @@ namespace TipuriPrimitive
             uint numberOfColumns = 8;
             uint numberOfRows;
             string resultOfEncryption = "";
-            resultOfEncryption = Encrypt(inputString, numberOfColumns, out numberOfRows);
+            resultOfEncryption =Encrypt(inputString, numberOfColumns, out numberOfRows);
             Assert.IsTrue(numberOfRows > 0, "There are no data");
             Assert.AreEqual(outputString.Length, resultOfEncryption.Length, "Expected Output length : " + outputString.Length + " Calculate  Output length : " + numberOfRows);
             int indexOfSpecialChar = 0;
@@ -51,7 +51,7 @@ namespace TipuriPrimitive
             uint numberOfColumns = 8;
             uint numberOfRows;
             string resultOfEncryption = "";
-            resultOfEncryption = Encrypt(inputString, numberOfColumns, out numberOfRows);
+            resultOfEncryption =Encrypt(inputString, numberOfColumns, out numberOfRows);
             Assert.IsTrue(numberOfRows > 0, "There are no data");
             Assert.AreEqual(outputString.Length, resultOfEncryption.Length, "Expected Output length : " + outputString.Length + " Calculate  Output length : " + numberOfRows);
             Assert.AreEqual(outputString, resultOfEncryption);
@@ -64,9 +64,10 @@ namespace TipuriPrimitive
             string inputString = "";
             uint numberOfColumns = 8;
             uint numberOfRows;
-            string resultOfEncryption = "";
+            string resultOfEncryption="" ;
             resultOfEncryption = Encrypt(inputString, numberOfColumns, out numberOfRows);
             Assert.AreEqual(0, (int)numberOfRows);
+            Assert.AreEqual("", resultOfEncryption);
          }
 
         [TestMethod]
@@ -77,7 +78,7 @@ namespace TipuriPrimitive
             uint numberOfColumns = 1;
             uint numberOfRows;
             string resultOfEncryption = "";
-            resultOfEncryption = Encrypt(inputString, numberOfColumns, out numberOfRows);
+            resultOfEncryption =Encrypt(inputString, numberOfColumns, out numberOfRows);
             Assert.IsTrue(numberOfRows > 0, "There are no data");
             Assert.AreEqual(outputString.Length, resultOfEncryption.Length, "Expected Output length : " + outputString.Length + " Calculate  Output length : " + numberOfRows);
             Assert.AreEqual(outputString, resultOfEncryption);
@@ -92,7 +93,7 @@ namespace TipuriPrimitive
             Assert.IsTrue((inputString.Length % numberOfColumns == 0),"Invalid length of input string or number of columns");
             uint numberOfRows;
             string resultOfDecryption = "";
-            resultOfDecryption = Decrypt(inputString, numberOfColumns, out numberOfRows);
+            resultOfDecryption =Decrypt(inputString, numberOfColumns, out numberOfRows);
             Assert.IsTrue(numberOfRows > 0, "There are no data");
             int indexOfSpecialChar = resultOfDecryption.IndexOf('&');
             Assert.AreEqual(outputString, resultOfDecryption.Substring(0,indexOfSpecialChar));
@@ -107,7 +108,7 @@ namespace TipuriPrimitive
             Assert.IsTrue((inputString.Length % numberOfColumns == 0), "Invalid length of input string or number of columns");
             uint numberOfRows;
             string resultOfDecryption = "";
-            resultOfDecryption = Decrypt(inputString, numberOfColumns, out numberOfRows);
+            resultOfDecryption =Decrypt(inputString, numberOfColumns, out numberOfRows);
             Assert.IsTrue(numberOfRows > 0, "There are no data");
             int indexOfSpecialChar = resultOfDecryption.IndexOf('&');
             Assert.AreEqual(outputString, resultOfDecryption.Substring(0, indexOfSpecialChar));
@@ -129,14 +130,14 @@ namespace TipuriPrimitive
 
         }
 
-        private string Decrypt(string inputString, uint numberOfColumns, out uint numberOfRows)
+        private static string Decrypt(string inputString, uint numberOfColumns, out uint numberOfRows)
         {
             string outputString;
             if (inputString != null)
             {              
                 int stringLength = inputString.Length;
                 numberOfRows = (uint)(stringLength / numberOfColumns);
-                outputString = GenerateOutputStringForDecryption(inputString, numberOfColumns, numberOfRows);
+                outputString =GenerateOutputStringForDecryption(inputString, numberOfColumns, numberOfRows);
                 
             }
             else
@@ -147,7 +148,7 @@ namespace TipuriPrimitive
             return outputString;
         }
 
-        private string Encrypt(string inputString, uint numberOfColumns, out uint numberOfRows)
+        private static string Encrypt(string inputString, uint numberOfColumns, out uint numberOfRows)
         {
             string outputString;
             if (inputString != null)
@@ -167,7 +168,7 @@ namespace TipuriPrimitive
             return outputString;
        }
 
-        private string GenerateOutputStringForEncryption(string inputString, uint numberOfColumns, uint numberOfRows)
+        private static string GenerateOutputStringForEncryption(string inputString, uint numberOfColumns, uint numberOfRows)
         {
             string outString= "";
             for(int i=1;i<=numberOfRows;i++)
@@ -194,7 +195,7 @@ namespace TipuriPrimitive
             return outString;
         }
 
-        private string GenerateOutputStringForDecryption(string inputString, uint numberOfColumns, uint numberOfRows)
+        private static string GenerateOutputStringForDecryption(string inputString, uint numberOfColumns, uint numberOfRows)
         {
             string outString = "";
             for (int j = 0; j < numberOfColumns; j++)
@@ -208,7 +209,7 @@ namespace TipuriPrimitive
             return outString;
         }
 
-        private string RemoveOtherCharacters(string text)
+        private static string RemoveOtherCharacters(string text)
         {
             string newText = "";
             foreach (char c in text)
@@ -219,7 +220,7 @@ namespace TipuriPrimitive
             return newText;
        }
 
-        bool IsLetter(char c)
+        static bool IsLetter(char c)
         {
             return (c >= 'A' && c <= 'Z') || (c >= 'a' && c <= 'z');
         }
@@ -231,14 +232,14 @@ namespace TipuriPrimitive
             return letter;
         }
 
-        private uint CalculateNumberOfRows(int stringLength,uint columnsNumber )
+        private static uint CalculateNumberOfRows(int stringLength,uint columnsNumber )
         {
             decimal nbOfRows = (decimal)stringLength / columnsNumber;
             uint numberOfRows = (uint)Math.Ceiling(nbOfRows);
             return numberOfRows;
         }
 
-        private string TrimWhiteSpaces(string inputString)
+        private static string TrimWhiteSpaces(string inputString)
         {
             string[] words = inputString.Split();
             string result = "";
