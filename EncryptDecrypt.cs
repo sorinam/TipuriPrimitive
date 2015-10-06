@@ -176,14 +176,8 @@ namespace TipuriPrimitive
                 for (int j = 1; j <= numberOfColumns;j++)
                 {
                     if( ((j - 1) * (int)numberOfRows + i - 1) >= inputString.Length)
-                    {  
-                        //first random char will be "&"
-                        if (((j - 1) * (int)numberOfRows + i - 1) == inputString.Length)
-                        { outString += "&"; }
-                        else
-                        {//fill with random letters
-                            outString += GetRandomLetter();
-                        }
+                    {
+                        outString += InitializeWithRandomChar(i, j, numberOfRows, inputString.Length); 
                     }
                     else
                     {
@@ -193,6 +187,19 @@ namespace TipuriPrimitive
 
             }
             return outString;
+        }
+
+        private static char InitializeWithRandomChar(int i, int j, uint numberOfRows, int length)
+        {
+            char randomChar;
+            //first random char will be "&"
+            if (((j - 1) * (int)numberOfRows + i - 1) == length)
+            { randomChar = '&'; }
+            else
+            {//fill with random letters
+                randomChar = GetRandomLetter();
+            }
+            return randomChar;
         }
 
         private static string GenerateOutputStringForDecryption(string inputString, uint numberOfColumns, uint numberOfRows)
