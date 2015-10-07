@@ -68,8 +68,9 @@ namespace TipuriPrimitive
             string inputString = "";
             uint numberOfColumns = 8;
             uint numberOfRows;
-            string resultOfEncryption = "";
+          
             resultOfEncryption = Encrypt(inputString, numberOfColumns, out numberOfRows);
+
             Assert.AreEqual(0, (int)numberOfRows);
             Assert.AreEqual("", resultOfEncryption);
         }
@@ -80,9 +81,10 @@ namespace TipuriPrimitive
             string inputString = "nicaieri nu! e asa bine $ ca & acasa !";
             string outputString = "nicaierinueasabinecaacasa";
             uint numberOfColumns = 1;
-            uint numberOfRows;
-            string resultOfEncryption = "";
+            uint numberOfRows;       
+               
             resultOfEncryption = Encrypt(inputString, numberOfColumns, out numberOfRows);
+
             Assert.IsTrue(numberOfRows > 0, "There are no data");
             Assert.AreEqual(outputString.Length, resultOfEncryption.Length, "Expected Output length : " + outputString.Length + " Calculate  Output length : " + numberOfRows);
             Assert.AreEqual(outputString, resultOfEncryption);
@@ -161,7 +163,7 @@ namespace TipuriPrimitive
         {
            if (inputString != null)
             {               
-                string textOnlyWithLetters = RemoveSpecialCharacters(inputString);
+                string textOnlyWithLetters = RemoveNonLetterCharacters(inputString);
                 numberOfRows = CalculateNumberOfRows(textOnlyWithLetters.Length, numberOfColumns);
                 return GenerateOutputStringForEncryption(textOnlyWithLetters, numberOfColumns, numberOfRows);
             }
@@ -180,24 +182,33 @@ namespace TipuriPrimitive
             {
                 for (int j = 1; j <= numberOfColumns; j++)
                 {
-                    if (((j - 1) * (int)numberOfRows + i - 1) >= inputString.Length)
-                    {
-                        outString += InitializeWithRandomChar(i, j, numberOfRows, inputString.Length);
-                    }
-                    else
-                    {
-                        outString += inputString[(j - 1) * (int)numberOfRows + i - 1];
-                    }
+                    int index = PositionOfCharInEncrypedString(i, j, numberOfRows);
+                    outString += SetCharInEncyptedString(inputString,index,i,j,numberOfRows);
                 }
-
             }
             return outString;
         }
 
-        private static char InitializeWithRandomChar(int i, int j, uint numberOfRows, int length)
+        private static int PositionOfCharInEncrypedString(int rowNumber, int columnNumber, uint numberOfRows)
         {
-         
-            if (((j - 1) * (int)numberOfRows + i - 1) == length)
+            return ((columnNumber - 1) * (int)numberOfRows + rowNumber - 1);
+        }
+
+        private static char SetCharInEncyptedString(string inputString, int index, int noRow, int noColumn, uint numberOfRows)
+        {
+            if (index >= inputString.Length)
+            {
+                return SetRandomChar(noRow, noColumn, numberOfRows, inputString.Length);
+            }
+            else
+            {
+                return inputString[index];
+            }
+        }
+
+        private static char SetRandomChar(int i, int j, uint numberOfRows, int length)
+        {         
+            if (PositionOfCharInEncrypedString(i, j, numberOfRows) == length)
             {
                 return GetRandomChar();
             }
@@ -205,8 +216,7 @@ namespace TipuriPrimitive
             {
                 return GetRandomLetter();
             }
-            
-        }
+         }
 
         private static string GenerateOutputStringForDecryption(string inputString, uint numberOfColumns, uint numberOfRows)
         {
@@ -227,7 +237,7 @@ namespace TipuriPrimitive
             return columnNumber + rowNumber * (int)numberOfColumns;
         }
 
-        private static string RemoveSpecialCharacters(string text)
+        private static string RemoveNonLetterCharacters(string text)
         {
             string newText = "";
             foreach (char c in text)
@@ -281,7 +291,7 @@ namespace TipuriPrimitive
                     return GetIndexOfCharInString(StringToSearch, (char)specialChars[i]);
                 }
             }
-           return 0;
+           return -1;
 
     }
 
@@ -302,8 +312,5 @@ namespace TipuriPrimitive
             }
             return -1;
         }
-
     }
-
-
-}
+ }
