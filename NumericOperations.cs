@@ -20,9 +20,9 @@ namespace TipuriPrimitive
 
             List<byte> calculateDigitsXBase = ConvertFromDecimalToAnotherBase(inputNumber, baseNumber);
 
+            Assert.IsTrue(baseNumber != 10);
             Assert.AreEqual(expectedDigitsXBase.Count, calculateDigitsXBase.Count);
-            CollectionAssert.Equals(expectedDigitsXBase, calculateDigitsXBase);
-
+            Assert.IsTrue(AreEqualLists(expectedDigitsXBase, calculateDigitsXBase));
         }
         [TestMethod]
         public void ConvertFromDecimalToBinary()
@@ -30,7 +30,6 @@ namespace TipuriPrimitive
             int baseNumber = 2;
             int inputNumber = 40;
             List<byte> expectedDigitsXBase = new List<byte>();
-            
             expectedDigitsXBase.Add(0);
             expectedDigitsXBase.Add(0);
             expectedDigitsXBase.Add(0);
@@ -41,9 +40,23 @@ namespace TipuriPrimitive
             List<byte> calculateDigitsXBase = ConvertFromDecimalToAnotherBase(inputNumber, baseNumber);
 
             Assert.AreEqual(expectedDigitsXBase.Count, calculateDigitsXBase.Count);
-            CollectionAssert.Equals(expectedDigitsXBase, calculateDigitsXBase);
-
+            Assert.IsTrue(AreEqualLists(expectedDigitsXBase,calculateDigitsXBase));
         }
+
+        private bool AreEqualLists(List<byte>List1, List<byte> List2)
+        {
+            if (List1.Count != List2.Count)
+                {
+                return false;
+                }
+            for (int i=0; i< List1.Count;i++)
+            if (List1[i] != List2[i])
+                {
+                    return false;
+                }
+            return true;
+        }
+
         private static List<byte> ConvertFromDecimalToAnotherBase(int decimalNumber, int baseNumber)
         {
             List<byte> digits = new List<byte>();
