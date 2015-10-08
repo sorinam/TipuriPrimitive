@@ -24,19 +24,37 @@ namespace TipuriPrimitive
             CollectionAssert.Equals(expectedDigitsXBase, calculateDigitsXBase);
 
         }
+        [TestMethod]
+        public void ConvertFromDecimalToBinary()
+        {
+            int baseNumber = 2;
+            int inputNumber = 40;
+            List<byte> expectedDigitsXBase = new List<byte>();
+            
+            expectedDigitsXBase.Add(0);
+            expectedDigitsXBase.Add(0);
+            expectedDigitsXBase.Add(0);
+            expectedDigitsXBase.Add(1);
+            expectedDigitsXBase.Add(0);
+            expectedDigitsXBase.Add(1);
+
+            List<byte> calculateDigitsXBase = ConvertFromDecimalToAnotherBase(inputNumber, baseNumber);
+
+            Assert.AreEqual(expectedDigitsXBase.Count, calculateDigitsXBase.Count);
+            CollectionAssert.Equals(expectedDigitsXBase, calculateDigitsXBase);
+
+        }
         private static List<byte> ConvertFromDecimalToAnotherBase(int decimalNumber, int baseNumber)
         {
             List<byte> digits = new List<byte>();
-            int cat;
+            int division;
             byte rest;
-            int i = 0;
             do
             {
-                cat = (decimalNumber / baseNumber);
+                division = (decimalNumber / baseNumber);
                 rest = (byte)(decimalNumber % baseNumber);
-                decimalNumber = cat;
+                decimalNumber = division;
                 digits.Add(rest);
-                i++;
             }
             while (decimalNumber > 0);
             return digits;
