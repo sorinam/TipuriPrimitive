@@ -10,7 +10,7 @@ namespace TipuriPrimitive
         [TestMethod]
         public void ConvertFromDecimalToXBase()
         {
-            int baseNumber = 4;
+            int baseNumber =4;
             int inputNumber = 234;
             List<byte> expectedDigitsXBase = new List<byte>();
             expectedDigitsXBase.Add(2);
@@ -115,7 +115,7 @@ namespace TipuriPrimitive
 
             List<byte> calculateNumber = new List<byte>();
 
-            calculateNumber = ConvertFromXBaseToYBase(inputNumber, Xbase,Ybase);
+            calculateNumber = ConvertFromXBaseToYBase(inputNumber, Xbase, Ybase);
 
             Assert.IsTrue(AreEqualLists(expectedNumber, calculateNumber));
         }
@@ -135,28 +135,11 @@ namespace TipuriPrimitive
             }
             else
             {
-                int decimalNo= ConvertFromXBaseToDecimal(inputNumber,xbase);
-                return CalculateListFromNo(decimalNo);
-                //return ConvertFromDecimalToAnotherBase(decimalNo, 10);
+                int decimalNo = ConvertFromXBaseToDecimal(inputNumber, xbase);
+                return ConvertFromDecimalToAnotherBase(decimalNo, 10);
             }
         }
-
-        private List<byte> CalculateListFromNo(int decimalNo)
-        {
-            List<byte> Result = new List<byte>();
-            int divide = decimalNo;
-            int rest = 0;
-            do
-            {
-                rest = divide % 10;
-                Result.Add(Convert.ToByte(rest));
-                divide = divide / 10;
-            }
-                while (divide >= 10) ;
-            Result.Add(Convert.ToByte(divide));
-            return Result;
-        }
-
+             
         private int CalculateNoFromList(List<byte> inputNumber)
         {
             int result = 0;
