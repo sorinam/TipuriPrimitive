@@ -73,6 +73,7 @@
     <Compile Include="Mushrooms_InvalidX.cs" />
     <Compile Include="Mushrooms_NoSolution.cs" />
     <Compile Include="Mushrroms_HaveSolution.cs" />
+    <Compile Include="NumericOperations.cs" />
     <Compile Include="OneDayOneGoat.cs" />
     <Compile Include="OneDayQGoats.cs" />
     <Compile Include="OneDayYGoats.cs" />
