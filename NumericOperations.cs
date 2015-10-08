@@ -24,6 +24,23 @@ namespace TipuriPrimitive
             Assert.AreEqual(expectedDigitsXBase.Count, calculateDigitsXBase.Count);
             Assert.IsTrue(AreEqualLists(expectedDigitsXBase, calculateDigitsXBase));
         }
+
+        [TestMethod]
+        public void ConvertFromDecimalToHexa()
+        {
+            int baseNumber = 16;
+            int inputNumber = 234;
+            List<byte> expectedDigitsXBase = new List<byte>();
+            expectedDigitsXBase.Add(Convert.ToByte('A'));
+            expectedDigitsXBase.Add(Convert.ToByte('E'));
+
+            List<byte> calculateDigitsXBase = ConvertFromDecimalToAnotherBase(inputNumber, baseNumber);
+
+            Assert.IsTrue(baseNumber != 10);
+            Assert.AreEqual(expectedDigitsXBase.Count, calculateDigitsXBase.Count);
+            Assert.IsTrue(AreEqualLists(expectedDigitsXBase, calculateDigitsXBase));
+        }
+
         [TestMethod]
         public void ConvertFromDecimalToBinary()
         {
@@ -62,15 +79,31 @@ namespace TipuriPrimitive
             List<byte> digits = new List<byte>();
             int division;
             byte rest;
+            byte char1 = 0; ;
             do
             {
                 division = (decimalNumber / baseNumber);
                 rest = (byte)(decimalNumber % baseNumber);
                 decimalNumber = division;
-                digits.Add(rest);
+                if (baseNumber >10)
+                {
+                    char1 = Convert.ToByte(ReplaceDigitwithLetter(rest));
+                }
+                else
+                {
+                    char1 = rest;
+                }
+                digits.Add(char1);
             }
             while (decimalNumber > 0);
+            
             return digits;
+        }
+        
+        private static char ReplaceDigitwithLetter(byte v)
+        {
+            char letter;
+            return letter = (char)('A' + v - 10);
         }
     }
 }
