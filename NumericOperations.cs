@@ -57,17 +57,162 @@ namespace TipuriPrimitive
             List<byte> calculateDigitsXBase = ConvertFromDecimalToAnotherBase(inputNumber, baseNumber);
 
             Assert.AreEqual(expectedDigitsXBase.Count, calculateDigitsXBase.Count);
-            Assert.IsTrue(AreEqualLists(expectedDigitsXBase,calculateDigitsXBase));
+            Assert.IsTrue(AreEqualLists(expectedDigitsXBase, calculateDigitsXBase));
         }
 
-        private bool AreEqualLists(List<byte>List1, List<byte> List2)
+        [TestMethod]
+        public void ConvertFromXBaseToDecimal()
+        {
+            int baseNumber = 2;
+
+            List<byte> inputNumber = new List<byte>();
+            inputNumber.Add(0);
+            inputNumber.Add(1);
+
+            int expectedNumber = 2;
+
+            int calculateNumber = ConvertFromXBaseToDecimal(inputNumber, baseNumber);
+
+            Assert.AreEqual(expectedNumber, calculateNumber);
+        }
+
+        [TestMethod]
+        public void ConvertFromHexaToDecimal()
+        {
+            int baseNumber = 16;
+
+            List<byte> inputNumber = new List<byte>();
+            inputNumber.Add(Convert.ToByte('E'));
+            inputNumber.Add(5);
+            inputNumber.Add(2);
+            inputNumber.Add(Convert.ToByte('C'));
+            inputNumber.Add(7);
+            inputNumber.Add(4);
+            inputNumber.Add(Convert.ToByte('D'));
+
+            int expectedNumber = 222806622;
+            int calculateNumber = ConvertFromXBaseToDecimal(inputNumber, baseNumber);
+
+            Assert.AreEqual(expectedNumber, calculateNumber);
+        }
+
+        [TestMethod]
+        public void ConvertFromXBaseToYBase()
+        {
+            int Xbase = 16;
+            int Ybase = 2;
+
+            List<byte> inputNumber = new List<byte>();
+            inputNumber.Add(4);
+            inputNumber.Add(1);
+
+            List<byte> expectedNumber = new List<byte>();
+            expectedNumber.Add(0);
+            expectedNumber.Add(0);
+            expectedNumber.Add(0);
+            expectedNumber.Add(1);
+
+            List<byte> calculateNumber = new List<byte>();
+
+            calculateNumber = ConvertFromXBaseToYBase(inputNumber, Xbase,Ybase);
+
+            //Assert.AreEqual(expectedNumber, calculateNumber);
+        }
+
+        private List<byte> ConvertFromXBaseToYBase(List<byte> inputNumber, int xbase, int ybase)
+        {
+            if ((xbase != 10) && (ybase != 10))
+            {
+                int decimalNo = ConvertFromXBaseToDecimal(inputNumber, xbase);
+                return ConvertFromDecimalToAnotherBase(decimalNo, ybase);
+            }
+            else
+                if (xbase == 10)
+            {
+                int decimalNo = CalculateNoFromList(inputNumber);
+                return ConvertFromDecimalToAnotherBase(decimalNo, ybase);
+            }
+            else
+            {
+                int decimalNo= ConvertFromXBaseToDecimal(inputNumber,xbase);
+                return CalculateListFromNo(decimalNo);
+            }
+        }
+
+        private List<byte> CalculateListFromNo(int decimalNo)
+        {
+            List<byte> Result = new List<byte>();
+            int divide = decimalNo;
+            int rest = 0;
+            do
+            {
+                rest = divide % 10;
+                Result.Add(Convert.ToByte(rest));
+                divide = divide / 10;
+            }
+                while (divide >= 10) ;
+            Result.Add(Convert.ToByte(divide));
+            return Result;
+        }
+
+        private int CalculateNoFromList(List<byte> inputNumber)
+        {
+            int result = 0;
+            for (int i = 0; i <= inputNumber.Count; i++)
+            {
+                result += inputNumber[i] * (int)Math.Pow(10, i);
+            }
+            return result;
+        }
+
+        private int ConvertFromXBaseToDecimal(List<byte> inputNumber, int baseNumber)
+        {
+            int result = 0;
+            int value = 0;
+            for (int i = 0; i < inputNumber.Count; i++)
+            {
+                if (IfCharIsValid(inputNumber[i], out value))
+                {
+                    result += value * (int)Math.Pow(baseNumber, i);
+                }
+                else
+                {
+                    return -1;
+                }
+            }
+            return result;
+        }
+
+        private bool IfCharIsValid(byte v, out int value)
+        {
+            bool result = true;
+            if (char.IsUpper(Convert.ToChar(v)))
+            {
+                value = GetNumberFromLetter(Convert.ToChar(v));
+                result = true;
+            }
+            else
+            {
+                result = true;
+                value = (int)v;
+            }
+            return result;
+        }
+
+        private int GetNumberFromLetter(char c)
+        {
+            return 10 + c - 'A';
+
+        }
+
+        private bool AreEqualLists(List<byte> List1, List<byte> List2)
         {
             if (List1.Count != List2.Count)
-                {
+            {
                 return false;
-                }
-            for (int i=0; i< List1.Count;i++)
-            if (List1[i] != List2[i])
+            }
+            for (int i = 0; i < List1.Count; i++)
+                if (List1[i] != List2[i])
                 {
                     return false;
                 }
@@ -85,7 +230,7 @@ namespace TipuriPrimitive
                 division = (decimalNumber / baseNumber);
                 rest = (byte)(decimalNumber % baseNumber);
                 decimalNumber = division;
-                if (baseNumber >10)
+                if (baseNumber > 10)
                 {
                     char1 = Convert.ToByte(ReplaceDigitwithLetter(rest));
                 }
@@ -96,10 +241,10 @@ namespace TipuriPrimitive
                 digits.Add(char1);
             }
             while (decimalNumber > 0);
-            
+
             return digits;
         }
-        
+
         private static char ReplaceDigitwithLetter(byte v)
         {
             char letter;
