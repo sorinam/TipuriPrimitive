@@ -10,7 +10,7 @@ namespace TipuriPrimitive
         [TestMethod]
         public void ConvertFromDecimalToXBase()
         {
-            int baseNumber =4;
+            int baseNumber = 4;
             int inputNumber = 234;
             List<byte> expectedDigitsXBase = new List<byte>();
             expectedDigitsXBase.Add(2);
@@ -120,7 +120,92 @@ namespace TipuriPrimitive
             Assert.IsTrue(AreEqualLists(expectedNumber, calculateNumber));
         }
 
-        private List<byte> ConvertFromXBaseToYBase(List<byte> inputNumber, int xbase, int ybase)
+        [TestMethod]
+        public void AndForLists()
+        {
+            List<byte> List1 = new List<byte>();
+            List1.Add(1);
+            List1.Add(1);
+            List1.Add(1);
+            List1.Add(1);
+            List1.Add(0);
+            List1.Add(1);
+            List1.Add(0);
+            List1.Add(1);
+            List1.Add(0);
+            List1.Add(1);
+            List1.Add(0);
+            List1.Add(1);
+
+            List<byte> List2 = new List<byte>();
+            List2.Add(0);
+            List2.Add(1);
+            List2.Add(1);
+            List2.Add(0);
+            List2.Add(1);
+            List2.Add(0);
+            List2.Add(1);
+
+            List<byte> resultList = new List<byte>();
+            resultList.Add(0);
+            resultList.Add(1);
+            resultList.Add(1);
+            resultList.Add(0);
+            resultList.Add(0);
+            resultList.Add(0);
+            resultList.Add(0);
+            resultList.Add(1);
+            resultList.Add(0);
+            resultList.Add(1);
+            resultList.Add(0);
+            resultList.Add(1);
+
+            Assert.IsTrue(IsListValid(List1),"Invalid List1");
+            Assert.IsTrue(IsListValid(List2), "Invalid List2");
+
+            List<byte> calculateList = List1AndList2(List1, List2);
+
+            Assert.IsTrue(AreEqualLists(resultList, calculateList));
+        }
+
+        private bool IsListValid(List<byte> listi)
+        {
+            string good = "01";
+            foreach (byte b in listi)
+            {
+                if (!(good.Contains(Convert.ToString(b))))
+                {
+                    return false;
+                }
+            }
+            return true;
+        }
+
+        private static List<byte> List1AndList2(List<byte> List1, List<byte> List2)
+        {
+            List<byte> List3 = new List<byte>();
+            for (int i = 0; i < Math.Min(List1.Count, List2.Count); i++)
+            {
+                List3.Add(AndForBytes(List1[i], List2[i]));
+            }
+            if (List1.Count > List2.Count)
+            {
+                List3.AddRange(List1.GetRange(List2.Count, List1.Count - List2.Count));
+
+            }
+            else
+            {
+                List3.AddRange(List2.GetRange(List1.Count, List2.Count - List1.Count));
+            }
+            return List3;
+        }
+
+        private static byte AndForBytes(byte c1, byte c2)
+        {
+            return (c1 == c2) ? c1 : Convert.ToByte(0);
+        }
+
+        private static List<byte> ConvertFromXBaseToYBase(List<byte> inputNumber, int xbase, int ybase)
         {
             if ((xbase != 10) && (ybase != 10))
             {
@@ -139,8 +224,8 @@ namespace TipuriPrimitive
                 return ConvertFromDecimalToAnotherBase(decimalNo, 10);
             }
         }
-             
-        private int CalculateNoFromList(List<byte> inputNumber)
+
+        private static int CalculateNoFromList(List<byte> inputNumber)
         {
             int result = 0;
             for (int i = 0; i <= inputNumber.Count; i++)
@@ -150,7 +235,7 @@ namespace TipuriPrimitive
             return result;
         }
 
-        private int ConvertFromXBaseToDecimal(List<byte> inputNumber, int baseNumber)
+        private static int ConvertFromXBaseToDecimal(List<byte> inputNumber, int baseNumber)
         {
             int result = 0;
             int value = 0;
@@ -168,9 +253,9 @@ namespace TipuriPrimitive
             return result;
         }
 
-        private bool IfCharIsValid(byte v, out int value)
+        private static bool IfCharIsValid(byte v, out int value)
         {
-            bool result = true;
+            bool result = false;
             if (char.IsUpper(Convert.ToChar(v)))
             {
                 value = GetNumberFromLetter(Convert.ToChar(v));
@@ -184,13 +269,13 @@ namespace TipuriPrimitive
             return result;
         }
 
-        private int GetNumberFromLetter(char c)
+        private static int GetNumberFromLetter(char c)
         {
             return 10 + c - 'A';
 
         }
 
-        private bool AreEqualLists(List<byte> List1, List<byte> List2)
+        private static bool AreEqualLists(List<byte> List1, List<byte> List2)
         {
             if (List1.Count != List2.Count)
             {
