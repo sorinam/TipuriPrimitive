@@ -286,9 +286,9 @@ namespace TipuriPrimitive
         {
             for (int i = 0; i < specialChars.Length; i++)
             {
-                if (GetIndexOfCharInString(StringToSearch,(char)specialChars[i]) > 0)
+                if (GetIndexOfCharInString(StringToSearch,specialChars[i]) > 0)
                 {
-                    return GetIndexOfCharInString(StringToSearch, (char)specialChars[i]);
+                    return GetIndexOfCharInString(StringToSearch, specialChars[i]);
                 }
             }
            return -1;
@@ -305,7 +305,7 @@ namespace TipuriPrimitive
         {
             for (int i = 0; i < stringToSearch.Length; i++)
             {
-                if (!(IsLetter((char)stringToSearch[i])))
+                if (!(IsLetter(stringToSearch[i])))
                 {
                     return i;
                 }
