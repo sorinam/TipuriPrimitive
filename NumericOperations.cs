@@ -109,6 +109,7 @@ namespace TipuriPrimitive
             List<byte> expectedNumber = new List<byte>();
             expectedNumber.Add(0);
             expectedNumber.Add(0);
+            expectedNumber.Add(1);
             expectedNumber.Add(0);
             expectedNumber.Add(1);
 
@@ -116,7 +117,7 @@ namespace TipuriPrimitive
 
             calculateNumber = ConvertFromXBaseToYBase(inputNumber, Xbase,Ybase);
 
-            //Assert.AreEqual(expectedNumber, calculateNumber);
+            Assert.IsTrue(AreEqualLists(expectedNumber, calculateNumber));
         }
 
         private List<byte> ConvertFromXBaseToYBase(List<byte> inputNumber, int xbase, int ybase)
@@ -136,6 +137,7 @@ namespace TipuriPrimitive
             {
                 int decimalNo= ConvertFromXBaseToDecimal(inputNumber,xbase);
                 return CalculateListFromNo(decimalNo);
+                //return ConvertFromDecimalToAnotherBase(decimalNo, 10);
             }
         }
 
