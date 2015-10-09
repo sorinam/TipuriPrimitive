@@ -209,17 +209,7 @@ namespace TipuriPrimitive
             {
                 resultArray[i] = AndForBytes(List1[i], List2[i]);
             }
-            if (List1.Length > List2.Length)
-            {
-                //resultArray.AddRange(List1.GetRange(List2.Count, List1.Count - List2.Count));
-
-            }
-            else
-            {
-                //resultArray.AddRange(List2.GetRange(List1.Count, List2.Count - List1.Count));
-            }
-            Array.Resize(ref resultArray, Math.Max(List1.Length, List2.Length));
-            return resultArray;
+            return FillResultArray(List1, List2, ref resultArray);
         }
 
         private static byte[] List1OrList2(byte[] List1, byte[] List2)
@@ -229,10 +219,10 @@ namespace TipuriPrimitive
             {
                 resultArray[i] = OrForBytes(List1[i], List2[i]);
             }
-            return ResizeResultArray(List1,List2,ref resultArray);
+            return FillResultArray(List1,List2,ref resultArray);
         }
 
-        private static byte[] ResizeResultArray(byte[] firstList, byte[] secondList,ref byte[] destinationList)
+        private static byte[] FillResultArray(byte[] firstList, byte[] secondList,ref byte[] destinationList)
         {
             if (firstList.Length == secondList.Length)
             {
@@ -245,14 +235,13 @@ namespace TipuriPrimitive
                 if (firstList.Length > secondList.Length)
                 {
                     difArray = GetRangeOfArray(firstList, secondList.Length, firstList.Length - secondList.Length);
-                    Array.Resize(ref destinationList, Math.Min(firstList.Length, secondList.Length));
-                }
+                 }
                 else
                 {
                 difArray = GetRangeOfArray(secondList, firstList.Length, secondList.Length - firstList.Length);
-                Array.Resize(ref destinationList, Math.Min(firstList.Length, secondList.Length));
                 }
-             return AddRangeOfArray(destinationList, difArray);
+                Array.Resize(ref destinationList, Math.Min(firstList.Length, secondList.Length));
+                return AddRangeOfArray(destinationList, difArray);
             }
         }
 
