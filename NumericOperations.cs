@@ -229,28 +229,32 @@ namespace TipuriPrimitive
             {
                 resultArray[i] = OrForBytes(List1[i], List2[i]);
             }
+            return ResizeResultArray(List1,List2,ref resultArray);
+        }
 
-            if (List1.Length > List2.Length)
+        private static byte[] ResizeResultArray(byte[] firstList, byte[] secondList,ref byte[] destinationList)
+        {
+            if (firstList.Length == secondList.Length)
             {
-                var difArray = GetRangeOfArray(List1, List2.Length, List1.Length - List2.Length);
-                Array.Resize(ref resultArray, Math.Min(List1.Length, List2.Length));
-                return AddRangeOfArray(resultArray,difArray);
+                Array.Resize(ref destinationList, firstList.Length);
+                return destinationList;
             }
             else
             {
-                if (List1.Length == List2.Length)
+                byte[] difArray = new byte[16];
+                if (firstList.Length > secondList.Length)
                 {
-                    Array.Resize(ref resultArray, List1.Length);
-                    return resultArray;
+                    difArray = GetRangeOfArray(firstList, secondList.Length, firstList.Length - secondList.Length);
+                    Array.Resize(ref destinationList, Math.Min(firstList.Length, secondList.Length));
                 }
                 else
                 {
-                    var difArray = GetRangeOfArray(List2, List1.Length, List2.Length - List1.Length);
-                    Array.Resize(ref resultArray, Math.Min(List1.Length, List2.Length));
-                    return AddRangeOfArray(resultArray, difArray);
+                difArray = GetRangeOfArray(secondList, firstList.Length, secondList.Length - firstList.Length);
+                Array.Resize(ref destinationList, Math.Min(firstList.Length, secondList.Length));
                 }
+             return AddRangeOfArray(destinationList, difArray);
             }
-    }
+        }
 
         private static byte[] List1XorList2(byte[] List1, byte[] List2)
         {
@@ -384,13 +388,13 @@ namespace TipuriPrimitive
 
         private static byte[] AddRangeOfArray(byte[] destinationArray, byte[] sourceArray)
         {
-            byte[] resultArray = new byte[destinationArray.Length+sourceArray.Length];
+            byte[] resultArray = new byte[destinationArray.Length + sourceArray.Length];
             destinationArray.CopyTo(resultArray, 0);
 
-            if (sourceArray.Length>0)
+            if (sourceArray.Length > 0)
             {
                 int j = 0;
-                for (int i = destinationArray.Length; i <destinationArray.Length + sourceArray.Length; i++)
+                for (int i = destinationArray.Length; i < destinationArray.Length + sourceArray.Length; i++)
                 {
                     resultArray[i] = sourceArray[j];
                     j++;
