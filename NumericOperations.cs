@@ -195,7 +195,7 @@ namespace TipuriPrimitive
         {
             byte[] inputArray = { 1, 1, 0, 0 };
 
-            byte[] resultArray = {0, 1, 1, 0 };
+            byte[] resultArray = { 0, 1, 1, 0 };
 
             Assert.IsTrue(IsListValid(inputArray), "Invalid inputArray");
 
@@ -204,14 +204,36 @@ namespace TipuriPrimitive
             CollectionAssert.AreEqual(resultArray, inputArray);
         }
 
-        private static void LShift(ref byte[]  inputArray)
+        [TestMethod]
+        public void RShiftForList()
         {
-            for (int i=inputArray.Length-1;i>0;i--)
+            byte[] inputArray = { 0, 1, 1, 0, 1, 1, 1, 0 };
+            byte[] resultArray = { 1, 1, 0, 1, 1, 1, 0, 0 };
+
+            Assert.IsTrue(IsListValid(inputArray), "Invalid inputArray");
+
+            RShift(ref inputArray);
+            CollectionAssert.AreEqual(resultArray, inputArray);
+        }
+
+        private static void LShift(ref byte[] inputArray)
+        {
+            for (int i = inputArray.Length - 1; i > 0; i--)
             {
-                inputArray[i] = inputArray[i-1];
+                inputArray[i] = inputArray[i - 1];
             }
             inputArray[0] = 0;
-                   
+
+        }
+
+        private static void RShift(ref byte[] inputArray)
+        {
+            for (int i = 0; i < inputArray.Length - 1; i++)
+            {
+                inputArray[i] = inputArray[i + 1];
+            }
+            inputArray[inputArray.Length - 1] = 0;
+
         }
 
         private static bool IsListValid(byte[] listi)
@@ -243,7 +265,7 @@ namespace TipuriPrimitive
             {
                 resultArray[i] = OrForByte(List1[i], List2[i]);
             }
-            return FillResultArray(List1,List2,ref resultArray);
+            return FillResultArray(List1, List2, ref resultArray);
         }
 
         private static byte[] List1XorList2(byte[] List1, byte[] List2)
