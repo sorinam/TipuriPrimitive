@@ -12,17 +12,13 @@ namespace TipuriPrimitive
         {
             int baseNumber = 4;
             int inputNumber = 234;
-            List<byte> expectedDigitsXBase = new List<byte>();
-            expectedDigitsXBase.Add(2);
-            expectedDigitsXBase.Add(2);
-            expectedDigitsXBase.Add(2);
-            expectedDigitsXBase.Add(3);
+            byte[] expectedDigitsXBase = { 2, 2, 2, 3 };
 
-            List<byte> calculateDigitsXBase = ConvertFromDecimalToAnotherBase(inputNumber, baseNumber);
+            var calculateDigitsXBase = ConvertFromDecimalToAnotherBase(inputNumber, baseNumber);
 
             Assert.IsTrue(baseNumber != 10);
-            Assert.AreEqual(expectedDigitsXBase.Count, calculateDigitsXBase.Count);
-            Assert.IsTrue(AreEqualLists(expectedDigitsXBase, calculateDigitsXBase));
+            Assert.AreEqual(expectedDigitsXBase.Length, calculateDigitsXBase.Length);
+            CollectionAssert.AreEqual(expectedDigitsXBase, calculateDigitsXBase);
         }
 
         [TestMethod]
@@ -30,15 +26,13 @@ namespace TipuriPrimitive
         {
             int baseNumber = 16;
             int inputNumber = 234;
-            List<byte> expectedDigitsXBase = new List<byte>();
-            expectedDigitsXBase.Add(Convert.ToByte('A'));
-            expectedDigitsXBase.Add(Convert.ToByte('E'));
+            byte[] expectedDigitsXBase = { 10, 14 };
 
-            List<byte> calculateDigitsXBase = ConvertFromDecimalToAnotherBase(inputNumber, baseNumber);
+            var calculateDigitsXBase = ConvertFromDecimalToAnotherBase(inputNumber, baseNumber);
 
             Assert.IsTrue(baseNumber != 10);
-            Assert.AreEqual(expectedDigitsXBase.Count, calculateDigitsXBase.Count);
-            Assert.IsTrue(AreEqualLists(expectedDigitsXBase, calculateDigitsXBase));
+            Assert.AreEqual(expectedDigitsXBase.Length, calculateDigitsXBase.Length);
+            CollectionAssert.AreEqual(expectedDigitsXBase, calculateDigitsXBase);
         }
 
         [TestMethod]
@@ -46,18 +40,12 @@ namespace TipuriPrimitive
         {
             int baseNumber = 2;
             int inputNumber = 40;
-            List<byte> expectedDigitsXBase = new List<byte>();
-            expectedDigitsXBase.Add(0);
-            expectedDigitsXBase.Add(0);
-            expectedDigitsXBase.Add(0);
-            expectedDigitsXBase.Add(1);
-            expectedDigitsXBase.Add(0);
-            expectedDigitsXBase.Add(1);
+            byte[] expectedDigitsXBase = { 0, 0, 0, 1, 0, 1 };
 
-            List<byte> calculateDigitsXBase = ConvertFromDecimalToAnotherBase(inputNumber, baseNumber);
+            var calculateDigitsXBase = ConvertFromDecimalToAnotherBase(inputNumber, baseNumber);
 
-            Assert.AreEqual(expectedDigitsXBase.Count, calculateDigitsXBase.Count);
-            Assert.IsTrue(AreEqualLists(expectedDigitsXBase, calculateDigitsXBase));
+            Assert.AreEqual(expectedDigitsXBase.Length, calculateDigitsXBase.Length);
+            CollectionAssert.AreEqual(expectedDigitsXBase, calculateDigitsXBase);
         }
 
         [TestMethod]
@@ -65,9 +53,7 @@ namespace TipuriPrimitive
         {
             int baseNumber = 2;
 
-            List<byte> inputNumber = new List<byte>();
-            inputNumber.Add(0);
-            inputNumber.Add(1);
+            byte[] inputNumber = { 0, 1 };
 
             int expectedNumber = 2;
 
@@ -81,14 +67,7 @@ namespace TipuriPrimitive
         {
             int baseNumber = 16;
 
-            List<byte> inputNumber = new List<byte>();
-            inputNumber.Add(Convert.ToByte('E'));
-            inputNumber.Add(5);
-            inputNumber.Add(2);
-            inputNumber.Add(Convert.ToByte('C'));
-            inputNumber.Add(7);
-            inputNumber.Add(4);
-            inputNumber.Add(Convert.ToByte('D'));
+            byte[] inputNumber = { 14, 5, 2, 12, 7, 4, 13 };
 
             int expectedNumber = 222806622;
             int calculateNumber = ConvertFromXBaseToDecimal(inputNumber, baseNumber);
@@ -102,283 +81,125 @@ namespace TipuriPrimitive
             int Xbase = 16;
             int Ybase = 2;
 
-            List<byte> inputNumber = new List<byte>();
-            inputNumber.Add(4);
-            inputNumber.Add(1);
+            byte[] inputNumber = { 4, 1 };
 
-            List<byte> expectedNumber = new List<byte>();
-            expectedNumber.Add(0);
-            expectedNumber.Add(0);
-            expectedNumber.Add(1);
-            expectedNumber.Add(0);
-            expectedNumber.Add(1);
+            byte[] expectedNumber = { 0, 0, 1, 0, 1 };
 
-            List<byte> calculateNumber = new List<byte>();
+            var calculateNumber = ConvertFromXBaseToYBase(inputNumber, Xbase, Ybase);
 
-            calculateNumber = ConvertFromXBaseToYBase(inputNumber, Xbase, Ybase);
-
-            Assert.IsTrue(AreEqualLists(expectedNumber, calculateNumber));
+            CollectionAssert.AreEqual(expectedNumber, calculateNumber);
         }
 
         [TestMethod]
         public void ANDForListsWithDifferentLength()
         {
-            List<byte> List1 = new List<byte>();
-            List1.Add(1);
-            List1.Add(1);
-            List1.Add(1);
-            List1.Add(1);
-            List1.Add(0);
-            List1.Add(1);
-            List1.Add(0);
-            List1.Add(1);
-            List1.Add(0);
-            List1.Add(1);
-            List1.Add(0);
-            List1.Add(1);
+            byte[] firstArray = { 1, 1, 1, 1, 0, 1, 0, 1, 0, 1, 0, 1 };
+            byte[] secondArray = { 0, 1, 1, 0, 1, 0, 1 };
+            byte[] resultArray = { 0, 1, 1, 0, 0, 0, 0, 1, 0, 1, 0, 1 };
 
-            List<byte> List2 = new List<byte>();
-            List2.Add(0);
-            List2.Add(1);
-            List2.Add(1);
-            List2.Add(0);
-            List2.Add(1);
-            List2.Add(0);
-            List2.Add(1);
+            Assert.IsTrue(IsListValid(firstArray), "Invalid FirstArray");
+            Assert.IsTrue(IsListValid(secondArray), "Invalid SecondArray");
 
-            List<byte> resultList = new List<byte>();
-            resultList.Add(0);
-            resultList.Add(1);
-            resultList.Add(1);
-            resultList.Add(0);
-            resultList.Add(0);
-            resultList.Add(0);
-            resultList.Add(0);
-            resultList.Add(1);
-            resultList.Add(0);
-            resultList.Add(1);
-            resultList.Add(0);
-            resultList.Add(1);
+            byte[] calculateList = List1AndList2(firstArray, secondArray);
 
-            Assert.IsTrue(IsListValid(List1), "Invalid List1");
-            Assert.IsTrue(IsListValid(List2), "Invalid List2");
-
-            List<byte> calculateList = List1AndList2(List1, List2);
-
-            Assert.IsTrue(AreEqualLists(resultList, calculateList));
+            CollectionAssert.AreEqual(resultArray, calculateList);
         }
 
         [TestMethod]
         public void ANDForListsWithTheSameLength()
         {
-            List<byte> List1 = new List<byte>();
-            List1.Add(1);
-            List1.Add(1);
-            List1.Add(1);
-            List1.Add(1);
+            byte[] firstArray = { 1, 1, 1, 1 };
+            byte[] secondArray = { 1, 1, 1, 0 };
+            byte[] resultArray = { 1, 1, 1, 0 };
 
-            List<byte> List2 = new List<byte>();
-            List2.Add(1);
-            List2.Add(1);
-            List2.Add(1);
-            List2.Add(0);
+            Assert.IsTrue(IsListValid(firstArray), "Invalid FirstArray");
+            Assert.IsTrue(IsListValid(secondArray), "Invalid SecondArray");
 
-            List<byte> resultList = new List<byte>();
-            resultList.Add(1);
-            resultList.Add(1);
-            resultList.Add(1);
-            resultList.Add(0);
+            byte[] calculateList = List1AndList2(firstArray, secondArray);
 
-            Assert.IsTrue(IsListValid(List1), "Invalid List1");
-            Assert.IsTrue(IsListValid(List2), "Invalid List2");
-
-            List<byte> calculateList = List1AndList2(List1, List2);
-
-            Assert.IsTrue(AreEqualLists(resultList, calculateList));
+            CollectionAssert.AreEqual(resultArray, calculateList);
         }
 
         [TestMethod]
         public void ORForListsWithDifferentLength()
         {
-            List<byte> List1 = new List<byte>();
-            List1.Add(1);
-            List1.Add(1);
-            List1.Add(1);
-            List1.Add(1);
-            List1.Add(0);
-            List1.Add(1);
-            List1.Add(0);
-            List1.Add(1);
-            List1.Add(0);
-            List1.Add(1);
-            List1.Add(0);
-            List1.Add(1);
+            byte[] firstArray = { 1, 1, 1, 1, 0, 1, 0, 1, 0, 1, 0, 1 };
+            byte[] secondArray = { 0, 1, 1, 0, 1, 0, 1 };
+            byte[] resultArray = { 1, 1, 1, 1, 1, 1, 1, 1, 0, 1, 0, 1 };
 
-            List<byte> List2 = new List<byte>();
-            List2.Add(0);
-            List2.Add(1);
-            List2.Add(1);
-            List2.Add(0);
-            List2.Add(1);
-            List2.Add(0);
-            List2.Add(1);
+            Assert.IsTrue(IsListValid(firstArray), "Invalid FirstArray");
+            Assert.IsTrue(IsListValid(secondArray), "Invalid SecondArray");
 
-            List<byte> resultList = new List<byte>();
-            resultList.Add(1);
-            resultList.Add(1);
-            resultList.Add(1);
-            resultList.Add(1);
-            resultList.Add(1);
-            resultList.Add(1);
-            resultList.Add(1);
-            resultList.Add(1);
-            resultList.Add(0);
-            resultList.Add(1);
-            resultList.Add(0);
-            resultList.Add(1);
+            byte[] calculateList = List1OrList2(firstArray, secondArray);
 
-            Assert.IsTrue(IsListValid(List1), "Invalid List1");
-            Assert.IsTrue(IsListValid(List2), "Invalid List2");
-
-            List<byte> calculateList = List1OrList2(List1, List2);
-
-            Assert.IsTrue(AreEqualLists(resultList, calculateList));
+            CollectionAssert.AreEqual(resultArray, calculateList);
         }
 
         [TestMethod]
         public void ORForListsWithTheSameLength()
         {
-            List<byte> List1 = new List<byte>();
-            List1.Add(1);
-            List1.Add(1);
-            List1.Add(0);
-            List1.Add(0);
 
-            List<byte> List2 = new List<byte>();
-            List2.Add(0);
-            List2.Add(1);
-            List2.Add(1);
-            List2.Add(0);
+            byte[] firstArray = { 1, 1, 0, 0 };
+            byte[] secondArray = { 0, 1, 1, 0 };
+            byte[] resultArray = { 1, 1, 1, 0 };
 
-            List<byte> resultList = new List<byte>();
-            resultList.Add(1);
-            resultList.Add(1);
-            resultList.Add(1);
-            resultList.Add(0);
+            Assert.IsTrue(IsListValid(firstArray), "Invalid FirstArray");
+            Assert.IsTrue(IsListValid(secondArray), "Invalid SecondArray");
 
-            Assert.IsTrue(IsListValid(List1), "Invalid List1");
-            Assert.IsTrue(IsListValid(List2), "Invalid List2");
+            var calculateList = List1OrList2(firstArray, secondArray);
 
-            List<byte> calculateList = List1OrList2(List1, List2);
-
-            Assert.IsTrue(AreEqualLists(resultList, calculateList));
+            CollectionAssert.AreEqual(resultArray, calculateList);
         }
 
         [TestMethod]
         public void XORForListsWithDifferentLength()
         {
-            List<byte> List1 = new List<byte>();
-            List1.Add(1);
-            List1.Add(1);
-            List1.Add(1);
-            List1.Add(1);
-            List1.Add(0);
-            List1.Add(1);
-            List1.Add(0);
-            List1.Add(1);
-            List1.Add(0);
-            List1.Add(1);
-            List1.Add(0);
-            List1.Add(1);
+            byte[] firstArray = { 1, 1, 1, 1, 0, 1, 0, 1, 0, 1, 0, 1 };
+            byte[] secondArray = { 0, 1, 1, 0, 1, 0, 1 };
+            byte[] resultArray = { 1, 0, 0, 1, 1, 1, 1, 1, 0, 1, 0, 1 };
 
-            List<byte> List2 = new List<byte>();
-            List2.Add(0);
-            List2.Add(1);
-            List2.Add(1);
-            List2.Add(0);
-            List2.Add(1);
-            List2.Add(0);
-            List2.Add(1);
+            Assert.IsTrue(IsListValid(firstArray), "Invalid FirstArray");
+            Assert.IsTrue(IsListValid(secondArray), "Invalid SecondArray");
 
-            List<byte> resultList = new List<byte>();
-            resultList.Add(1);
-            resultList.Add(0);
-            resultList.Add(0);
-            resultList.Add(1);
-            resultList.Add(1);
-            resultList.Add(1);
-            resultList.Add(1);
-            resultList.Add(1);
-            resultList.Add(0);
-            resultList.Add(1);
-            resultList.Add(0);
-            resultList.Add(1);
+            var calculateList = List1XorList2(firstArray, secondArray);
 
-            Assert.IsTrue(IsListValid(List1), "Invalid List1");
-            Assert.IsTrue(IsListValid(List2), "Invalid List2");
-
-            List<byte> calculateList = List1XorList2(List1, List2);
-
-            Assert.IsTrue(AreEqualLists(resultList, calculateList));
+            CollectionAssert.AreEqual(resultArray, calculateList);
         }
 
         [TestMethod]
         public void XORForListsWithTheSameLength()
         {
-            List<byte> List1 = new List<byte>();
-            List1.Add(1);
-            List1.Add(1);
-            List1.Add(0);
-            List1.Add(0);
+            byte[] firstArray = { 1, 1, 0, 0 };
+            byte[] secondArray = { 0, 1, 1, 0 };
+            byte[] resultArray = { 1, 0, 1, 0 };
 
-            List<byte> List2 = new List<byte>();
-            List2.Add(0);
-            List2.Add(1);
-            List2.Add(1);
-            List2.Add(0);
+            Assert.IsTrue(IsListValid(firstArray), "Invalid FirstArray");
+            Assert.IsTrue(IsListValid(secondArray), "Invalid SecondArray");
 
-            List<byte> resultList = new List<byte>();
-            resultList.Add(1);
-            resultList.Add(0);
-            resultList.Add(1);
-            resultList.Add(0);
+            var calculateList = List1XorList2(firstArray, secondArray);
 
-            Assert.IsTrue(IsListValid(List1), "Invalid List1");
-            Assert.IsTrue(IsListValid(List2), "Invalid List2");
-
-            List<byte> calculateList = List1XorList2(List1, List2);
-
-            Assert.IsTrue(AreEqualLists(resultList, calculateList));
+            CollectionAssert.AreEqual(resultArray, calculateList);
         }
 
         [TestMethod]
         public void NotForList()
         {
-            List<byte> List1 = new List<byte>();
-            List1.Add(1);
-            List1.Add(1);
-            List1.Add(0);
-            List1.Add(0);
+            byte[] inputArray = { 1, 1, 0, 0 };
+           
+            byte[] resultArray = { 0,0,1,1};
+          
+            Assert.IsTrue(IsListValid(inputArray), "Invalid inputArray");
 
-            List<byte> resultList = new List<byte>();
-            resultList.Add(0);
-            resultList.Add(0);
-            resultList.Add(1);
-            resultList.Add(1);
+            var calculateArray = NotList(inputArray);
 
-            Assert.IsTrue(IsListValid(List1), "Invalid List1");
-
-            List<byte> calculateList = NotList(List1);
-
-            Assert.IsTrue(AreEqualLists(resultList, calculateList));
+            CollectionAssert.AreEqual(resultArray, calculateArray);
         }
 
-        private static bool IsListValid(List<byte> listi)
-        {
-            string good = "01";
+        private static bool IsListValid(byte[] listi)
+        {           
             foreach (byte b in listi)
             {
-                if (!(good.Contains(Convert.ToString(b))))
+                if (b!=0 ||b!=1)
                 {
                     return false;
                 }
@@ -386,95 +207,95 @@ namespace TipuriPrimitive
             return true;
         }
 
-        private static List<byte> List1AndList2(List<byte> List1, List<byte> List2)
+        private static byte[] List1AndList2(byte[] List1, byte[] List2)
         {
-            List<byte> List3 = new List<byte>();
-            for (int i = 0; i < Math.Min(List1.Count, List2.Count); i++)
+            byte[] resultArray = new byte[16];
+            for (int i = 0; i < Math.Min(List1.Length, List2.Length); i++)
             {
-                List3.Add(AndForBytes(List1[i], List2[i]));
+                resultArray[i]=AndForBytes(List1[i], List2[i]);
             }
-            if (List1.Count > List2.Count)
+            if (List1.Length> List2.Length)
             {
-                List3.AddRange(List1.GetRange(List2.Count, List1.Count - List2.Count));
+                //resultArray.AddRange(List1.GetRange(List2.Count, List1.Count - List2.Count));
 
             }
             else
             {
-                List3.AddRange(List2.GetRange(List1.Count, List2.Count - List1.Count));
+                //resultArray.AddRange(List2.GetRange(List1.Count, List2.Count - List1.Count));
             }
-            return List3;
+            return resultArray;
         }
 
-        private static List<byte> List1OrList2(List<byte> List1, List<byte> List2)
+        private static byte[] List1OrList2(byte[] List1, byte[] List2)
         {
-            List<byte> List3 = new List<byte>();
-            for (int i = 0; i < Math.Min(List1.Count, List2.Count); i++)
+            byte[] resultArray = new byte[16];
+            for (int i = 0; i < Math.Min(List1.Length, List2.Length); i++)
             {
-                List3.Add(OrForBytes(List1[i], List2[i]));
+                resultArray[i]=OrForBytes(List1[i], List2[i]);
             }
-            if (List1.Count > List2.Count)
+            if (List1.Length > List2.Length)
             {
-                List3.AddRange(List1.GetRange(List2.Count, List1.Count - List2.Count));
+                //resultArray.AddRange(List1.GetRange(List2.Count, List1.Count - List2.Count));
 
             }
             else
             {
-                List3.AddRange(List2.GetRange(List1.Count, List2.Count - List1.Count));
+                //resultArray.AddRange(List2.GetRange(List1.Count, List2.Count - List1.Count));
             }
-            return List3;
+            return resultArray;
         }
 
-        private static List<byte> List1XorList2(List<byte> List1, List<byte> List2)
+        private static byte[] List1XorList2(byte[] List1, byte[] List2)
         {
-            List<byte> List3 = new List<byte>();
-            for (int i = 0; i < Math.Min(List1.Count, List2.Count); i++)
+            byte[] resultArray = new byte[16];
+            for (int i = 0; i < Math.Min(List1.Length, List2.Length); i++)
             {
-                List3.Add(XorForBytes(List1[i], List2[i]));
+                resultArray[i]=XorForBytes(List1[i], List2[i]);
             }
-            if (List1.Count > List2.Count)
+            if (List1.Length > List2.Length)
             {
-                List3.AddRange(List1.GetRange(List2.Count, List1.Count - List2.Count));
+                //resultArray.AddRange(List1.GetRange(List2.Count, List1.Count - List2.Count));
 
             }
             else
             {
-                List3.AddRange(List2.GetRange(List1.Count, List2.Count - List1.Count));
+               // resultArray.AddRange(List2.GetRange(List1.Count, List2.Count - List1.Count));
             }
-            return List3;
+            return resultArray;
         }
 
-        private static List<byte> NotList(List<byte> List1)
+        private static byte[] NotList(byte[] List1)
         {
-            List<byte> List2 = new List<byte>();
-            for (int i = 0; i < List1.Count; i++)
+            byte[] resultList = new byte[16];
+            for (int i = 0; i < List1.Length; i++)
             {
-                List2.Add(NotForByte(List1[i]));
+                resultList[i]=NotForByte(List1[i]);
             }
 
-            return List2;
+            return resultList;
         }
 
         private static byte AndForBytes(byte c1, byte c2)
         {
-            return (c1 == c2) ? c1 : Convert.ToByte(0);
+            return (c1 == c2) ? c1 : (byte)0;
         }
 
         private static byte OrForBytes(byte c1, byte c2)
         {
-            return ((c1 == 1) || (c2 == 1)) ? Convert.ToByte(1) : Convert.ToByte(0);
+            return ((c1 == 1) || (c2 == 1)) ? (byte)1 : (byte)0;
         }
 
         private static byte XorForBytes(byte c1, byte c2)
         {
-            return ((c1 == c2)) ? Convert.ToByte(0) : Convert.ToByte(1);
+            return ((c1 == c2)) ? (byte)0 : (byte)1;
         }
 
         private static byte NotForByte(byte c1)
         {
-            return ((c1 == 1)) ? Convert.ToByte(0) : Convert.ToByte(1);
+            return ((c1 == 1)) ? (byte)0 : (byte)1;
         }
 
-        private static List<byte> ConvertFromXBaseToYBase(List<byte> inputNumber, int xbase, int ybase)
+        private static byte[] ConvertFromXBaseToYBase(byte[] inputNumber, int xbase, int ybase)
         {
             if ((xbase != 10) && (ybase != 10))
             {
@@ -494,101 +315,67 @@ namespace TipuriPrimitive
             }
         }
 
-        private static int CalculateNoFromList(List<byte> inputNumber)
+        private static int CalculateNoFromList(byte[] inputNumber)
         {
             int result = 0;
-            for (int i = 0; i <= inputNumber.Count; i++)
+            for (int i = 0; i <= inputNumber.Length; i++)
             {
                 result += inputNumber[i] * (int)Math.Pow(10, i);
             }
             return result;
         }
 
-        private static int ConvertFromXBaseToDecimal(List<byte> inputNumber, int baseNumber)
+        private static int ConvertFromXBaseToDecimal(byte[] inputNumber, int baseNumber)
         {
             int result = 0;
             int value = 0;
-            for (int i = 0; i < inputNumber.Count; i++)
+            for (int i = 0; i < inputNumber.Length; i++)
             {
-                if (IfCharIsValid(inputNumber[i], out value))
-                {
-                    result += value * (int)Math.Pow(baseNumber, i);
-                }
-                else
-                {
-                    return -1;
-                }
-            }
+                      result += value * (int)Math.Pow(baseNumber, i);
+             }
             return result;
         }
 
-        private static bool IfCharIsValid(byte v, out int value)
-        {
-            bool result = false;
-            if (char.IsUpper(Convert.ToChar(v)))
-            {
-                value = GetNumberFromLetter(Convert.ToChar(v));
-                result = true;
-            }
-            else
-            {
-                result = true;
-                value = (int)v;
-            }
-            return result;
-        }
+        /*  private static bool AreEqualLists(byte[] List1, byte[] List2)
+         {
+             if (List1.Count != List2.Count)
+             {
+                 return false;
+             }
+             for (int i = 0; i < List1.Count; i++)
+                 if (List1[i] != List2[i])
+                 {
+                     return false;
+                 }
+             return true;
+         }*/
 
-        private static int GetNumberFromLetter(char c)
+        private static byte[] ConvertFromDecimalToAnotherBase(int decimalNumber, int baseNumber)
         {
-            return 10 + c - 'A';
-
-        }
-
-        private static bool AreEqualLists(List<byte> List1, List<byte> List2)
-        {
-            if (List1.Count != List2.Count)
-            {
-                return false;
-            }
-            for (int i = 0; i < List1.Count; i++)
-                if (List1[i] != List2[i])
-                {
-                    return false;
-                }
-            return true;
-        }
-
-        private static List<byte> ConvertFromDecimalToAnotherBase(int decimalNumber, int baseNumber)
-        {
-            List<byte> digits = new List<byte>();
+            byte[] digits = new byte[16];
             int division;
             byte rest;
-            byte char1 = 0; ;
+            int i = 0;
             do
             {
                 division = (decimalNumber / baseNumber);
                 rest = (byte)(decimalNumber % baseNumber);
                 decimalNumber = division;
-                if (baseNumber > 10)
-                {
-                    char1 = Convert.ToByte(ReplaceDigitwithLetter(rest));
-                }
-                else
-                {
-                    char1 = rest;
-                }
-                digits.Add(char1);
+                //AddToArray(ref digits,charR);
+                digits[i] = rest;
+                i++;
             }
             while (decimalNumber > 0);
-
+            Array.Resize(ref digits, i);
             return digits;
         }
 
-        private static char ReplaceDigitwithLetter(byte v)
+        /*private static AddToArray(ref byte[] arrayOfChars, byte value)
         {
-            char letter;
-            return letter = (char)('A' + v - 10);
-        }
+           var length = arrayOfChars.Length;
+           Array.Resize(ref arrayOfChars, length + 1);
+
+        }*/
     }
 }
 
