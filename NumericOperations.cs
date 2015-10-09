@@ -199,24 +199,19 @@ namespace TipuriPrimitive
 
             Assert.IsTrue(IsListValid(inputArray), "Invalid inputArray");
 
-            var calculateArray=LShift(inputArray);
+            LShift(ref inputArray);
 
-            CollectionAssert.AreEqual(resultArray, calculateArray);
+            CollectionAssert.AreEqual(resultArray, inputArray);
         }
 
-        private static byte[] LShift(byte[]  inputArray)
+        private static void LShift(ref byte[]  inputArray)
         {
-            var outArray = new byte[16];
-            inputArray.CopyTo(outArray, 0);
-            for (int i=1;i<outArray.Length-2;i++)
+            for (int i=inputArray.Length-1;i>0;i--)
             {
-                outArray[i] = outArray[i+1];
+                inputArray[i] = inputArray[i-1];
             }
-            outArray[0] = 0;
-
-            Array.Resize(ref outArray,inputArray.Length);
-            return outArray;
-            
+            inputArray[0] = 0;
+                   
         }
 
         private static bool IsListValid(byte[] listi)
