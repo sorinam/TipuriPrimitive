@@ -190,6 +190,35 @@ namespace TipuriPrimitive
             CollectionAssert.AreEqual(resultArray, calculateArray);
         }
 
+        [TestMethod]
+        public void LShiftForList()
+        {
+            byte[] inputArray = { 1, 1, 0, 0 };
+
+            byte[] resultArray = {0, 1, 1, 0 };
+
+            Assert.IsTrue(IsListValid(inputArray), "Invalid inputArray");
+
+            var calculateArray=LShift(inputArray);
+
+            CollectionAssert.AreEqual(resultArray, calculateArray);
+        }
+
+        private static byte[] LShift(byte[]  inputArray)
+        {
+            var outArray = new byte[16];
+            inputArray.CopyTo(outArray, 0);
+            for (int i=1;i<outArray.Length-2;i++)
+            {
+                outArray[i] = outArray[i+1];
+            }
+            outArray[0] = 0;
+
+            Array.Resize(ref outArray,inputArray.Length);
+            return outArray;
+            
+        }
+
         private static bool IsListValid(byte[] listi)
         {
             foreach (byte b in listi)
@@ -220,29 +249,6 @@ namespace TipuriPrimitive
                 resultArray[i] = OrForByte(List1[i], List2[i]);
             }
             return FillResultArray(List1,List2,ref resultArray);
-        }
-
-        private static byte[] FillResultArray(byte[] firstList, byte[] secondList,ref byte[] destinationList)
-        {
-            if (firstList.Length == secondList.Length)
-            {
-                Array.Resize(ref destinationList, firstList.Length);
-                return destinationList;
-            }
-            else
-            {
-                byte[] difArray = new byte[16];
-                if (firstList.Length > secondList.Length)
-                {
-                    difArray = GetRangeOfArray(firstList, secondList.Length, firstList.Length - secondList.Length);
-                 }
-                else
-                {
-                difArray = GetRangeOfArray(secondList, firstList.Length, secondList.Length - firstList.Length);
-                }
-                Array.Resize(ref destinationList, Math.Min(firstList.Length, secondList.Length));
-                return AddRangeOfArray(destinationList, difArray);
-            }
         }
 
         private static byte[] List1XorList2(byte[] List1, byte[] List2)
@@ -344,6 +350,29 @@ namespace TipuriPrimitive
             while (decimalNumber > 0);
             Array.Resize(ref digits, i);
             return digits;
+        }
+
+        private static byte[] FillResultArray(byte[] firstList, byte[] secondList, ref byte[] destinationList)
+        {
+            if (firstList.Length == secondList.Length)
+            {
+                Array.Resize(ref destinationList, firstList.Length);
+                return destinationList;
+            }
+            else
+            {
+                byte[] difArray = new byte[16];
+                if (firstList.Length > secondList.Length)
+                {
+                    difArray = GetRangeOfArray(firstList, secondList.Length, firstList.Length - secondList.Length);
+                }
+                else
+                {
+                    difArray = GetRangeOfArray(secondList, firstList.Length, secondList.Length - firstList.Length);
+                }
+                Array.Resize(ref destinationList, Math.Min(firstList.Length, secondList.Length));
+                return AddRangeOfArray(destinationList, difArray);
+            }
         }
 
         private static byte[] GetRangeOfArray(byte[] inputArray, int index, int length)
