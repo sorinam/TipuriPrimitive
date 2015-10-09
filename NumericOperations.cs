@@ -207,7 +207,7 @@ namespace TipuriPrimitive
             byte[] resultArray = new byte[16];
             for (int i = 0; i < Math.Min(List1.Length, List2.Length); i++)
             {
-                resultArray[i] = AndForBytes(List1[i], List2[i]);
+                resultArray[i] = AndForByte(List1[i], List2[i]);
             }
             return FillResultArray(List1, List2, ref resultArray);
         }
@@ -217,7 +217,7 @@ namespace TipuriPrimitive
             byte[] resultArray = new byte[16];
             for (int i = 0; i < Math.Min(List1.Length, List2.Length); i++)
             {
-                resultArray[i] = OrForBytes(List1[i], List2[i]);
+                resultArray[i] = OrForByte(List1[i], List2[i]);
             }
             return FillResultArray(List1,List2,ref resultArray);
         }
@@ -250,24 +250,14 @@ namespace TipuriPrimitive
             byte[] resultArray = new byte[16];
             for (int i = 0; i < Math.Min(List1.Length, List2.Length); i++)
             {
-                resultArray[i] = XorForBytes(List1[i], List2[i]);
+                resultArray[i] = XorForByte(List1[i], List2[i]);
             }
-            if (List1.Length > List2.Length)
-            {
-                //resultArray.AddRange(List1.GetRange(List2.Count, List1.Count - List2.Count));
-
-            }
-            else
-            {
-                // resultArray.AddRange(List2.GetRange(List1.Count, List2.Count - List1.Count));
-            }
-            Array.Resize(ref resultArray, Math.Max(List1.Length, List2.Length));
-            return resultArray;
+            return FillResultArray(List1, List2, ref resultArray);
         }
 
         private static byte[] NotList(byte[] List1)
         {
-            byte[] resultList = new byte[16];
+            byte[] resultList = new byte[List1.Length];
             for (int i = 0; i < List1.Length; i++)
             {
                 resultList[i] = NotForByte(List1[i]);
@@ -276,17 +266,17 @@ namespace TipuriPrimitive
             return resultList;
         }
 
-        private static byte AndForBytes(byte c1, byte c2)
+        private static byte AndForByte(byte c1, byte c2)
         {
             return (c1 == c2) ? c1 : (byte)0;
         }
 
-        private static byte OrForBytes(byte c1, byte c2)
+        private static byte OrForByte(byte c1, byte c2)
         {
             return ((c1 == 1) || (c2 == 1)) ? (byte)1 : (byte)0;
         }
 
-        private static byte XorForBytes(byte c1, byte c2)
+        private static byte XorForByte(byte c1, byte c2)
         {
             return ((c1 == c2)) ? (byte)0 : (byte)1;
         }
