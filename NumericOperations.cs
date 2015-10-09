@@ -66,7 +66,7 @@ namespace TipuriPrimitive
             int baseNumber = 16;
             byte[] inputNumber = { 14, 5, 2, 12, 7, 4, 13 };
             int expectedNumber = 222806622;
-            
+
             var calculateNumber = ConvertFromXBaseToDecimal(inputNumber, baseNumber);
 
             Assert.AreEqual(expectedNumber, calculateNumber);
@@ -79,7 +79,7 @@ namespace TipuriPrimitive
             int Ybase = 2;
             byte[] inputNumber = { 4, 1 };
             byte[] expectedNumber = { 0, 0, 1, 0, 1 };
-            
+
             var calculateNumber = ConvertFromXBaseToYBase(inputNumber, Xbase, Ybase);
 
             CollectionAssert.AreEqual(expectedNumber, calculateNumber);
@@ -110,7 +110,7 @@ namespace TipuriPrimitive
             Assert.IsTrue(IsListValid(firstArray), "Invalid FirstArray");
             Assert.IsTrue(IsListValid(secondArray), "Invalid SecondArray");
 
-            byte[] calculateList = List1AndList2(firstArray, secondArray);
+            var calculateList = List1AndList2(firstArray, secondArray);
 
             CollectionAssert.AreEqual(resultArray, calculateList);
         }
@@ -194,7 +194,7 @@ namespace TipuriPrimitive
         {
             foreach (byte b in listi)
             {
-                if (b != 0 || b != 1)
+                if ((b != 0) && (b != 1))
                 {
                     return false;
                 }
@@ -218,6 +218,7 @@ namespace TipuriPrimitive
             {
                 //resultArray.AddRange(List2.GetRange(List1.Count, List2.Count - List1.Count));
             }
+            Array.Resize(ref resultArray, Math.Max(List1.Length, List2.Length));
             return resultArray;
         }
 
@@ -228,17 +229,28 @@ namespace TipuriPrimitive
             {
                 resultArray[i] = OrForBytes(List1[i], List2[i]);
             }
+
             if (List1.Length > List2.Length)
             {
-                //resultArray.AddRange(List1.GetRange(List2.Count, List1.Count - List2.Count));
-
+                var difArray = GetRangeOfArray(List1, List2.Length, List1.Length - List2.Length);
+                Array.Resize(ref resultArray, Math.Min(List1.Length, List2.Length));
+                return AddRangeOfArray(resultArray,difArray);
             }
             else
             {
-                //resultArray.AddRange(List2.GetRange(List1.Count, List2.Count - List1.Count));
+                if (List1.Length == List2.Length)
+                {
+                    Array.Resize(ref resultArray, List1.Length);
+                    return resultArray;
+                }
+                else
+                {
+                    var difArray = GetRangeOfArray(List2, List1.Length, List2.Length - List1.Length);
+                    Array.Resize(ref resultArray, Math.Min(List1.Length, List2.Length));
+                    return AddRangeOfArray(resultArray, difArray);
+                }
             }
-            return resultArray;
-        }
+    }
 
         private static byte[] List1XorList2(byte[] List1, byte[] List2)
         {
@@ -256,6 +268,7 @@ namespace TipuriPrimitive
             {
                 // resultArray.AddRange(List2.GetRange(List1.Count, List2.Count - List1.Count));
             }
+            Array.Resize(ref resultArray, Math.Max(List1.Length, List2.Length));
             return resultArray;
         }
 
@@ -330,20 +343,6 @@ namespace TipuriPrimitive
             return result;
         }
 
-        /*  private static bool AreEqualLists(byte[] List1, byte[] List2)
-         {
-             if (List1.Count != List2.Count)
-             {
-                 return false;
-             }
-             for (int i = 0; i < List1.Count; i++)
-                 if (List1[i] != List2[i])
-                 {
-                     return false;
-                 }
-             return true;
-         }*/
-
         private static byte[] ConvertFromDecimalToAnotherBase(int decimalNumber, int baseNumber)
         {
             byte[] digits = new byte[16];
@@ -364,12 +363,44 @@ namespace TipuriPrimitive
             return digits;
         }
 
-        /*private static AddToArray(ref byte[] arrayOfChars, byte value)
+        private static byte[] GetRangeOfArray(byte[] inputArray, int index, int length)
         {
-           var length = arrayOfChars.Length;
-           Array.Resize(ref arrayOfChars, length + 1);
+            byte[] resultArray = new byte[16];
+            if (index < inputArray.Length)
+            {
+                int j = 0;
+                for (int i = index; i < Math.Min(index + length, inputArray.Length); i++)
+                {
+                    resultArray[j] = inputArray[i];
+                    j++;
+                }
+                Array.Resize(ref resultArray, j);
+                return resultArray;
+            }
+            else
+                return null;
 
-        }*/
+        }
+
+        private static byte[] AddRangeOfArray(byte[] destinationArray, byte[] sourceArray)
+        {
+            byte[] resultArray = new byte[destinationArray.Length+sourceArray.Length];
+            destinationArray.CopyTo(resultArray, 0);
+
+            if (sourceArray.Length>0)
+            {
+                int j = 0;
+                for (int i = destinationArray.Length; i <destinationArray.Length + sourceArray.Length; i++)
+                {
+                    resultArray[i] = sourceArray[j];
+                    j++;
+                }
+                return resultArray;
+            }
+            else
+                return null;
+
+        }
     }
 }
 
