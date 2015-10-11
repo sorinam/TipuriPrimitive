@@ -92,10 +92,10 @@ namespace TipuriPrimitive
             byte[] secondArray = { 0, 1, 1, 0, 1, 0, 1 };
             byte[] resultArray = { 0, 1, 1, 0, 0, 0, 0, 1, 0, 1, 0, 1 };
 
-            Assert.IsTrue(IsListValid(firstArray), "Invalid FirstArray");
-            Assert.IsTrue(IsListValid(secondArray), "Invalid SecondArray");
+            Assert.IsTrue(IsArrayValid(firstArray), "Invalid FirstArray");
+            Assert.IsTrue(IsArrayValid(secondArray), "Invalid SecondArray");
 
-            byte[] calculateList = List1AndList2(firstArray, secondArray);
+            byte[] calculateList = PerformANDLogicalToArrays(firstArray, secondArray);
 
             CollectionAssert.AreEqual(resultArray, calculateList);
         }
@@ -107,10 +107,10 @@ namespace TipuriPrimitive
             byte[] secondArray = { 1, 1, 1, 0 };
             byte[] resultArray = { 1, 1, 1, 0 };
 
-            Assert.IsTrue(IsListValid(firstArray), "Invalid FirstArray");
-            Assert.IsTrue(IsListValid(secondArray), "Invalid SecondArray");
+            Assert.IsTrue(IsArrayValid(firstArray), "Invalid FirstArray");
+            Assert.IsTrue(IsArrayValid(secondArray), "Invalid SecondArray");
 
-            var calculateList = List1AndList2(firstArray, secondArray);
+            var calculateList = PerformANDLogicalToArrays(firstArray, secondArray);
 
             CollectionAssert.AreEqual(resultArray, calculateList);
         }
@@ -122,10 +122,10 @@ namespace TipuriPrimitive
             byte[] secondArray = { 0, 1, 1, 0, 1, 0, 1 };
             byte[] resultArray = { 1, 1, 1, 1, 1, 1, 1, 1, 0, 1, 0, 1 };
 
-            Assert.IsTrue(IsListValid(firstArray), "Invalid FirstArray");
-            Assert.IsTrue(IsListValid(secondArray), "Invalid SecondArray");
+            Assert.IsTrue(IsArrayValid(firstArray), "Invalid FirstArray");
+            Assert.IsTrue(IsArrayValid(secondArray), "Invalid SecondArray");
 
-            byte[] calculateList = List1OrList2(firstArray, secondArray);
+            byte[] calculateList = PerformORLogicalToArrays(firstArray, secondArray);
 
             CollectionAssert.AreEqual(resultArray, calculateList);
         }
@@ -138,10 +138,10 @@ namespace TipuriPrimitive
             byte[] secondArray = { 0, 1, 1, 0 };
             byte[] resultArray = { 1, 1, 1, 0 };
 
-            Assert.IsTrue(IsListValid(firstArray), "Invalid FirstArray");
-            Assert.IsTrue(IsListValid(secondArray), "Invalid SecondArray");
+            Assert.IsTrue(IsArrayValid(firstArray), "Invalid FirstArray");
+            Assert.IsTrue(IsArrayValid(secondArray), "Invalid SecondArray");
 
-            var calculateList = List1OrList2(firstArray, secondArray);
+            var calculateList = PerformORLogicalToArrays(firstArray, secondArray);
 
             CollectionAssert.AreEqual(resultArray, calculateList);
         }
@@ -153,10 +153,10 @@ namespace TipuriPrimitive
             byte[] secondArray = { 0, 1, 1, 0, 1, 0, 1 };
             byte[] resultArray = { 1, 0, 0, 1, 1, 1, 1, 1, 0, 1, 0, 1 };
 
-            Assert.IsTrue(IsListValid(firstArray), "Invalid FirstArray");
-            Assert.IsTrue(IsListValid(secondArray), "Invalid SecondArray");
+            Assert.IsTrue(IsArrayValid(firstArray), "Invalid FirstArray");
+            Assert.IsTrue(IsArrayValid(secondArray), "Invalid SecondArray");
 
-            var calculateList = List1XorList2(firstArray, secondArray);
+            var calculateList = PerformXORLogicalToArrays(firstArray, secondArray);
 
             CollectionAssert.AreEqual(resultArray, calculateList);
         }
@@ -168,10 +168,10 @@ namespace TipuriPrimitive
             byte[] secondArray = { 0, 1, 1, 0 };
             byte[] resultArray = { 1, 0, 1, 0 };
 
-            Assert.IsTrue(IsListValid(firstArray), "Invalid FirstArray");
-            Assert.IsTrue(IsListValid(secondArray), "Invalid SecondArray");
+            Assert.IsTrue(IsArrayValid(firstArray), "Invalid FirstArray");
+            Assert.IsTrue(IsArrayValid(secondArray), "Invalid SecondArray");
 
-            var calculateList = List1XorList2(firstArray, secondArray);
+            var calculateList = PerformXORLogicalToArrays(firstArray, secondArray);
 
             CollectionAssert.AreEqual(resultArray, calculateList);
         }
@@ -183,9 +183,9 @@ namespace TipuriPrimitive
 
             byte[] resultArray = { 0, 0, 1, 1 };
 
-            Assert.IsTrue(IsListValid(inputArray), "Invalid inputArray");
+            Assert.IsTrue(IsArrayValid(inputArray), "Invalid inputArray");
 
-            var calculateArray = NotList(inputArray);
+            var calculateArray = PerformNOTLogicalToArray(inputArray);
 
             CollectionAssert.AreEqual(resultArray, calculateArray);
         }
@@ -197,9 +197,9 @@ namespace TipuriPrimitive
 
             byte[] resultArray = { 0, 1, 1, 0 };
 
-            Assert.IsTrue(IsListValid(inputArray), "Invalid inputArray");
+            Assert.IsTrue(IsArrayValid(inputArray), "Invalid inputArray");
 
-            LShift(ref inputArray);
+            ApplyLShiftToArray(ref inputArray);
 
             CollectionAssert.AreEqual(resultArray, inputArray);
         }
@@ -210,13 +210,13 @@ namespace TipuriPrimitive
             byte[] inputArray = { 0, 1, 1, 0, 1, 1, 1, 0 };
             byte[] resultArray = { 1, 1, 0, 1, 1, 1, 0, 0 };
 
-            Assert.IsTrue(IsListValid(inputArray), "Invalid inputArray");
+            Assert.IsTrue(IsArrayValid(inputArray), "Invalid inputArray");
 
-            RShift(ref inputArray);
+            ApplyRShiftToArray(ref inputArray);
             CollectionAssert.AreEqual(resultArray, inputArray);
         }
 
-        private static void LShift(ref byte[] inputArray)
+        private static void ApplyLShiftToArray(ref byte[] inputArray)
         {
             for (int i = inputArray.Length - 1; i > 0; i--)
             {
@@ -226,7 +226,7 @@ namespace TipuriPrimitive
 
         }
 
-        private static void RShift(ref byte[] inputArray)
+        private static void ApplyRShiftToArray(ref byte[] inputArray)
         {
             for (int i = 0; i < inputArray.Length - 1; i++)
             {
@@ -236,9 +236,9 @@ namespace TipuriPrimitive
 
         }
 
-        private static bool IsListValid(byte[] listi)
+        private static bool IsArrayValid(byte[] inputArray)
         {
-            foreach (byte b in listi)
+            foreach (byte b in inputArray)
             {
                 if ((b != 0) && (b != 1))
                 {
@@ -248,42 +248,42 @@ namespace TipuriPrimitive
             return true;
         }
 
-        private static byte[] List1AndList2(byte[] List1, byte[] List2)
+        private static byte[] PerformANDLogicalToArrays(byte[] firstArray, byte[] secondArray)
         {
             byte[] resultArray = new byte[16];
-            for (int i = 0; i < Math.Min(List1.Length, List2.Length); i++)
+            for (int i = 0; i < Math.Min(firstArray.Length, secondArray.Length); i++)
             {
-                resultArray[i] = AndForByte(List1[i], List2[i]);
+                resultArray[i] = AndForByte(firstArray[i], secondArray[i]);
             }
-            return FillResultArray(List1, List2, ref resultArray);
+            return FillResultArray(firstArray, secondArray, ref resultArray);
         }
 
-        private static byte[] List1OrList2(byte[] List1, byte[] List2)
+        private static byte[] PerformORLogicalToArrays(byte[] firstArray, byte[] secondArray)
         {
             byte[] resultArray = new byte[16];
-            for (int i = 0; i < Math.Min(List1.Length, List2.Length); i++)
+            for (int i = 0; i < Math.Min(firstArray.Length, secondArray.Length); i++)
             {
-                resultArray[i] = OrForByte(List1[i], List2[i]);
+                resultArray[i] = OrForByte(firstArray[i], secondArray[i]);
             }
-            return FillResultArray(List1, List2, ref resultArray);
+            return FillResultArray(firstArray, secondArray, ref resultArray);
         }
 
-        private static byte[] List1XorList2(byte[] List1, byte[] List2)
+        private static byte[] PerformXORLogicalToArrays(byte[] firstArray, byte[] secondArray)
         {
             byte[] resultArray = new byte[16];
-            for (int i = 0; i < Math.Min(List1.Length, List2.Length); i++)
+            for (int i = 0; i < Math.Min(firstArray.Length, secondArray.Length); i++)
             {
-                resultArray[i] = XorForByte(List1[i], List2[i]);
+                resultArray[i] = XorForByte(firstArray[i], secondArray[i]);
             }
-            return FillResultArray(List1, List2, ref resultArray);
+            return FillResultArray(firstArray, secondArray, ref resultArray);
         }
 
-        private static byte[] NotList(byte[] List1)
+        private static byte[] PerformNOTLogicalToArray(byte[] inputArray)
         {
-            byte[] resultList = new byte[List1.Length];
-            for (int i = 0; i < List1.Length; i++)
+            byte[] resultList = new byte[inputArray.Length];
+            for (int i = 0; i < inputArray.Length; i++)
             {
-                resultList[i] = NotForByte(List1[i]);
+                resultList[i] = NotForByte(inputArray[i]);
             }
 
             return resultList;
@@ -319,7 +319,7 @@ namespace TipuriPrimitive
             else
                 if (xbase == 10)
             {
-                int decimalNo = CalculateNoFromList(inputNumber);
+                int decimalNo = CalculateDecimalNumberFromArray(inputNumber);
                 return ConvertFromDecimalToAnotherBase(decimalNo, ybase);
             }
             else
@@ -329,7 +329,7 @@ namespace TipuriPrimitive
             }
         }
 
-        private static int CalculateNoFromList(byte[] inputNumber)
+        private static int CalculateDecimalNumberFromArray(byte[] inputNumber)
         {
             int result = 0;
             for (int i = 0; i < inputNumber.Length; i++)
