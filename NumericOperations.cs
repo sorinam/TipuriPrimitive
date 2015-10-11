@@ -90,7 +90,7 @@ namespace TipuriPrimitive
         {
             byte[] firstArray = { 0, 0, 1, 1, 1, 0, 1, 1 };
             byte[] secondArray = { 0, 1, 0, 1, 1, 1, 0, 1, 1, 0, 1, 1, 1, 0, 0, 1 };
-            byte[] resultArray = { 0, 0, 0, 1, 1, 0, 0, 1, 1, 0, 1, 1, 1, 0, 0, 1 };
+            byte[] resultArray = { 0, 0, 0, 1, 1, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0 };
 
             Assert.IsTrue(IsArrayValid(firstArray), "Invalid FirstArray");
             Assert.IsTrue(IsArrayValid(secondArray), "Invalid SecondArray");
@@ -253,11 +253,19 @@ namespace TipuriPrimitive
         {
             var index = GetIndexOfResultArray(Math.Max(firstArray.Length, secondArray.Length));
             byte[] resultArray = new byte[index];
-            for (int i = 0; i < Math.Min(firstArray.Length, secondArray.Length); i++)
+            if (firstArray.Length < index)
+            {
+                Array.Resize(ref firstArray, index);
+            }
+            if (secondArray.Length<index)
+            {
+               Array.Resize(ref secondArray, index);
+            }
+            for (int i = 0; i <index; i++)
             {
                 resultArray[i] = AndForByte(firstArray[i], secondArray[i]);
             }
-            return FillResultArray(firstArray, secondArray, ref resultArray);
+            return resultArray;
         }
 
         private static int GetIndexOfResultArray(int refIndex)
@@ -298,12 +306,21 @@ namespace TipuriPrimitive
 
         private static byte[] PerformXORLogicalToArrays(byte[] firstArray, byte[] secondArray)
         {
-            byte[] resultArray = new byte[GetIndexOfResultArray(Math.Max(firstArray.Length, secondArray.Length))];
-            for (int i = 0; i < Math.Min(firstArray.Length, secondArray.Length); i++)
+            var index = GetIndexOfResultArray(Math.Max(firstArray.Length, secondArray.Length));
+            byte[] resultArray = new byte[index];
+            if (firstArray.Length<index)
+            {
+                Array.Resize(ref firstArray, index);
+                 }
+            if (secondArray.Length<index)
+            {
+                Array.Resize(ref secondArray,index);
+            }
+            for (int i = 0; i < index; i++)
             {
                 resultArray[i] = XorForByte(firstArray[i], secondArray[i]);
             }
-            return FillResultArray(firstArray, secondArray, ref resultArray);
+            return resultArray;
         }
 
         private static byte[] PerformNOTLogicalToArray(byte[] inputArray)
