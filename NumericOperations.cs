@@ -86,11 +86,11 @@ namespace TipuriPrimitive
         }
 
         [TestMethod]
-        public void ANDForListsWithDifferentLength()
+        public void PerformANDForArraysWithDifferentLength()
         {
-            byte[] firstArray = { 1, 1, 1, 1, 0, 1, 0, 1, 0, 1, 0, 1 };
-            byte[] secondArray = { 0, 1, 1, 0, 1, 0, 1 };
-            byte[] resultArray = { 0, 1, 1, 0, 0, 0, 0, 1, 0, 1, 0, 1 };
+            byte[] firstArray = { 0, 0, 1, 1, 1, 0, 1, 1 };
+            byte[] secondArray = { 0, 1, 0, 1, 1, 1, 0, 1, 1, 0, 1, 1, 1, 0, 0, 1 };
+            byte[] resultArray = { 0, 0, 0, 1, 1, 0, 0, 1, 1, 0, 1, 1, 1, 0, 0, 1 };
 
             Assert.IsTrue(IsArrayValid(firstArray), "Invalid FirstArray");
             Assert.IsTrue(IsArrayValid(secondArray), "Invalid SecondArray");
@@ -101,11 +101,11 @@ namespace TipuriPrimitive
         }
 
         [TestMethod]
-        public void ANDForListsWithTheSameLength()
+        public void PerformANDForArraysWithTheSameLength()
         {
-            byte[] firstArray = { 1, 1, 1, 1 };
-            byte[] secondArray = { 1, 1, 1, 0 };
-            byte[] resultArray = { 1, 1, 1, 0 };
+            byte[] firstArray = { 1, 1, 1, 1, 1, 0, 0, 1, };
+            byte[] secondArray = { 1, 1, 1, 0, 0, 0, 1, 1 };
+            byte[] resultArray = { 1, 1, 1, 0, 0, 0, 0, 1 };
 
             Assert.IsTrue(IsArrayValid(firstArray), "Invalid FirstArray");
             Assert.IsTrue(IsArrayValid(secondArray), "Invalid SecondArray");
@@ -116,11 +116,12 @@ namespace TipuriPrimitive
         }
 
         [TestMethod]
-        public void ORForListsWithDifferentLength()
+        public void PerformORForArrayssWithDifferentLength()
         {
-            byte[] firstArray = { 1, 1, 1, 1, 0, 1, 0, 1, 0, 1, 0, 1 };
-            byte[] secondArray = { 0, 1, 1, 0, 1, 0, 1 };
-            byte[] resultArray = { 1, 1, 1, 1, 1, 1, 1, 1, 0, 1, 0, 1 };
+
+            byte[] firstArray = { 0, 0, 1, 1, 1, 0, 1, 1 };
+            byte[] secondArray = { 0, 1, 0, 1, 1, 1, 0, 1, 1, 0, 1, 1, 1, 0, 0, 1 };
+            byte[] resultArray = { 0, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 0, 0, 1 };
 
             Assert.IsTrue(IsArrayValid(firstArray), "Invalid FirstArray");
             Assert.IsTrue(IsArrayValid(secondArray), "Invalid SecondArray");
@@ -131,12 +132,12 @@ namespace TipuriPrimitive
         }
 
         [TestMethod]
-        public void ORForListsWithTheSameLength()
+        public void PerformORForArraysWithTheSameLength()
         {
 
-            byte[] firstArray = { 1, 1, 0, 0 };
-            byte[] secondArray = { 0, 1, 1, 0 };
-            byte[] resultArray = { 1, 1, 1, 0 };
+            byte[] firstArray = { 1, 1, 0, 0, 1, 1, 0, 1 };
+            byte[] secondArray = { 0, 1, 1, 0, 0, 0, 0, 1 };
+            byte[] resultArray = { 1, 1, 1, 0, 1, 1, 0, 1 };
 
             Assert.IsTrue(IsArrayValid(firstArray), "Invalid FirstArray");
             Assert.IsTrue(IsArrayValid(secondArray), "Invalid SecondArray");
@@ -147,11 +148,11 @@ namespace TipuriPrimitive
         }
 
         [TestMethod]
-        public void XORForListsWithDifferentLength()
+        public void PerformXORForArraysWithDifferentLength()
         {
-            byte[] firstArray = { 1, 1, 1, 1, 0, 1, 0, 1, 0, 1, 0, 1 };
-            byte[] secondArray = { 0, 1, 1, 0, 1, 0, 1 };
-            byte[] resultArray = { 1, 0, 0, 1, 1, 1, 1, 1, 0, 1, 0, 1 };
+            byte[] firstArray = { 1, 1, 1, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 0, 1, 1 };
+            byte[] secondArray = { 0, 1, 1, 0, 1, 0, 1, 0 };
+            byte[] resultArray = { 1, 0, 0, 1, 1, 1, 1, 1, 0, 1, 0, 1, 0, 0, 1, 1 };
 
             Assert.IsTrue(IsArrayValid(firstArray), "Invalid FirstArray");
             Assert.IsTrue(IsArrayValid(secondArray), "Invalid SecondArray");
@@ -162,11 +163,11 @@ namespace TipuriPrimitive
         }
 
         [TestMethod]
-        public void XORForListsWithTheSameLength()
+        public void PerformXORForArraysWithTheSameLength()
         {
-            byte[] firstArray = { 1, 1, 0, 0 };
-            byte[] secondArray = { 0, 1, 1, 0 };
-            byte[] resultArray = { 1, 0, 1, 0 };
+            byte[] firstArray = { 1, 1, 0, 0, 1, 1, 1, 1 };
+            byte[] secondArray = { 0, 1, 1, 0, 0, 0, 0, 1 };
+            byte[] resultArray = { 1, 0, 1, 0, 1, 1, 1, 0 };
 
             Assert.IsTrue(IsArrayValid(firstArray), "Invalid FirstArray");
             Assert.IsTrue(IsArrayValid(secondArray), "Invalid SecondArray");
@@ -177,11 +178,11 @@ namespace TipuriPrimitive
         }
 
         [TestMethod]
-        public void NotForList()
+        public void PerformNOTForArray()
         {
-            byte[] inputArray = { 1, 1, 0, 0 };
+            byte[] inputArray = { 1, 1, 0, 0, 1, 1, 1, 1 };
 
-            byte[] resultArray = { 0, 0, 1, 1 };
+            byte[] resultArray = { 0, 0, 1, 1, 0, 0, 0, 0 };
 
             Assert.IsTrue(IsArrayValid(inputArray), "Invalid inputArray");
 
@@ -191,11 +192,11 @@ namespace TipuriPrimitive
         }
 
         [TestMethod]
-        public void LShiftForList()
+        public void LShiftForArray()
         {
-            byte[] inputArray = { 1, 1, 0, 0 };
+            byte[] inputArray = { 1, 1, 0, 0, 0, 0, 1, 1 };
 
-            byte[] resultArray = { 0, 1, 1, 0 };
+            byte[] resultArray = { 0, 1, 1, 0, 0, 0, 0, 1 };
 
             Assert.IsTrue(IsArrayValid(inputArray), "Invalid inputArray");
 
@@ -205,7 +206,7 @@ namespace TipuriPrimitive
         }
 
         [TestMethod]
-        public void RShiftForList()
+        public void RShiftForArray()
         {
             byte[] inputArray = { 0, 1, 1, 0, 1, 1, 1, 0 };
             byte[] resultArray = { 1, 1, 0, 1, 1, 1, 0, 0 };
@@ -250,7 +251,8 @@ namespace TipuriPrimitive
 
         private static byte[] PerformANDLogicalToArrays(byte[] firstArray, byte[] secondArray)
         {
-            byte[] resultArray = new byte[16];
+            var index = GetIndexOfResultArray(Math.Max(firstArray.Length, secondArray.Length));
+            byte[] resultArray = new byte[index];
             for (int i = 0; i < Math.Min(firstArray.Length, secondArray.Length); i++)
             {
                 resultArray[i] = AndForByte(firstArray[i], secondArray[i]);
@@ -258,9 +260,35 @@ namespace TipuriPrimitive
             return FillResultArray(firstArray, secondArray, ref resultArray);
         }
 
+        private static int GetIndexOfResultArray(int refIndex)
+        {
+            if (refIndex <= 8)
+            {
+                return 8;
+            }
+            else
+            {
+                if (refIndex <= 16)
+                {
+                    return 16;
+                }
+                else
+                {
+                    if (refIndex <= 32)
+                    {
+                        return 32;
+                    }
+                    else
+                    {
+                        return 64;
+                    }
+                }
+            }
+        }
+
         private static byte[] PerformORLogicalToArrays(byte[] firstArray, byte[] secondArray)
         {
-            byte[] resultArray = new byte[16];
+            byte[] resultArray = new byte[GetIndexOfResultArray(Math.Max(firstArray.Length, secondArray.Length))];
             for (int i = 0; i < Math.Min(firstArray.Length, secondArray.Length); i++)
             {
                 resultArray[i] = OrForByte(firstArray[i], secondArray[i]);
@@ -270,7 +298,7 @@ namespace TipuriPrimitive
 
         private static byte[] PerformXORLogicalToArrays(byte[] firstArray, byte[] secondArray)
         {
-            byte[] resultArray = new byte[16];
+            byte[] resultArray = new byte[GetIndexOfResultArray(Math.Max(firstArray.Length, secondArray.Length))];
             for (int i = 0; i < Math.Min(firstArray.Length, secondArray.Length); i++)
             {
                 resultArray[i] = XorForByte(firstArray[i], secondArray[i]);
@@ -280,13 +308,13 @@ namespace TipuriPrimitive
 
         private static byte[] PerformNOTLogicalToArray(byte[] inputArray)
         {
-            byte[] resultList = new byte[inputArray.Length];
+            byte[] resultArray = new byte[inputArray.Length];
             for (int i = 0; i < inputArray.Length; i++)
             {
-                resultList[i] = NotForByte(inputArray[i]);
+                resultArray[i] = NotForByte(inputArray[i]);
             }
 
-            return resultList;
+            return resultArray;
         }
 
         private static byte AndForByte(byte c1, byte c2)
@@ -360,7 +388,6 @@ namespace TipuriPrimitive
                 division = (decimalNumber / baseNumber);
                 rest = (byte)(decimalNumber % baseNumber);
                 decimalNumber = division;
-                //AddToArray(ref digits,charR);
                 digits[i] = rest;
                 i++;
             }
@@ -369,32 +396,32 @@ namespace TipuriPrimitive
             return digits;
         }
 
-        private static byte[] FillResultArray(byte[] firstList, byte[] secondList, ref byte[] destinationList)
+        private static byte[] FillResultArray(byte[] firstArray, byte[] secondArray, ref byte[] destinationList)
         {
-            if (firstList.Length == secondList.Length)
+            if (firstArray.Length == secondArray.Length)
             {
-                Array.Resize(ref destinationList, firstList.Length);
+                Array.Resize(ref destinationList, firstArray.Length);
                 return destinationList;
             }
             else
             {
-                byte[] difArray = new byte[16];
-                if (firstList.Length > secondList.Length)
+                byte[] difArray = new byte[GetIndexOfResultArray(Math.Abs(firstArray.Length - secondArray.Length))];
+                if (firstArray.Length > secondArray.Length)
                 {
-                    difArray = GetRangeOfArray(firstList, secondList.Length, firstList.Length - secondList.Length);
+                    difArray = GetRangeOfArray(firstArray, secondArray.Length, firstArray.Length - secondArray.Length);
                 }
                 else
                 {
-                    difArray = GetRangeOfArray(secondList, firstList.Length, secondList.Length - firstList.Length);
+                    difArray = GetRangeOfArray(secondArray, firstArray.Length, secondArray.Length - firstArray.Length);
                 }
-                Array.Resize(ref destinationList, Math.Min(firstList.Length, secondList.Length));
+                Array.Resize(ref destinationList, Math.Min(firstArray.Length, secondArray.Length));
                 return AddRangeOfArray(destinationList, difArray);
             }
         }
 
         private static byte[] GetRangeOfArray(byte[] inputArray, int index, int length)
         {
-            byte[] resultArray = new byte[16];
+            byte[] resultArray = new byte[GetIndexOfResultArray(length)];
             if (index < inputArray.Length)
             {
                 int j = 0;
