@@ -68,6 +68,38 @@ namespace TipuriPrimitive
          
         }
 
+        [TestMethod]
+        public void MaximumDifferenceOfMinMaxTemperature()
+        {
+            var expectedDifTemperature = 12.5F;
+            var expectedDifDay = new DateTime(2015, 10, 1);
+            DateTime foundDifDay;
+
+            GetListOfMonthlyValues();
+            var calculateDifTemperature = GetDifTemperatureOfTheMonth(listOfDailyValues, out foundDifDay);
+
+            Assert.IsFalse(listOfDailyValues.Count == 0, "Some input information are missing!");
+            Assert.IsTrue(listOfDailyValues.Count <= 31, "Too much information for a month !");
+            Assert.AreEqual(expectedDifTemperature, calculateDifTemperature);
+            Assert.AreEqual(expectedDifDay, foundDifDay);
+        }
+
+        private float GetDifTemperatureOfTheMonth(List<DailyValues> listOfDailyValues, out DateTime foundDifDay)
+        {
+            float maxValue = 0F;
+            DateTime index = new DateTime();
+            for (int i = 0; i < listOfDailyValues.Count; i++)
+            {
+                if ((listOfDailyValues[i].maxTemp- listOfDailyValues[i].minTemp) > maxValue)
+                {
+                    maxValue = listOfDailyValues[i].maxTemp - listOfDailyValues[i].minTemp;
+                    index = listOfDailyValues[i].dayOfTheMonth;
+                }
+            }
+            foundDifDay = index;
+            return maxValue;
+        }
+
         private float GetAverageTemperatureOfTheMonth(List<DailyValues> listOfDailyValues)
         {
             
