@@ -16,6 +16,42 @@ namespace TipuriPrimitive
         }
 
         [TestMethod]
+        public void ReplaceOneCharWithAnotherIntoAString()
+        {
+            String inputString = "#An#a a#re#m$%sere %mul#te";
+            char charToReplace = '#';
+            char newChar = '%';
+            String expectedString = "%An%a a%re%m$%sere %mul%te";
+
+            var calculateString = ReplaceString(inputString, charToReplace, newChar);
+            Assert.AreEqual(expectedString, calculateString);
+        }
+
+        [TestMethod]
+        public void NotFindCharToReplaceIntoAString()
+        {
+            String inputString = "#An#a a#re#m$%sere %mul#te";
+            char charToReplace = 'D';
+            char newChar = '%';
+            String expectedString = "#An#a a#re#m$%sere %mul#te";
+
+            var calculateString = ReplaceString(inputString, charToReplace, newChar);
+            Assert.AreEqual(expectedString, calculateString);
+        }
+
+        [TestMethod]
+        public void TryToReplaceACharIntoAnEmptyString()
+        {
+            String inputString = "";
+            char charToReplace = 'D';
+            char newChar = '%';
+            string expectedString = "";
+
+            var calculateString = ReplaceString(inputString, charToReplace, newChar);
+            Assert.AreEqual(expectedString, calculateString);
+        }
+
+        [TestMethod]
         public void GeneratePascalTriangle()
         {
             int n = 5;
@@ -28,6 +64,17 @@ namespace TipuriPrimitive
         {
             if (inputString.Length > 0)
                 return inputString[inputString.Length - 1] + ReverseString(inputString.Substring(0, inputString.Length - 1));
+            else
+                return inputString;
+        }
+
+        private static String ReplaceString(string inputString, char cchar, char rchar)
+        {
+            if (inputString.Length > 0)
+            {
+                var recursive = ReplaceString(inputString.Substring(1, inputString.Length - 1), cchar, rchar);
+                return (inputString[0] == cchar) ? rchar + recursive : inputString[0] + recursive;
+            }
             else
                 return inputString;
         }
@@ -48,7 +95,7 @@ namespace TipuriPrimitive
 
         private static uint Pascal(int x, int y)
         {
-            if (x == 0 || y == 0 || x == y)
+            if (y == 0 || x == y)
             {
                 return 1;
             }
