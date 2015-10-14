@@ -16,6 +16,15 @@ namespace TipuriPrimitive
         }
 
         [TestMethod]
+        public void ReverseEmptyString()
+        {
+            String inputString = "";
+            String outputString = "";
+            var calculateString = ReverseString(inputString);
+            Assert.AreEqual(calculateString, outputString);
+        }
+
+        [TestMethod]
         public void ReplaceOneCharWithAnotherIntoAString()
         {
             String inputString = "#An#a a#re#m$%sere %mul#te";
@@ -52,57 +61,63 @@ namespace TipuriPrimitive
         }
 
         [TestMethod]
-        public void GeneratePascalTriangle()
+        public void NLevelsOfPascalTriangle()
         {
             int n = 5;
             uint[,] expectedResult = new uint[6, 6] { { 1, 0, 0, 0, 0, 0 }, { 1, 1, 0, 0, 0, 0 }, { 1, 2, 1, 0, 0, 0 }, { 1, 3, 3, 1, 0, 0 }, { 1, 4, 6, 4, 1, 0 }, { 1, 5, 10, 10, 5, 1 } };
-            var calculateResult = PascalTriangle(n);
+            var calculateResult = GeneratePascalTriangle(n);
+            CollectionAssert.AreEqual(expectedResult, calculateResult);
+        }
+
+        [TestMethod]
+        public void FirstLevelOfPascalTriangle()
+        {
+            int n = 0;
+            uint[,] expectedResult = new uint[1, 1] { { 1 } };
+            var calculateResult = GeneratePascalTriangle(n);
             CollectionAssert.AreEqual(expectedResult, calculateResult);
         }
 
         private static String ReverseString(string inputString)
         {
-            if (inputString.Length > 0)
-                return inputString[inputString.Length - 1] + ReverseString(inputString.Substring(0, inputString.Length - 1));
-            else
-                return inputString;
+            if (inputString.Length == 0) return String.Empty;
+            int lastPosition = inputString.Length - 1;
+            return inputString[lastPosition] + ReverseString(inputString.Substring(0, lastPosition));
         }
 
-        private static String ReplaceString(string inputString, char cchar, char rchar)
+        private static String ReplaceString(string inputString, char oldChar, char newChar)
         {
-            if (inputString.Length > 0)
-            {
-                var recursive = ReplaceString(inputString.Substring(1, inputString.Length - 1), cchar, rchar);
-                return (inputString[0] == cchar) ? rchar + recursive : inputString[0] + recursive;
-            }
-            else
-                return inputString;
+            if (inputString.Length == 0) return String.Empty;
+            var substring = inputString.Substring(1, inputString.Length - 1);
+            var proceesedString = ReplaceString(substring, oldChar, newChar);
+            char firstChar = inputString[0];
+            return (firstChar == oldChar) ? newChar + proceesedString : firstChar + proceesedString;
         }
 
-        private uint[,] PascalTriangle(int n)
+        private uint[,] GeneratePascalTriangle(int totalLevelsNumber)
         {
-            uint[,] triangle = new uint[n + 1, n + 1];
-            for (int i = 0; i <= n; i++)
+            uint[,] resultOfTriangle = new uint[totalLevelsNumber + 1, totalLevelsNumber + 1];
+            for (int levelNumber = 0; levelNumber <= totalLevelsNumber; levelNumber++)
             {
-                for (int j = 0; j <= i; j++)
-                {
-                    triangle[i, j] = Pascal(i, j);
-                }
+                GenerateOneLevelOfTriangle(levelNumber, ref resultOfTriangle);
             }
-
-            return triangle;
+            return resultOfTriangle;
         }
 
-        private static uint Pascal(int x, int y)
+        private static void GenerateOneLevelOfTriangle(int levelNumber, ref uint[,] resultOfTriangle)
         {
-            if (y == 0 || x == y)
+            for (int columnNumber = 0; columnNumber <= levelNumber; columnNumber++)
             {
-                return 1;
+                resultOfTriangle[levelNumber, columnNumber] = CalculateValueOfTriangleElement(levelNumber, columnNumber);
             }
-            else
-            {
-                return Pascal(x - 1, y - 1) + Pascal(x - 1, y);
-            }
+        }
+
+        public static uint CalculateValueOfTriangleElement(int lineNumber, int columnNumber)
+        {
+            if (columnNumber == 0 || lineNumber == columnNumber) return 1;
+            var valueOfTriangle = CalculateValueOfTriangleElement(lineNumber - 1, columnNumber - 1) + CalculateValueOfTriangleElement(lineNumber - 1, columnNumber);
+            return valueOfTriangle;
         }
     }
 }
+
