@@ -111,16 +111,18 @@ namespace TipuriPrimitive
         {
             string[] inputString = { ")", "3", "4" };
             float expectedResult = 0;
-            var calculateResult = SimpleExpression(inputString);
+            var calculateResult = CalculatorFromPrefixExpression(inputString);
             Assert.AreEqual(expectedResult, calculateResult);
         }
 
+        [TestMethod]
         public void CalculatorFromComplexPrefixForm()
         {
-            string[] inputString = { ")", "3", "4" };
-            float expectedResult = 0;
-            var calculateResult = SimpleExpression(inputString);
+            string[] inputString = { "+", "2","+","4","3" };
+            float expectedResult = 9;
+            var calculateResult = CalculatorFromPrefixExpression(inputString);
             Assert.AreEqual(expectedResult, calculateResult);
+           
         }
 
         private static float CalculatorFromPrefixExpression(string[] inputString)
@@ -142,10 +144,25 @@ namespace TipuriPrimitive
                 }
                 else
                 {
-                    return 0;
+                    string[] partialLeftString = new string[index+2];
+                    Array.Copy(inputString, partialLeftString, index + 1);
+                    string[] newRightString = ExtractSubstring(inputString,index+1);
+                   var rightValue=CalculatorFromPrefixExpression(newRightString).ToString();
+                    partialLeftString[index + 1] = rightValue;
+                    return CalculatorFromPrefixExpression(partialLeftString);
                 }
             }
 
+        }
+
+        private static string[] ExtractSubstring(string[] inputString, int index)
+        {
+            string[] resultString= new string[inputString.Length - index];
+            for (int i = 0; i < inputString.Length-index; i++)
+            {
+                resultString[i] = inputString[index+i];
+            }           
+            return resultString;
         }
 
         private static string[] GenerateNewString(string[] inputString, int index)
