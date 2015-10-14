@@ -79,17 +79,17 @@ namespace TipuriPrimitive
         }
 
         [TestMethod]
-        public void SimplePrefixForm()
+        public void CalculateValueFromSimplePrefixForm()
         {
             string[] inputString = { "/", "3", "4" };
             float expectedResult = 0.75F;
-            var calculateResult = SimpleExpression(inputString);
+            var calculateResult = CalculatorFromPrefixExpression(inputString);
             Assert.AreEqual(expectedResult, calculateResult);
         }
 
         [TestMethod]
 
-        public void CalculatorFromPrefixForm()
+        public void CalculatateValueFromPrefixForm()
         {
             string[] inputString = { "*", "/", "*", "+", "56", "45", "45", "3", "0.75" };
             float expectedResult = 1136.25F;
@@ -98,7 +98,7 @@ namespace TipuriPrimitive
         }
         [TestMethod]
 
-        public void CalculatorFromPrefixFormNoNumbers()
+        public void CalculateValueFromPrefixFormWithoutNumbers()
         {
             string[] inputString = { "*", "/", "*", "+" };
             float expectedResult = -1;
@@ -107,7 +107,7 @@ namespace TipuriPrimitive
         }
 
         [TestMethod]
-        public void InvalidOperatorInPrefixForm()
+        public void UseInvalidOperatorInPrefixForm()
         {
             string[] inputString = { ")", "3", "4" };
             float expectedResult = 0;
@@ -116,13 +116,12 @@ namespace TipuriPrimitive
         }
 
         [TestMethod]
-        public void CalculatorFromComplexPrefixForm()
+        public void CalculateValueFromComplexPrefixForm()
         {
-            string[] inputString = { "+", "2","+","4","3" };
-            float expectedResult = 9;
+            string[] inputString = { "+","+" ,"2","3", "*", "/", "*", "4", "5", "2", "3" };
+            float expectedResult = 35;
             var calculateResult = CalculatorFromPrefixExpression(inputString);
             Assert.AreEqual(expectedResult, calculateResult);
-           
         }
 
         private static float CalculatorFromPrefixExpression(string[] inputString)
@@ -139,41 +138,44 @@ namespace TipuriPrimitive
                 bool isNumber = float.TryParse(inputString[index + 1], out value);
                 if (isNumber)
                 {
-                    inputString = GenerateNewString(inputString, index);
+                    inputString = CalculateDeepValueAndGenerateNewExpression(inputString, index);
                     return CalculatorFromPrefixExpression(inputString);
                 }
                 else
                 {
-                    string[] partialLeftString = new string[index+2];
-                    Array.Copy(inputString, partialLeftString, index + 1);
-                    string[] newRightString = ExtractSubstring(inputString,index+1);
-                   var rightValue=CalculatorFromPrefixExpression(newRightString).ToString();
-                    partialLeftString[index + 1] = rightValue;
-                    return CalculatorFromPrefixExpression(partialLeftString);
+                    string[] rightExpression = ExtractRightPrefixExpression(inputString, index);
+                    var valueOfRightExpression = CalculatorFromPrefixExpression(rightExpression).ToString();
+                    string[] leftExpression = ExtractLeftPrefixExpression(inputString, index);
+                    leftExpression[index + 1] = valueOfRightExpression;
+                    return CalculatorFromPrefixExpression(leftExpression);
                 }
             }
 
         }
-
-        private static string[] ExtractSubstring(string[] inputString, int index)
+        private static string[] ExtractRightPrefixExpression(string[] inputString, int index)
         {
-            string[] resultString= new string[inputString.Length - index];
-            for (int i = 0; i < inputString.Length-index; i++)
-            {
-                resultString[i] = inputString[index+i];
-            }           
-            return resultString;
+            string[] subString = new string[inputString.Length - index - 1];
+            Array.Copy(inputString, index + 1, subString, 0, inputString.Length - index - 1);
+            return subString;
         }
-
-        private static string[] GenerateNewString(string[] inputString, int index)
+        private static string[] ExtractLeftPrefixExpression(string[] inputString, int index)
         {
-            string[] simplePrefixString = { inputString[index - 1], inputString[index], inputString[index + 1] };
-            var partialResult = SimpleExpression(simplePrefixString);
-            ReplaceValueinString(ref inputString, index - 1, Convert.ToString(partialResult));
+            string[] subString = new string[index + 2];
+            Array.Copy(inputString, subString, index + 1);
+            return subString;
+        }
+        private static string[] CalculateDeepValueAndGenerateNewExpression(string[] inputString, int index)
+        {
+            var partialResult = CalculateSimpleExpression(inputString, index);
+            ReplaceCalculateValueinExpression(ref inputString, index - 1, Convert.ToString(partialResult));
             return inputString;
         }
-
-        private static void ReplaceValueinString(ref string[] inputString, int indexofoperator, string newResult)
+        private static float CalculateSimpleExpression(string[] inputString, int index)
+        {
+            string[] simplePrefixString = { inputString[index - 1], inputString[index], inputString[index + 1] };
+            return SimpleExpression(simplePrefixString);
+        }
+        private static void ReplaceCalculateValueinExpression(ref string[] inputString, int indexofoperator, string newResult)
         {
             inputString[indexofoperator] = newResult;
             for (int i = indexofoperator + 1; i < inputString.Length - 2; i++)
