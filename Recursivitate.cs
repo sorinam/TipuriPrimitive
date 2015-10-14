@@ -78,6 +78,39 @@ namespace TipuriPrimitive
             CollectionAssert.AreEqual(expectedResult, calculateResult);
         }
 
+        [TestMethod]
+        public void SimplePrefixForm()
+        {
+            char[] inputString = { '/', '3', '4' };
+            float expectedResult = 1;
+            var calculateResult = GetResult(inputString);
+            Assert.AreEqual(expectedResult, calculateResult);
+        }
+
+        public static float GetResult(char[] inputString)
+        {
+            float result = 0;
+            var operand=inputString[0];
+            switch (operand)
+            {
+                case '+':
+                    result = float.Parse(inputString[1].ToString()) + float.Parse(inputString[2].ToString());
+                    break;
+                case '-':
+                    result = float.Parse(inputString[1].ToString()) - float.Parse(inputString[2].ToString());
+                    break;
+                case '*':
+                    result = float.Parse(inputString[1].ToString()) * float.Parse(inputString[2].ToString());
+                    break;
+                case '/':
+                    result = float.Parse(inputString[1].ToString()) / float.Parse(inputString[2].ToString());
+                    break;
+
+            }
+            return result;
+
+        }
+
         private static String ReverseString(string inputString)
         {
             if (inputString.Length == 0) return String.Empty;
