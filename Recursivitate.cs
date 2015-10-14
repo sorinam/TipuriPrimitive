@@ -81,33 +81,123 @@ namespace TipuriPrimitive
         [TestMethod]
         public void SimplePrefixForm()
         {
-            char[] inputString = { '/', '3', '4' };
-            float expectedResult = 1;
-            var calculateResult = GetResult(inputString);
+            string[] inputString = { "/", "3", "4" };
+            float expectedResult = 0.75F;
+            var calculateResult = SimpleExpression(inputString);
             Assert.AreEqual(expectedResult, calculateResult);
         }
 
-        public static float GetResult(char[] inputString)
+        [TestMethod]
+
+        public void CalculatorFromPrefixForm()
         {
-            float result = 0;
-            var operand=inputString[0];
+            string[] inputString = { "*", "/", "*", "+", "56", "45", "45", "3", "0.75" };
+            float expectedResult = 1136.25F;
+            var calculateResult = CalculatorFromPrefixExpression(inputString);
+            Assert.AreEqual(expectedResult, calculateResult);
+        }
+        [TestMethod]
+
+        public void CalculatorFromPrefixFormNoNumbers()
+        {
+            string[] inputString = { "*", "/", "*", "+" };
+            float expectedResult = -1;
+            var calculateResult = CalculatorFromPrefixExpression(inputString);
+            Assert.AreEqual(expectedResult, calculateResult);
+        }
+
+        [TestMethod]
+        public void InvalidOperatorInPrefixForm()
+        {
+            string[] inputString = { ")", "3", "4" };
+            float expectedResult = 0;
+            var calculateResult = SimpleExpression(inputString);
+            Assert.AreEqual(expectedResult, calculateResult);
+        }
+
+        public void CalculatorFromComplexPrefixForm()
+        {
+            string[] inputString = { ")", "3", "4" };
+            float expectedResult = 0;
+            var calculateResult = SimpleExpression(inputString);
+            Assert.AreEqual(expectedResult, calculateResult);
+        }
+
+        private static float CalculatorFromPrefixExpression(string[] inputString)
+        {
+            if (inputString.Length == 3)
+            {
+                return SimpleExpression(inputString);
+            }
+            else
+            {
+                int index = GetFirstNumberInString(inputString);
+                if (index < 0) return -1;
+                float value;
+                bool isNumber = float.TryParse(inputString[index + 1], out value);
+                if (isNumber)
+                {
+                    inputString = GenerateNewString(inputString, index);
+                    return CalculatorFromPrefixExpression(inputString);
+                }
+                else
+                {
+                    return 0;
+                }
+            }
+
+        }
+
+        private static string[] GenerateNewString(string[] inputString, int index)
+        {
+            string[] simplePrefixString = { inputString[index - 1], inputString[index], inputString[index + 1] };
+            var partialResult = SimpleExpression(simplePrefixString);
+            ReplaceValueinString(ref inputString, index - 1, Convert.ToString(partialResult));
+            return inputString;
+        }
+
+        private static void ReplaceValueinString(ref string[] inputString, int indexofoperator, string newResult)
+        {
+            inputString[indexofoperator] = newResult;
+            for (int i = indexofoperator + 1; i < inputString.Length - 2; i++)
+            {
+                inputString[i] = inputString[i + 2];
+            }
+            Array.Resize(ref inputString, inputString.Length - 2);
+        }
+
+        private static int GetFirstNumberInString(string[] inputString)
+        {
+            for (int i = 0; i < inputString.Length; i++)
+            {
+                float value;
+                if (float.TryParse(inputString[i], out value))
+                {
+                    return i;
+                }
+            }
+            return -1;
+        }
+
+        public static float SimpleExpression(string[] inputString)
+        {
+            var operand = inputString[0];
+            float firstNumber = float.Parse(inputString[1].ToString());
+            float secondNumber = float.Parse(inputString[2].ToString());
+
             switch (operand)
             {
-                case '+':
-                    result = float.Parse(inputString[1].ToString()) + float.Parse(inputString[2].ToString());
-                    break;
-                case '-':
-                    result = float.Parse(inputString[1].ToString()) - float.Parse(inputString[2].ToString());
-                    break;
-                case '*':
-                    result = float.Parse(inputString[1].ToString()) * float.Parse(inputString[2].ToString());
-                    break;
-                case '/':
-                    result = float.Parse(inputString[1].ToString()) / float.Parse(inputString[2].ToString());
-                    break;
-
+                case "+":
+                    return firstNumber + secondNumber;
+                case "-":
+                    return firstNumber - secondNumber;
+                case "*":
+                    return firstNumber * secondNumber;
+                case "/":
+                    return firstNumber / secondNumber;
+                default:
+                    return 0;
             }
-            return result;
 
         }
 
