@@ -60,6 +60,7 @@
     <Compile Include="Bank_NRate.cs" />
     <Compile Include="Bank_Rate.cs" />
     <Compile Include="Calculate.cs" />
+    <Compile Include="Calculator.cs" />
     <Compile Include="Capre.cs" />
     <Compile Include="Columns_BuildArea.cs" />
     <Compile Include="Columns_CalculateArea.cs" />
@@ -96,6 +97,7 @@
     <Compile Include="Train_CalcBirdDist.cs" />
     <Compile Include="Train_CalcBirdDistance.cs" />
     <Compile Include="Train_InvalidData.cs" />
+    <Compile Include="UnitTest1.cs" />
     <Compile Include="Utils.cs" />
     <Compile Include="WdaysQGoats.cs" />
   </ItemGroup>
