@@ -69,6 +69,7 @@
     <Compile Include="Excel_CalculateColumnName.cs" />
     <Compile Include="Excel_TestMoreLetters.cs" />
     <Compile Include="Excel_TestOneLetterZ.cs" />
+    <Compile Include="HanoiTowers.cs" />
     <Compile Include="Loto.cs" />
     <Compile Include="Meteo.cs" />
     <Compile Include="Mushrooms.cs" />
