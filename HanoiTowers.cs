@@ -10,24 +10,23 @@ namespace TipuriPrimitive
         public List<string> listOfMovements = new List<string>();
 
         [TestMethod]
-        public void Hanoi()
+        public void TowersofHanoi()
         {
-            int n = 20;
-            hanoi(n, 'a', 'b', 'c');
+            int numberofDisks = 20;
+            Hanoi(numberofDisks, 'A', 'B', 'C');
             Assert.AreEqual(1048575, listOfMovements.Count);
         }
-        private void hanoi(int n, char source, char destination, char via)
+        private void Hanoi(int n, char source, char destination, char via)
         {  if (n==0)
             {
                 return;
             }
             if (n > 0)
             {
-                hanoi(n - 1, source, via, destination);
+                Hanoi(n - 1, source, via, destination);
                 string movement="Move disk "+n+" from disk "+source+" to disk " + destination;
                 listOfMovements.Add(movement);
-                Console.WriteLine("Move disk {0} from {1} to {2}", n, source, destination);
-                hanoi(n - 1, via, destination, source);
+                Hanoi(n - 1, via, destination, source);
             }
         }
     }
