@@ -9,7 +9,7 @@ namespace TipuriPrimitive
     {
 
         public int numberofDisks =10;
-        public string[,] moves = new string[(int)Math.Pow(2, 4) - 1, 3];
+        public string[,] moves = new string[(int)Math.Pow(2, 10) - 1, 3];
         public Int64 movesCount = 0;
         public List<int> ATower = new List<int> {10,9,8,7,6,5,4,3,2,1};
         public List<int> BTower = new List<int>();
