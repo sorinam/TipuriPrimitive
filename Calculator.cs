@@ -11,7 +11,6 @@ namespace TipuriPrimitive
         {
             string[] inputString = { "/", "3", "4" };
             float expectedResult = 0.75F;
-            Assert.IsTrue(ValidateExpression(inputString), "Invalid Expression");
             var calculateResult = CalculatorFromExpression(inputString);
             Assert.AreEqual(expectedResult, calculateResult);
         }
@@ -21,7 +20,6 @@ namespace TipuriPrimitive
         {
             string[] inputString = { "*", "/", "*", "+", "56", "45", "45", "3", "0.75" };
             float expectedResult = 1136.25F;
-            Assert.IsTrue(ValidateExpression(inputString), "Invalid Expression");
             var calculateResult = CalculatorFromExpression(inputString);
             Assert.AreEqual(expectedResult, calculateResult);
         }
@@ -31,71 +29,110 @@ namespace TipuriPrimitive
         {
             string[] inputString = { "*", "/", "*", "+" };
             float expectedResult = -1;
-            Assert.IsTrue(ValidateExpression(inputString), "Invalid Expression");
             var calculateResult = CalculatorFromExpression(inputString);
             Assert.AreEqual(expectedResult, calculateResult);
         }
-       
+
         [TestMethod]
         public void InvalidCharacterInExpression()
         {
             string[] inputString = { ")", "3", "4" };
-            Assert.IsFalse(ValidateExpression(inputString), "Invalid Expression");
-         }
-
-        [TestMethod]
-        public void ComplexPrefixExpression()
-        {
-            string[] inputString = { "+", "+", "2", "3", "*", "/", "*", "4", "5", "2", "3" };
-            float expectedResult = 35;
-            Assert.IsTrue(ValidateExpression(inputString), "Invalid Expression");
+            float expectedResult = -1;
             var calculateResult = CalculatorFromExpression(inputString);
             Assert.AreEqual(expectedResult, calculateResult);
         }
 
         [TestMethod]
+        public void ComplexPrefixExpression()
+        {
+            string[] inputString = { "-", "*", "4", "+", "2", "1", "*", "2", "-", "3", "2" };
+            float expectedResult = 10;
+            var calculateResult = CalculatorFromExpression(inputString);
+            Assert.AreEqual(expectedResult, calculateResult);
+        }
+
+        [TestMethod]
+        public void AnotherComplexPrefixExpression()
+        {
+            string[] inputString = { "*", "3", "+", "2", "*", "2.5", "+", "3", "3" };
+            float expectedResult = 51;
+            var calculateResult = CalculatorFromExpression(inputString);
+            Assert.AreEqual(expectedResult, calculateResult);
+        }
+        [TestMethod]
+        public void MoreComplexPrefixExpression()
+        {
+            string[] inputString = { "/","*","+", "7.2", "5", "+", "/", "3","4", "1", "/", "-", "52","7","+","3","2.5"};
+            float expectedResult = 2.60945F;
+            var calculateResult = CalculatorFromExpression(inputString);
+            Assert.AreEqual(expectedResult, calculateResult,0.01);
+        }
+        [TestMethod]
         public void IncompleteExpression()
         {
             string[] inputString = { "+", "2" };
-            Assert.IsFalse(ValidateExpression(inputString),"Invalid Expression");
+            float expectedResult = -1;
+            var calculateResult = CalculatorFromExpression(inputString);
+            Assert.AreEqual(expectedResult, calculateResult);
+        }
+
+        [TestMethod]
+        public void ExtractFirstSimpleExpression()
+        {
+            string[] inputString = { "-", "*", "4", "+", "2", "1", "*", "2", "-", "3", "2" }; 
+            float expectedResult = 4;
+            var calculateResult = GetFirstSimpleExpression(inputString);
+            Assert.AreEqual(expectedResult, calculateResult);
         }
 
         private static float CalculatorFromExpression(string[] inputString)
         {
-            if (inputString.Length == 3)
+            if (inputString.Length <= 3)
             {
                 return SimpleExpression(inputString);
             }
             else
             {
-                int index = GetFirstNumberInString(inputString);
-
-                if (index < 0) return -1;
-
-                float value;
-                bool isNumberNextString = float.TryParse(inputString[index + 1], out value);
-
-                if (isNumberNextString)
+                int index = GetFirstSimpleExpression(inputString);
+                if (index < 0)
                 {
-                    inputString = CalculateCellValueAndGenerateNewExpression(inputString, index);
-                    return CalculatorFromExpression(inputString);
+                    return -1;
                 }
-                else
-                {
-                    string[] rightExpression = ExtractRightExpression(inputString, index);
-                    var valueOfRightExpression = CalculatorFromExpression(rightExpression).ToString();
-                    string[] leftExpression = ExtractLeftPrefixExpression(inputString, index);
-                    leftExpression[index + 1] = valueOfRightExpression;
-                    return CalculatorFromExpression(leftExpression);
-                }
+                var partialResult = CalculateSimpleExpression(inputString, index);
+                GenerateNewExpression(ref inputString, index - 1, Convert.ToString(partialResult));
+                return CalculatorFromExpression(inputString);
             }
-
         }
 
 
+        private static int GetFirstSimpleExpression(string[] inputString)
+        {
+            int index = GetFirstNumberInString(inputString);
+            if (index > 0 && index < inputString.Length - 1)
+            {
+                float value;
+                bool IsNumber = float.TryParse(inputString[index + 1], out value);
+                if (IsNumber)
+                {
+                    return index;
+                }
+                else
+                {
+                    string[] newSubtring = new string[inputString.Length - index - 1];
+                    Array.Copy(inputString, index + 1, newSubtring, 0, inputString.Length - index - 1);
+                    return index + 1 + GetFirstSimpleExpression(newSubtring);
+                }
+            }
+            else
+                return -1;
+        }
+
         private static bool ValidateExpression(string[] inputString)
         {
-          
+            if (!("+-*/".Contains(inputString[0])))
+            {
+                return false;
+            }
             if (inputString.Length < 3)
                 return false;
             foreach (string element in inputString)
@@ -123,32 +160,10 @@ namespace TipuriPrimitive
             return true;
         }
 
-       
-        private static string[] ExtractRightExpression(string[] inputString, int index)
-        {
-            string[] subString = new string[inputString.Length - index - 1];
-            Array.Copy(inputString, index + 1, subString, 0, inputString.Length - index - 1);
-            return subString;
-        }
-
-        private static string[] ExtractLeftPrefixExpression(string[] inputString, int index)
-        {
-            string[] subString = new string[index + 2];
-            Array.Copy(inputString, subString, index + 1);
-            return subString;
-        }
-
-        private static string[] CalculateCellValueAndGenerateNewExpression(string[] inputString, int index)
-        {
-            var partialResult = CalculateSimpleExpression(inputString, index);
-            GenerateNewExpression(ref inputString, index - 1, Convert.ToString(partialResult));
-            return inputString;
-        }
-
         private static float CalculateSimpleExpression(string[] inputString, int index)
         {
-            string[] simplePrefixString = { inputString[index - 1], inputString[index], inputString[index + 1] };
-            return SimpleExpression(simplePrefixString);
+            string[] basicString = { inputString[index - 1], inputString[index], inputString[index + 1] };
+            return SimpleExpression(basicString);
         }
 
         private static void GenerateNewExpression(ref string[] inputString, int indexofoperator, string newResult)
@@ -176,24 +191,31 @@ namespace TipuriPrimitive
 
         public static float SimpleExpression(string[] inputString)
         {
-            var operand = inputString[0];
-            float firstNumber = float.Parse(inputString[1].ToString());
-            float secondNumber = float.Parse(inputString[2].ToString());
-
-            switch (operand)
+            bool isValidExpression = ValidateExpression(inputString);
+            if (isValidExpression)
             {
-                case "+":
-                    return firstNumber + secondNumber;
-                case "-":
-                    return firstNumber - secondNumber;
-                case "*":
-                    return firstNumber * secondNumber;
-                case "/":
-                    return firstNumber / secondNumber;
-                default:
-                    return 0;
-            }
+                var operand = inputString[0];
+                float firstNumber = float.Parse(inputString[1].ToString());
+                float secondNumber = float.Parse(inputString[2].ToString());
 
+                switch (operand)
+                {
+                    case "+":
+                        return firstNumber + secondNumber;
+                    case "-":
+                        return firstNumber - secondNumber;
+                    case "*":
+                        return firstNumber * secondNumber;
+                    case "/":
+                        return firstNumber / secondNumber;
+                    default:
+                        return -1;
+                }
+            }
+            else
+            {
+                return -1;
+            }
         }
     }
 }
