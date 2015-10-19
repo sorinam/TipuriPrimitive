@@ -8,14 +8,22 @@ namespace TipuriPrimitive
     public class Sorting
     {
         [TestMethod]
-        public void SortingArrayUsingMergeAlghortihm()
+        public void DisplayLotoNumbers()
         {
-            int[] inputArray = { 16, 8, 1, 15, 46, 3 };
-            int[] sortedArray = { 1, 3, 8, 15, 16, 46 };
-            MergeSort(ref inputArray);
-            CollectionAssert.AreEqual(sortedArray, inputArray);
+            int[] extractedLotoNumbers = { 16, 8, 1, 15, 46, 3 };
+            int[] sortedLotoNumbers = { 1, 3, 8, 15, 16, 46 };
+            MergeSort(ref extractedLotoNumbers);
+            CollectionAssert.AreEqual(sortedLotoNumbers, extractedLotoNumbers);
         }
 
+        [TestMethod]
+        public void DisplayLotoNoNumbers()
+        {
+            int[] extractedLotoNumbers = { };
+            int[] sortedLotoNumbers = { };
+            MergeSort(ref extractedLotoNumbers);
+            CollectionAssert.AreEqual(sortedLotoNumbers, extractedLotoNumbers);
+        }
         [TestMethod]
         public void MergeSortedArrays()
         {
@@ -26,6 +34,7 @@ namespace TipuriPrimitive
             Merge(a, b, ref c);
             CollectionAssert.AreEqual(sortedArray, c);
         }
+
         private static void MergeSort(ref int[] inputArray)
         {
             if (inputArray.Length <= 2)
