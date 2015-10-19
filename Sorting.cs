@@ -13,28 +13,9 @@ namespace TipuriPrimitive
             int[] extractedLotoNumbers = { 16, 8, 1, 15, 46, 3 };
             int[] sortedLotoNumbers = { 1, 3, 8, 15, 16, 46 };
 
-            Assert.IsTrue(IsValid(extractedLotoNumbers),"Invalid array !");
+            Assert.IsTrue(IsValid(extractedLotoNumbers), "Invalid array !");
             MergeSort(ref extractedLotoNumbers);
             CollectionAssert.AreEqual(sortedLotoNumbers, extractedLotoNumbers);
-        }
-
-        private bool IsValid(int[] LotoNumbers)
-        {
-            if (LotoNumbers.Length < 1) return false;
-            for (int i = 0; i < LotoNumbers.Length -1; i++)
-            {
-                if (IsFound(LotoNumbers,LotoNumbers[i],i)) return false;
-            }
-            return true;
-        }
-
-        private bool IsFound(int[] numbers, int value, int index)
-        {
-          for (int i=index+1; i<numbers.Length;i++)
-            {
-                if (numbers[i] == value) return true;
-            }
-            return false;
         }
 
         [TestMethod]
@@ -117,8 +98,7 @@ namespace TipuriPrimitive
                 int index = inputArray.Length / 2;
                 int[] leftArray = new int[index];
                 int[] rightArray = new int[inputArray.Length - index];
-                Array.Copy(inputArray, leftArray, index);
-                Array.Copy(inputArray, index, rightArray, 0, inputArray.Length - index);
+                SplitArray(inputArray, ref leftArray, ref rightArray);
                 MergeSort(ref leftArray);
                 MergeSort(ref rightArray);
                 Merge(leftArray, rightArray, ref inputArray);
@@ -140,6 +120,7 @@ namespace TipuriPrimitive
                 {
                     sortedArray[k++] = secondArray[j++];
                 }
+               
             }
             while (i < firstArray.Length && j < secondArray.Length);
 
@@ -159,19 +140,31 @@ namespace TipuriPrimitive
             int indexOfMinim;
             for (int i = 0; i < sourceArray.Length - 1; i++)
             {
-                indexOfMinim = i;
-                for (int j = i + 1; j < sourceArray.Length; j++)
-                {
-                    if (sourceArray[j] < sourceArray[indexOfMinim])
-                    {
-                        indexOfMinim = j;
-                    }
-                }
+                indexOfMinim = FindIndexOfMinim(sourceArray, i);
                 if (indexOfMinim != i)
                 {
                     Swap(ref sourceArray[i], ref sourceArray[indexOfMinim]);
                 }
             }
+        }
+
+        private static int FindIndexOfMinim(int[] sourceArray, int index)
+        {
+            for (int j = index + 1; j < sourceArray.Length; j++)
+            {
+                if (sourceArray[j] < sourceArray[index])
+                {
+                    index = j;
+                }
+            }
+            return index;
+        }
+
+        private static void SplitArray(int[] inputArray, ref int[] leftArray, ref int[] rightArray)
+        {
+            int index = inputArray.Length / 2;
+            Array.Copy(inputArray, leftArray, index);
+            Array.Copy(inputArray, index, rightArray, 0, inputArray.Length - index);
         }
 
         private static void Swap(ref int firstElement, ref int secondElement)
@@ -180,6 +173,26 @@ namespace TipuriPrimitive
             firstElement = secondElement;
             secondElement = temporary;
         }
+
+        private bool IsValid(int[] LotoNumbers)
+        {
+            if (LotoNumbers.Length < 1) return false;
+            for (int i = 0; i < LotoNumbers.Length - 1; i++)
+            {
+                if (IsFound(LotoNumbers, LotoNumbers[i], i)) return false;
+            }
+            return true;
+        }
+
+        private bool IsFound(int[] numbers, int value, int index)
+        {
+            for (int i = index + 1; i < numbers.Length; i++)
+            {
+                if (numbers[i] == value) return true;
+            }
+            return false;
+        }
+
     }
 }
 
