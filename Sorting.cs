@@ -7,6 +7,7 @@ namespace TipuriPrimitive
     [TestClass]
     public class Sorting
     {
+
         [TestMethod]
         public void DisplayLotoNumbersUsingMergeSortAlghorithm()
         {
@@ -82,6 +83,72 @@ namespace TipuriPrimitive
             CollectionAssert.AreEqual(sortedArray, c);
         }
 
+        [TestMethod]
+        public void SortUsingQuickSortAlghorithm()
+        {
+            int[] Numbers = { 16, 8, 1, 8, 0 };
+            int[] sortNumbers = { 0, 1, 8, 8, 16 };
+
+            QuickSort(ref Numbers, 0, Numbers.Length - 1);
+            CollectionAssert.AreEqual(sortNumbers, Numbers);
+        }
+
+        public enum Priority { High = 1, Medium, Low };
+        public struct Repairs
+        {
+            public string name;
+            public Priority priority;
+            public Repairs(string name, Priority priority)
+            {
+                this.name = name;
+                this.priority = priority;
+            }
+        }
+
+        [TestMethod]
+        public void RepairsOrder()
+        {
+            Repairs[] Clients =
+             {
+             new Repairs("Mancas",Priority.High),
+             new Repairs("Pop",Priority.Low),
+             new Repairs("Anca",Priority.Low),
+             new Repairs("Man",Priority.Medium),
+             new Repairs("Dan",Priority.Medium),
+             new Repairs("Voicu",Priority.High),
+            };
+            Repairs[] SortedClients =
+             {
+             new Repairs("Mancas",Priority.High),
+             new Repairs("Voicu",Priority.High),
+             new Repairs("Man",Priority.Medium),
+             new Repairs("Dan",Priority.Medium),
+             new Repairs("Anca",Priority.Low),
+             new Repairs("Pop",Priority.Low)
+            };
+
+            SortClients(ref Clients);
+
+            CollectionAssert.AreEqual(SortedClients, Clients);
+        }
+
+        private void SortClients(ref Repairs[] clients)
+        {
+            int indexOfMinim;
+            for (int i = 0; i < clients.Length - 1; i++)
+            {
+                indexOfMinim = SFindIndexOfMinim(clients, i);
+                if (indexOfMinim != i)
+                {
+                    Repairs temp;
+                    temp = clients[i];
+                    clients[i] = clients[indexOfMinim];
+                    clients[indexOfMinim] = temp;
+
+                }
+            }
+        }
+
         private static void MergeSort(ref int[] inputArray)
         {
             if (inputArray.Length > 0)
@@ -120,7 +187,7 @@ namespace TipuriPrimitive
                 {
                     sortedArray[k++] = secondArray[j++];
                 }
-               
+
             }
             while (i < firstArray.Length && j < secondArray.Length);
 
@@ -160,6 +227,17 @@ namespace TipuriPrimitive
             return index;
         }
 
+        private static int SFindIndexOfMinim(Repairs[] sourceArray, int index)
+        {
+            for (int j = index + 1; j < sourceArray.Length; j++)
+            {
+                if ((int)(sourceArray[j].priority) < (int)sourceArray[index].priority)
+                {
+                    index = j;
+                }
+            }
+            return index;
+        }
         private static void SplitArray(int[] inputArray, ref int[] leftArray, ref int[] rightArray)
         {
             int index = inputArray.Length / 2;
@@ -193,6 +271,38 @@ namespace TipuriPrimitive
             return false;
         }
 
+        private static int Partition(int[] sourceArray, int left, int right)
+        {
+            int pivot = sourceArray[left];
+            while (true)
+            {
+                while (sourceArray[left] < pivot)
+                    left++;
+
+                while (sourceArray[right] > pivot)
+                    right--;
+
+                if (left < right)
+                {
+                    Swap(ref sourceArray[left], ref sourceArray[right]);
+                }
+                else
+                {
+                    return right;
+                }
+            }
+
+        }
+
+        private static void QuickSort(ref int[] sourceArray, int left, int right)
+        {
+            if (left < right)
+            {
+                int index = Partition(sourceArray, left, right);
+                QuickSort(ref sourceArray, left, index - 1);
+                QuickSort(ref sourceArray, index + 1, right);
+            }
+        }
     }
 }
 
