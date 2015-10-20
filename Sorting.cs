@@ -37,7 +37,6 @@ namespace TipuriPrimitive
             MergeSort(ref extractedLotoNumbers);
             CollectionAssert.AreEqual(sortedLotoNumbers, extractedLotoNumbers);
         }
-
         [TestMethod]
         public void DisplayLotoNoNumbersUsingMergeSortAlghoritm()
         {
@@ -46,33 +45,6 @@ namespace TipuriPrimitive
             MergeSort(ref extractedLotoNumbers);
             CollectionAssert.AreEqual(sortedLotoNumbers, extractedLotoNumbers);
         }
-
-        [TestMethod]
-        public void TestArrayMergeSortAlghoritm()
-        {
-            int[] sourceArray = { 2 };
-            int[] sortedArray = { 2 };
-            MergeSort(ref sourceArray);
-            CollectionAssert.AreEqual(sortedArray, sourceArray);
-        }
-        [TestMethod]
-        public void TestArrayWithTwoElementsMergeSortAlghoritm()
-        {
-            int[] sourceArray = { 12, 8 };
-            int[] sortedArray = { 8, 12 };
-            MergeSort(ref sourceArray);
-            CollectionAssert.AreEqual(sortedArray, sourceArray);
-        }
-
-        [TestMethod]
-        public void TestArrayWithThreeElementsMergeSortAlghoritm()
-        {
-            int[] sourceArray = { 12, 1, 8 };
-            int[] sortedArray = { 1, 8, 12 };
-            MergeSort(ref sourceArray);
-            CollectionAssert.AreEqual(sortedArray, sourceArray);
-        }
-
         [TestMethod]
         public void DisplayLotoNumbersUsingSelectionAlghorithm()
         {
@@ -81,7 +53,6 @@ namespace TipuriPrimitive
             SelectionSort(ref extractedLotoNumbers);
             CollectionAssert.AreEqual(sortedLotoNumbers, extractedLotoNumbers);
         }
-
         [TestMethod]
         public void DisplayLotoNoNumbersUsingSelectionAlghorithm()
         {
@@ -92,7 +63,32 @@ namespace TipuriPrimitive
         }
 
         [TestMethod]
-        public void MergeSortedArrays()
+        public void SortingArrayUSingMergeSortAlghoritm()
+        {
+            int[] sourceArray = { 2 };
+            int[] sortedArray = { 2 };
+            MergeSort(ref sourceArray);
+            CollectionAssert.AreEqual(sortedArray, sourceArray);
+        }
+        [TestMethod]
+        public void SortingArrayWithTwoElementsMergeSortAlghoritm()
+        {
+            int[] sourceArray = { 12, 8 };
+            int[] sortedArray = { 8, 12 };
+            MergeSort(ref sourceArray);
+            CollectionAssert.AreEqual(sortedArray, sourceArray);
+        }
+        [TestMethod]
+        public void SortingArrayWithThreeElementsMergeSortAlghoritm()
+        {
+            int[] sourceArray = { 12, 1, 8 };
+            int[] sortedArray = { 1, 8, 12 };
+            MergeSort(ref sourceArray);
+            CollectionAssert.AreEqual(sortedArray, sourceArray);
+        }
+       
+        [TestMethod]
+        public void TestMergeSortedArrays()
         {
             int[] a = { 4, 7, 59, 87 };
             int[] b = { 1, 3, 6, 100 };
@@ -100,138 +96,6 @@ namespace TipuriPrimitive
             int[] sortedArray = { 1, 3, 4, 6, 7, 59, 87, 100 };
             Merge(a, b, ref c);
             CollectionAssert.AreEqual(sortedArray, c);
-        }
-
-        [TestMethod]
-        public void SortUsingQuickSortAlghorithm()
-        {
-            int[] Numbers = { 16, 8, 1, 8, 0, 23, 8, 4, 56, 3, 1 };
-            int[] sortNumbers = { 0, 1, 1, 3, 4, 8, 8, 8, 16, 23, 56 };
-
-            QuickSort(ref Numbers, 0, Numbers.Length - 1);
-            CollectionAssert.AreEqual(sortNumbers, Numbers);
-        }
-
-        [TestMethod]
-        public void RepairsOrder()
-        {
-            Repairs[] Clients =
-             {
-             new Repairs("Mancas",Priority.High),
-             new Repairs("Pop",Priority.Low),
-             new Repairs("Anca",Priority.Low),
-             new Repairs("Man",Priority.Medium),
-             new Repairs("Dan",Priority.Medium),
-             new Repairs("Voicu",Priority.High),
-            };
-            Repairs[] SortedClients =
-             {
-             new Repairs("Mancas",Priority.High),
-             new Repairs("Voicu",Priority.High),
-             new Repairs("Man",Priority.Medium),
-             new Repairs("Dan",Priority.Medium),
-             new Repairs("Anca",Priority.Low),
-             new Repairs("Pop",Priority.Low)
-            };
-
-            SortClients(ref Clients);
-
-            CollectionAssert.AreEqual(SortedClients, Clients);
-        }
-
-
-        [TestMethod]
-        public void SortingWords()
-        {
-            string textToOrder = "Variables that are value types store data, and those that are reference types store references to the actual data. Reference types are also referred to as objects. Pointer types can be used only in unsafe mode.";
-
-            List<Words> Dictionary = CreateDictionarry(textToOrder);
-            Assert.AreEqual(1, 2);
-        }
-
-        private List<Words> CreateDictionarry(string textToOrder)
-        {
-            List<Words> Dictionary = new List<Words>();
-            string[] Words = GetWords(textToOrder);
-            string word;
-            for (int i = 0; i < Words.Length; i++)
-            {
-                word = Words[i];
-                int position = PositionInDictionary(word, Dictionary);
-                if (position > 0)
-                { IncreaseWordItterations(ref Dictionary, position); }
-                else
-                {
-                    AddWordInDictionary(word, ref Dictionary);
-                }
-            }
-            return Dictionary;
-        }
-
-        private static void IncreaseWordItterations(ref List<Words> dictionary, int position)
-        {
-            Words word = new Words();
-            word.number = dictionary[position].number + 1;
-            word.word = dictionary[position].word;
-            dictionary.Remove(dictionary[position]);
-            dictionary.Add(word);
-
-            //dictionary[position].Words(word.word, word.number);
-        }
-
-        private void AddWordInDictionary(string word, ref List<Words> dictionary)
-        {
-            Words element = new Words();
-            //element.Words(word, 1);
-            element.number = 1;
-            element.word = word;
-            dictionary.Add(element);
-        }
-
-        private string[] GetWords(string input)
-        {
-            MatchCollection matches = Regex.Matches(input, @"\b[\w']*\b");
-
-            var words = from m in matches.Cast<Match>()
-                        where !string.IsNullOrEmpty(m.Value)
-                        select TrimSuffix(m.Value);
-
-            return words.ToArray();
-        }
-        static string TrimSuffix(string word)
-        {
-            int apostropheLocation = word.IndexOf('\'');
-            if (apostropheLocation != -1)
-            {
-                word = word.Substring(0, apostropheLocation);
-            }
-
-            return word;
-        }
-        private int PositionInDictionary(string word, List<Words> Dictionary)
-        {
-            for (int i = 0; i < Dictionary.Count; i++)
-            {
-                if (word == Dictionary[i].word) { return i; }
-            }
-            return 0;
-        }
-
-        private void SortClients(ref Repairs[] clients)
-        {
-            int indexOfMinim;
-            for (int i = 0; i < clients.Length - 1; i++)
-            {
-                indexOfMinim = SFindIndexOfMinim(clients, i);
-                if (indexOfMinim != i)
-                {
-                    Repairs temp;
-                    temp = clients[i];
-                    clients[i] = clients[indexOfMinim];
-                    clients[indexOfMinim] = temp;
-
-                }
-            }
         }
 
         private static void MergeSort(ref int[] inputArray)
@@ -256,7 +120,6 @@ namespace TipuriPrimitive
                 Merge(leftArray, rightArray, ref inputArray);
             }
         }
-
         private static void Merge(int[] firstArray, int[] secondArray, ref int[] sortedArray)
         {
             int i = 0;
@@ -286,6 +149,12 @@ namespace TipuriPrimitive
 
             }
         }
+        private static void SplitArray(int[] inputArray, ref int[] leftArray, ref int[] rightArray)
+        {
+            int index = inputArray.Length / 2;
+            Array.Copy(inputArray, leftArray, index);
+            Array.Copy(inputArray, index, rightArray, 0, inputArray.Length - index);
+        }
 
         private static void SelectionSort(ref int[] sourceArray)
         {
@@ -299,7 +168,6 @@ namespace TipuriPrimitive
                 }
             }
         }
-
         private static int FindIndexOfMinim(int[] sourceArray, int index)
         {
             for (int j = index + 1; j < sourceArray.Length; j++)
@@ -311,25 +179,7 @@ namespace TipuriPrimitive
             }
             return index;
         }
-
-        private static int SFindIndexOfMinim(Repairs[] sourceArray, int index)
-        {
-            for (int j = index + 1; j < sourceArray.Length; j++)
-            {
-                if ((int)(sourceArray[j].priority) < (int)sourceArray[index].priority)
-                {
-                    index = j;
-                }
-            }
-            return index;
-        }
-        private static void SplitArray(int[] inputArray, ref int[] leftArray, ref int[] rightArray)
-        {
-            int index = inputArray.Length / 2;
-            Array.Copy(inputArray, leftArray, index);
-            Array.Copy(inputArray, index, rightArray, 0, inputArray.Length - index);
-        }
-
+      
         private static void Swap(ref int firstElement, ref int secondElement)
         {
             var temporary = firstElement;
@@ -346,7 +196,6 @@ namespace TipuriPrimitive
             }
             return true;
         }
-
         private bool IsFound(int[] numbers, int value, int index)
         {
             for (int i = index + 1; i < numbers.Length; i++)
@@ -356,6 +205,15 @@ namespace TipuriPrimitive
             return false;
         }
 
+        [TestMethod]
+        public void SortUsingQuickSortAlghorithm()
+        {
+            int[] Numbers = { 16, 8, 1, 8, 0, 23, 8, 4, 56, 3, 1 };
+            int[] sortNumbers = { 0, 1, 1, 3, 4, 8, 8, 8, 16, 23, 56 };
+
+            QuickSort(ref Numbers, 0, Numbers.Length - 1);
+            CollectionAssert.AreEqual(sortNumbers, Numbers);
+        }
         private static int Partition(int[] sourceArray, int left, int right)
         {
             int pivot = sourceArray[right];
@@ -375,7 +233,6 @@ namespace TipuriPrimitive
 
             return i;
         }
-
         private static void QuickSort(ref int[] sourceArray, int left, int right)
         {
             if (left < right)
@@ -385,6 +242,136 @@ namespace TipuriPrimitive
                 QuickSort(ref sourceArray, index + 1, right);
             }
         }
+
+        [TestMethod]
+        public void RepairsOrder()
+        {
+            Repairs[] Clients =
+             {
+             new Repairs("Mancas",Priority.High),
+             new Repairs("Pop",Priority.Low),
+             new Repairs("Anca",Priority.Low),
+             new Repairs("Man",Priority.Medium),
+             new Repairs("Dan",Priority.Medium),
+             new Repairs("Voicu",Priority.High),
+            };
+            Repairs[] SortedClients =
+             {
+             new Repairs("Mancas",Priority.High),
+             new Repairs("Voicu",Priority.High),
+             new Repairs("Man",Priority.Medium),
+             new Repairs("Dan",Priority.Medium),
+             new Repairs("Anca",Priority.Low),
+             new Repairs("Pop",Priority.Low)
+            };
+
+            SortClients(ref Clients);
+
+            CollectionAssert.AreEqual(SortedClients, Clients);
+        }
+        private void SortClients(ref Repairs[] clients)
+        {
+            int indexOfMinim;
+            for (int i = 0; i < clients.Length - 1; i++)
+            {
+                indexOfMinim = SFindIndexOfMinim(clients, i);
+                if (indexOfMinim != i)
+                {
+                    Repairs temp;
+                    temp = clients[i];
+                    clients[i] = clients[indexOfMinim];
+                    clients[indexOfMinim] = temp;
+
+                }
+            }
+        }
+        private static int SFindIndexOfMinim(Repairs[] sourceArray, int index)
+        {
+            for (int j = index + 1; j < sourceArray.Length; j++)
+            {
+                if ((int)(sourceArray[j].priority) < (int)sourceArray[index].priority)
+                {
+                    index = j;
+                }
+            }
+            return index;
+        }
+
+        [TestMethod]
+        public void SortingWords()
+        {
+            string textToOrder = "Variables that are value types store data, and those that are reference types store references to the actual data. Reference types are also referred to as objects. Pointer types can be used only in unsafe mode.";
+
+            List<Words> Dictionary = CreateDictionarry(textToOrder);
+            Assert.AreEqual(1, 2);
+        }
+
+        private List<Words> CreateDictionarry(string textToOrder)
+        {
+            List<Words> Dictionary = new List<Words>();
+            string[] Words = GetWords(textToOrder);
+            string word;
+            for (int i = 0; i < Words.Length; i++)
+            {
+                word = Words[i];
+                int position = PositionInDictionary(word, Dictionary);
+                if (position > 0)
+                { IncreaseWordItterations(ref Dictionary, position); }
+                else
+                {
+                    AddWordInDictionary(word, ref Dictionary);
+                }
+            }
+            return Dictionary;
+        }
+        private static void IncreaseWordItterations(ref List<Words> dictionary, int position)
+        {
+            Words word = new Words();
+            word.number = dictionary[position].number + 1;
+            word.word = dictionary[position].word;
+            dictionary.Remove(dictionary[position]);
+            dictionary.Add(word);
+
+            //dictionary[position].Words(word.word, word.number);
+        }
+        private void AddWordInDictionary(string word, ref List<Words> dictionary)
+        {
+            Words element = new Words();
+            //element.Words(word, 1);
+            element.number = 1;
+            element.word = word;
+            dictionary.Add(element);
+        }
+        private string[] GetWords(string input)
+        {
+            MatchCollection matches = Regex.Matches(input, @"\b[\w']*\b");
+
+            var words = from m in matches.Cast<Match>()
+                        where !string.IsNullOrEmpty(m.Value)
+                        select TrimSuffix(m.Value);
+
+            return words.ToArray();
+        }
+        static string TrimSuffix(string word)
+        {
+            int apostropheLocation = word.IndexOf('\'');
+            if (apostropheLocation != -1)
+            {
+                word = word.Substring(0, apostropheLocation);
+            }
+
+            return word;
+        }
+        private int PositionInDictionary(string word, List<Words> Dictionary)
+        {
+            for (int i = 0; i < Dictionary.Count; i++)
+            {
+                if (word == Dictionary[i].word) { return i; }
+            }
+            return 0;
+        }
+
+        
     }
 }
 
