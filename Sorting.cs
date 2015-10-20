@@ -1,12 +1,31 @@
 ﻿using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Collections.Generic;
+using System.Text.RegularExpressions;
+using System.Linq;
 
 namespace TipuriPrimitive
 {
     [TestClass]
     public class Sorting
     {
+        public enum Priority { High = 1, Medium, Low };
+        public struct Repairs
+        {
+            public string name;
+            public Priority priority;
+            public Repairs(string name, Priority priority)
+            {
+                this.name = name;
+                this.priority = priority;
+            }
+        }
+
+        public struct Words
+        {
+            public string word;
+            public int number;
+        }
 
         [TestMethod]
         public void DisplayLotoNumbersUsingMergeSortAlghorithm()
@@ -86,23 +105,11 @@ namespace TipuriPrimitive
         [TestMethod]
         public void SortUsingQuickSortAlghorithm()
         {
-            int[] Numbers = { 16, 8, 1, 8, 0 };
-            int[] sortNumbers = { 0, 1, 8, 8, 16 };
+            int[] Numbers = { 16, 8, 1, 8, 0, 23, 8, 4, 56, 3, 1 };
+            int[] sortNumbers = { 0, 1, 1, 3, 4, 8, 8, 8, 16, 23, 56 };
 
             QuickSort(ref Numbers, 0, Numbers.Length - 1);
             CollectionAssert.AreEqual(sortNumbers, Numbers);
-        }
-
-        public enum Priority { High = 1, Medium, Low };
-        public struct Repairs
-        {
-            public string name;
-            public Priority priority;
-            public Repairs(string name, Priority priority)
-            {
-                this.name = name;
-                this.priority = priority;
-            }
         }
 
         [TestMethod]
@@ -130,6 +137,84 @@ namespace TipuriPrimitive
             SortClients(ref Clients);
 
             CollectionAssert.AreEqual(SortedClients, Clients);
+        }
+
+
+        [TestMethod]
+        public void SortingWords()
+        {
+            string textToOrder = "Variables that are value types store data, and those that are reference types store references to the actual data. Reference types are also referred to as objects. Pointer types can be used only in unsafe mode.";
+
+            List<Words> Dictionary = CreateDictionarry(textToOrder);
+            Assert.AreEqual(1, 2);
+        }
+
+        private List<Words> CreateDictionarry(string textToOrder)
+        {
+            List<Words> Dictionary = new List<Words>();
+            string[] Words = GetWords(textToOrder);
+            string word;
+            for (int i = 0; i < Words.Length; i++)
+            {
+                word = Words[i];
+                int position = PositionInDictionary(word, Dictionary);
+                if (position > 0)
+                { IncreaseWordItterations(ref Dictionary, position); }
+                else
+                {
+                    AddWordInDictionary(word, ref Dictionary);
+                }
+            }
+            return Dictionary;
+        }
+
+        private static void IncreaseWordItterations(ref List<Words> dictionary, int position)
+        {
+            Words word = new Words();
+            word.number = dictionary[position].number + 1;
+            word.word = dictionary[position].word;
+            dictionary.Remove(dictionary[position]);
+            dictionary.Add(word);
+
+            //dictionary[position].Words(word.word, word.number);
+        }
+
+        private void AddWordInDictionary(string word, ref List<Words> dictionary)
+        {
+            Words element = new Words();
+            //element.Words(word, 1);
+            element.number = 1;
+            element.word = word;
+            dictionary.Add(element);
+        }
+
+        private string[] GetWords(string input)
+        {
+            MatchCollection matches = Regex.Matches(input, @"\b[\w']*\b");
+
+            var words = from m in matches.Cast<Match>()
+                        where !string.IsNullOrEmpty(m.Value)
+                        select TrimSuffix(m.Value);
+
+            return words.ToArray();
+        }
+        static string TrimSuffix(string word)
+        {
+            int apostropheLocation = word.IndexOf('\'');
+            if (apostropheLocation != -1)
+            {
+                word = word.Substring(0, apostropheLocation);
+            }
+
+            return word;
+        }
+        private int PositionInDictionary(string word, List<Words> Dictionary)
+        {
+            for (int i = 0; i < Dictionary.Count; i++)
+            {
+                if (word == Dictionary[i].word) { return i; }
+            }
+            return 0;
         }
 
         private void SortClients(ref Repairs[] clients)
@@ -273,25 +358,22 @@ namespace TipuriPrimitive
 
         private static int Partition(int[] sourceArray, int left, int right)
         {
-            int pivot = sourceArray[left];
-            while (true)
+            int pivot = sourceArray[right];
+            int i = left;
+
+            for (int j = left; j < right; j++)
             {
-                while (sourceArray[left] < pivot)
-                    left++;
-
-                while (sourceArray[right] > pivot)
-                    right--;
-
-                if (left < right)
+                if (sourceArray[j] <= pivot)
                 {
-                    Swap(ref sourceArray[left], ref sourceArray[right]);
-                }
-                else
-                {
-                    return right;
+                    Swap(ref sourceArray[i], ref sourceArray[j]);
+                    i++;
                 }
             }
 
+            sourceArray[right] = sourceArray[i];
+            sourceArray[i] = pivot;
+
+            return i;
         }
 
         private static void QuickSort(ref int[] sourceArray, int left, int right)
