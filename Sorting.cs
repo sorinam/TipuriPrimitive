@@ -86,7 +86,7 @@ namespace TipuriPrimitive
             MergeSort(ref sourceArray);
             CollectionAssert.AreEqual(sortedArray, sourceArray);
         }
-       
+
         [TestMethod]
         public void TestMergeSortedArrays()
         {
@@ -179,7 +179,7 @@ namespace TipuriPrimitive
             }
             return index;
         }
-      
+
         private static void Swap(ref int firstElement, ref int secondElement)
         {
             var temporary = firstElement;
@@ -303,9 +303,39 @@ namespace TipuriPrimitive
             string textToOrder = "Variables that are value types store data, and those that are reference types store references to the actual data. Reference types are also referred to as objects. Pointer types can be used only in unsafe mode.";
 
             List<Words> Dictionary = CreateDictionarry(textToOrder);
+            LQuickSort(ref Dictionary, 0, Dictionary.Count - 1);
             Assert.AreEqual(1, 2);
         }
+        private static int LPartition(List<Words> sourceArray, int left, int right)
+        {
+            var pivot = sourceArray[right].number;
+            int i = left;
 
+            for (int j = left; j < right; j++)
+            {
+                if (sourceArray[j].number <= pivot)
+                {
+                    Words temp = sourceArray[i];
+                    sourceArray[i] = sourceArray[j];
+                    sourceArray[j] = temp;
+                    i++;
+                }
+            }
+
+            sourceArray[right] = sourceArray[i];
+            //sourceArray[i].number = pivot;
+
+            return i;
+        }
+        private static void LQuickSort(ref List<Words> sourceArray, int left, int right)
+        {
+            if (left < right)
+            {
+                int index = LPartition(sourceArray, left, right);
+                LQuickSort(ref sourceArray, left, index - 1);
+                LQuickSort(ref sourceArray, index + 1, right);
+            }
+        }
         private List<Words> CreateDictionarry(string textToOrder)
         {
             List<Words> Dictionary = new List<Words>();
@@ -331,13 +361,10 @@ namespace TipuriPrimitive
             word.word = dictionary[position].word;
             dictionary.Remove(dictionary[position]);
             dictionary.Add(word);
-
-            //dictionary[position].Words(word.word, word.number);
         }
         private void AddWordInDictionary(string word, ref List<Words> dictionary)
         {
             Words element = new Words();
-            //element.Words(word, 1);
             element.number = 1;
             element.word = word;
             dictionary.Add(element);
@@ -371,7 +398,7 @@ namespace TipuriPrimitive
             return 0;
         }
 
-        
+
     }
 }
 
