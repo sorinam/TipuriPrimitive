@@ -10,6 +10,8 @@ namespace TipuriPrimitive
     public class Sorting
     {
         public enum Priority { High = 1, Medium, Low };
+        public enum Canditates { PopescuIon = 1, ManFlorin, DanMaria, PopLiviu, CretuEne };
+
         public struct Repairs
         {
             public string name;
@@ -21,18 +23,26 @@ namespace TipuriPrimitive
             }
         }
 
-        public struct General
+        public struct CanditatesVotes
         {
-            public string name;
-            public int number;
-            public General(string name, int number)
+            public Canditates name;
+            public int votes;
+            public CanditatesVotes(Canditates name, int numberOfVotes)
             {
                 this.name = name;
-                this.number = number;
+                this.votes = numberOfVotes;
             }
         }
-
-        //public static int indexOfDictionarry = 0;
+        public struct DistinctWords
+        {
+            public string word;
+            public int appearences;
+            public DistinctWords(string name, int number)
+            {
+                this.word = name;
+                this.appearences = number;
+            }
+        }
 
         [TestMethod]
         public void DisplayLotoNumbersUsingMergeSortAlghorithm()
@@ -308,74 +318,74 @@ namespace TipuriPrimitive
         public void FindAndSortWordsFromAText()
         {
             string textToOrder = "Orice cuvant care orice care care care numai are multe are multe care multe multe a orice ";
-            General[] expectedSortedWords =
+            DistinctWords[] expectedSortedWords =
             {
-             new General("Orice",1),
-             new General("cuvant",1),
-             new General("numai",1),
-             new General("a",1),
-             new General("are",2),
-             new General("orice",2),
-             new General("multe",4),
-             new General("care",5),
+             new DistinctWords("Orice",1),
+             new DistinctWords("cuvant",1),
+             new DistinctWords("numai",1),
+             new DistinctWords("a",1),
+             new DistinctWords("are",2),
+             new DistinctWords("orice",2),
+             new DistinctWords("multe",4),
+             new DistinctWords("care",5),
             };
 
-            General[] sortedWords = SortWordsFromText(textToOrder);
+            DistinctWords[] sortedWords = SortWordsFromText(textToOrder);
             CollectionAssert.AreEqual(expectedSortedWords, sortedWords);
         }
         [TestMethod]
         public void FindAndSortWordsFromEmptyText()
         {
             string textToOrder = " ";
-            General[] expectedSortedWords = { };
-            General[] sortedWords = SortWordsFromText(textToOrder);
+            DistinctWords[] expectedSortedWords = { };
+            DistinctWords[] sortedWords = SortWordsFromText(textToOrder);
             CollectionAssert.AreEqual(expectedSortedWords, sortedWords);
         }
         [TestMethod]
         public void FindAndSortWordsFromATextWithOneString()
         {
             string textToOrder = "zana ";
-            General[] expectedSortedWords = { new General("zana", 1) };
-            General[] sortedWords = SortWordsFromText(textToOrder);
+            DistinctWords[] expectedSortedWords = { new DistinctWords("zana", 1) };
+            DistinctWords[] sortedWords = SortWordsFromText(textToOrder);
             CollectionAssert.AreEqual(expectedSortedWords, sortedWords);
         }
         [TestMethod]
         public void FindAndSortDistinctWordsFromAText()
         {
             string textToOrder = "Mama are mere multe, dar care nu sunt acre!  ";
-            General[] expectedSortedWords = {
-            new General("Mama", 1),
-            new General("are", 1),
-            new General("mere", 1) ,
-            new General("multe", 1),
-            new General("dar", 1),
-            new General("care", 1),
-            new General("nu", 1),
-            new General("sunt", 1),
-            new General("acre", 1),
+            DistinctWords[] expectedSortedWords = {
+            new DistinctWords("Mama", 1),
+            new DistinctWords("are", 1),
+            new DistinctWords("mere", 1) ,
+            new DistinctWords("multe", 1),
+            new DistinctWords("dar", 1),
+            new DistinctWords("care", 1),
+            new DistinctWords("nu", 1),
+            new DistinctWords("sunt", 1),
+            new DistinctWords("acre", 1),
             };
-            General[] sortedWords = SortWordsFromText(textToOrder);
+            DistinctWords[] sortedWords = SortWordsFromText(textToOrder);
             CollectionAssert.AreEqual(expectedSortedWords, sortedWords);
         }
 
-        private General[] SortWordsFromText(string textToOrder)
+        private DistinctWords[] SortWordsFromText(string textToOrder)
         {
-            General[] Dictionary = CreateDictionary(textToOrder);
+            DistinctWords[] Dictionary = CreateDictionary(textToOrder);
             LQuickSort(ref Dictionary, 0, Dictionary.Length - 1);
             return Dictionary;
         }
 
-        private static int LPartition(General[] sourceArray, int left, int right)
+        private static int LPartition(DistinctWords[] sourceArray, int left, int right)
         {
-            var pivot = sourceArray[right].number;
-            var pivotName = sourceArray[right].name;
+            var pivot = sourceArray[right].appearences;
+            var pivotName = sourceArray[right].word;
             int i = left;
 
             for (int j = left; j < right; j++)
             {
-                if (sourceArray[j].number <= pivot)
+                if (sourceArray[j].appearences <= pivot)
                 {
-                    General temp = sourceArray[i];
+                    DistinctWords temp = sourceArray[i];
                     sourceArray[i] = sourceArray[j];
                     sourceArray[j] = temp;
                     i++;
@@ -383,11 +393,11 @@ namespace TipuriPrimitive
             }
 
             sourceArray[right] = sourceArray[i];
-            sourceArray[i].number = pivot;
-            sourceArray[i].name = pivotName;
+            sourceArray[i].appearences = pivot;
+            sourceArray[i].word = pivotName;
             return i;
         }
-        private static void LQuickSort(ref General[] sourceArray, int left, int right)
+        private static void LQuickSort(ref DistinctWords[] sourceArray, int left, int right)
         {
             if (left < right)
             {
@@ -397,11 +407,11 @@ namespace TipuriPrimitive
             }
         }
 
-        private static General[] CreateDictionary(string textToOrder)
+        private static DistinctWords[] CreateDictionary(string textToOrder)
         {
             int indexOfDictionary = 0;
             string[] Words = GetWords(textToOrder);
-            General[] Dictionary = new General[Words.Length];
+            DistinctWords[] Dictionary = new DistinctWords[Words.Length];
             string word;
             for (int i = 0; i < Words.Length; i++)
             {
@@ -420,7 +430,7 @@ namespace TipuriPrimitive
             ResizeDictionary(ref Dictionary);
             return Dictionary;
         }
-        private static void ResizeDictionary(ref General[] dictionary)
+        private static void ResizeDictionary(ref DistinctWords[] dictionary)
         {
             int index = FindFirstNullElement(dictionary);
             if (index > 0)
@@ -429,7 +439,7 @@ namespace TipuriPrimitive
             }
         }
 
-        private static int FindFirstNullElement(General[] dictionary)
+        private static int FindFirstNullElement(DistinctWords[] dictionary)
         {
             int indexOffirstNullElement = BinarySearchIndexOfFirstNullElement(dictionary, 0, dictionary.Length - 1);
             return indexOffirstNullElement;
@@ -438,36 +448,36 @@ namespace TipuriPrimitive
         [TestMethod]
         public void TestBinarySearchMethod1()
         {
-            General[] Words = new General[3];
-            Words[0].name = "bina";
-            Words[0].number = 22;
+            DistinctWords[] Words = new DistinctWords[3];
+            Words[0].word = "bina";
+            Words[0].appearences = 22;
             Assert.AreEqual(1, BinarySearchIndexOfFirstNullElement(Words, 0, Words.Length - 1));
         }
         [TestMethod]
         public void TestBinarySearchMethod0()
         {
-            General[] Words = new General[3];
+            DistinctWords[] Words = new DistinctWords[3];
             Assert.AreEqual(0, BinarySearchIndexOfFirstNullElement(Words, 0, Words.Length - 1));
         }
         [TestMethod]
         public void TestBinarySearchMethod2()
         {
-            General[] Words = new General[3];
-            Words[0].name = "bina";
-            Words[0].number = 22;
-            Words[1].name = "bia";
-            Words[1].number = 2;
-            Words[2].name = "ba";
-            Words[2].number = 32;
+            DistinctWords[] Words = new DistinctWords[3];
+            Words[0].word = "bina";
+            Words[0].appearences = 22;
+            Words[1].word = "bia";
+            Words[1].appearences = 2;
+            Words[2].word = "ba";
+            Words[2].appearences = 32;
             Assert.AreEqual(-1, BinarySearchIndexOfFirstNullElement(Words, 0, Words.Length - 1));
         }
 
-        private static int BinarySearchIndexOfFirstNullElement(General[] arrayToSearch, int begin, int end)
+        private static int BinarySearchIndexOfFirstNullElement(DistinctWords[] arrayToSearch, int begin, int end)
         {
             if (begin > end) return -1;
             int middle = begin + (end - begin) / 2;
-            General middleElement = arrayToSearch[middle];
-            if ((middleElement.number == 0) && (middleElement.name == null))
+            DistinctWords middleElement = arrayToSearch[middle];
+            if ((middleElement.appearences == 0) && (middleElement.word == null))
             {
                 if (middle > 0)
                 {
@@ -491,24 +501,24 @@ namespace TipuriPrimitive
             }
         }
 
-        private static bool IsPreviousElementNeNull(General[] arrayToSearch, int middle)
+        private static bool IsPreviousElementNeNull(DistinctWords[] arrayToSearch, int middle)
         {
-            if (((arrayToSearch[middle - 1].number != 0) && (arrayToSearch[middle - 1].name != null)))
+            if (((arrayToSearch[middle - 1].appearences != 0) && (arrayToSearch[middle - 1].word != null)))
             {
                 return true;
             }
             return false;
         }
 
-        private static void IncreaseWordItterations(ref General[] dictionary, int position)
+        private static void IncreaseWordItterations(ref DistinctWords[] dictionary, int position)
         {
-            dictionary[position].number++;
+            dictionary[position].appearences++;
         }
-        private static void AddWordInDictionary(string word, ref General[] dictionary, int indexOfDictionary)
+        private static void AddWordInDictionary(string word, ref DistinctWords[] dictionary, int indexOfDictionary)
         {
-            General newElement = new General();
-            newElement.number = 1;
-            newElement.name = word;
+            DistinctWords newElement = new DistinctWords();
+            newElement.appearences = 1;
+            newElement.word = word;
             dictionary[indexOfDictionary] = newElement;
         }
 
@@ -533,19 +543,56 @@ namespace TipuriPrimitive
             return word;
         }
 
-        private static int PositionInDictionary(string word, General[] Dictionary)
+        private static int PositionInDictionary(string word, DistinctWords[] Dictionary)
         {
             for (int i = 0; i < Dictionary.Length; i++)
             {
-                if (word == Dictionary[i].name)
+                if (word == Dictionary[i].word)
                 {
                     return i;
                 }
             }
             return 0;
         }
-    }
-}
 
+        [TestMethod]
+        public void CentralizedVotes()
+        {
+            CanditatesVotes[,] ListOfVotes =
+           {
+             { new CanditatesVotes(Canditates.CretuEne, 10),new CanditatesVotes(Canditates.ManFlorin, 5),new CanditatesVotes(Canditates.DanMaria, 3),new CanditatesVotes(Canditates.PopLiviu, 1),new CanditatesVotes(Canditates.PopescuIon, 0)},
+             { new CanditatesVotes(Canditates.ManFlorin, 15),new CanditatesVotes(Canditates.DanMaria,12), new CanditatesVotes(Canditates.PopescuIon, 7),new CanditatesVotes(Canditates.PopLiviu, 5),new CanditatesVotes(Canditates.CretuEne, 1)},
+             { new CanditatesVotes(Canditates.ManFlorin, 35),new CanditatesVotes(Canditates.DanMaria,32), new CanditatesVotes(Canditates.PopescuIon,17),new CanditatesVotes(Canditates.CretuEne, 2),new CanditatesVotes(Canditates.PopLiviu, 0)}
+            };
+            CanditatesVotes[] expectedVotesResults =
+            {new CanditatesVotes(Canditates.ManFlorin, 45),new CanditatesVotes(Canditates.DanMaria,22), new CanditatesVotes(Canditates.PopescuIon, 7),new CanditatesVotes(Canditates.PopLiviu, 5),new CanditatesVotes(Canditates.CretuEne, 1)
+            };
 
+            CanditatesVotes[] calculateVotesResult = CentralizeAndSortVotes(ListOfVotes);
 
+            CollectionAssert.AreEqual(expectedVotesResults, calculateVotesResult);
+        }
+
+        private CanditatesVotes[] CentralizeAndSortVotes(CanditatesVotes[,] listOfVotes)
+        {
+           int numberOfCanditates = Enum.GetNames(typeof(Canditates)).Length;
+           CanditatesVotes[] CentralizedListOfVotes = new CanditatesVotes[numberOfCanditates];
+            InitialingCetralizedList(ref CentralizedListOfVotes);
+            // CentralizedVotes((CanditatesVotes[,] listOfVotes);
+            return CentralizedListOfVotes;
+        }
+
+        private void InitialingCetralizedList(ref CanditatesVotes[] centralizedListOfVotes)
+        {
+            var valuesOfStructAsArray = Enum.GetValues(typeof(Canditates));
+            int numberOfCanditates = Enum.GetNames(typeof(Canditates)).Length;
+            int[] numberOfVotes = new int[numberOfCanditates];
+            string[,] Sir =new string[numberOfCanditates,2];
+            for (int i=0;i<numberOfCanditates;i++)
+            {
+                Sir[i, 0] = Enum.Parse(Canditates, name);
+
+            }
+             
+        }
+    }}
