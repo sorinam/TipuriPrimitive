@@ -21,11 +21,18 @@ namespace TipuriPrimitive
             }
         }
 
-        public struct Words
+        public struct General
         {
-            public string word;
+            public string name;
             public int number;
+            public General(string name, int number)
+            {
+                this.name = name;
+                this.number = number;
+            }
         }
+
+        public int indexOfDictionarry = 0;
 
         [TestMethod]
         public void DisplayLotoNumbersUsingMergeSortAlghorithm()
@@ -301,21 +308,21 @@ namespace TipuriPrimitive
         public void SortingWords()
         {
             string textToOrder = "Variables that are value types store data, and those that are reference types store references to the actual data. Reference types are also referred to as objects. Pointer types can be used only in unsafe mode.";
-
-            List<Words> Dictionary = CreateDictionarry(textToOrder);
-            LQuickSort(ref Dictionary, 0, Dictionary.Count - 1);
+            General[] Dictionary = CreateDictionary(textToOrder);
+            LQuickSort(ref Dictionary, 0, Dictionary.Length - 1);
             Assert.AreEqual(1, 2);
         }
-        private static int LPartition(List<Words> sourceArray, int left, int right)
+        private static int LPartition(General[] sourceArray, int left, int right)
         {
             var pivot = sourceArray[right].number;
+            var pivotName = sourceArray[right].name;
             int i = left;
 
             for (int j = left; j < right; j++)
             {
                 if (sourceArray[j].number <= pivot)
                 {
-                    Words temp = sourceArray[i];
+                    General temp = sourceArray[i];
                     sourceArray[i] = sourceArray[j];
                     sourceArray[j] = temp;
                     i++;
@@ -323,11 +330,11 @@ namespace TipuriPrimitive
             }
 
             sourceArray[right] = sourceArray[i];
-            //sourceArray[i].number = pivot;
-
+            sourceArray[i].number = pivot;
+            sourceArray[i].name = pivotName;
             return i;
         }
-        private static void LQuickSort(ref List<Words> sourceArray, int left, int right)
+        private static void LQuickSort(ref General[] sourceArray, int left, int right)
         {
             if (left < right)
             {
@@ -336,10 +343,10 @@ namespace TipuriPrimitive
                 LQuickSort(ref sourceArray, index + 1, right);
             }
         }
-        private List<Words> CreateDictionarry(string textToOrder)
+        private General[] CreateDictionary(string textToOrder)
         {
-            List<Words> Dictionary = new List<Words>();
             string[] Words = GetWords(textToOrder);
+            General[] Dictionary = new General[Words.Length];
             string word;
             for (int i = 0; i < Words.Length; i++)
             {
@@ -352,22 +359,62 @@ namespace TipuriPrimitive
                     AddWordInDictionary(word, ref Dictionary);
                 }
             }
+            //resize Dictionary
+            ResizeDictionary(ref Dictionary);
             return Dictionary;
         }
-        private static void IncreaseWordItterations(ref List<Words> dictionary, int position)
+
+        private void ResizeDictionary(ref General[] dictionary)
         {
-            Words word = new Words();
-            word.number = dictionary[position].number + 1;
-            word.word = dictionary[position].word;
-            dictionary.Remove(dictionary[position]);
-            dictionary.Add(word);
+            int index = FindFirstNullElement(dictionary);
+            if (index > 0)
+            { Array.Resize(ref dictionary, index); }
         }
-        private void AddWordInDictionary(string word, ref List<Words> dictionary)
+
+        private int FindFirstNullElement(General[] dictionary)
         {
-            Words element = new Words();
-            element.number = 1;
-            element.word = word;
-            dictionary.Add(element);
+            General[] arrayToSearch = new General[dictionary.Length];
+            Array.Copy(dictionary, arrayToSearch, dictionary.Length);
+            int indexOffirstNullElement = FindFirstNullElement(arrayToSearch, 0, dictionary.Length - 1);
+            return indexOffirstNullElement;
+        }
+
+        [TestMethod]
+        public void TestBinarySearch()
+        {
+            General[] inputArray =
+            {
+                new General("nul",1),
+                new General("null",0),
+                new General("null",0),
+                new General("null",0),
+
+            };
+            int expectedResult = 4;
+            Assert.AreEqual(expectedResult, FindFirstNullElement(inputArray, 0, inputArray.Length - 1));
+        }
+
+        private int FindFirstNullElement(General[] arrayToSearch, int begin, int end)
+        {
+            for (int i = begin; i <= end; i++)
+            {
+                if ((arrayToSearch[i].number == 0) && (arrayToSearch[i].name == null))
+                {
+                    return i;
+                }
+            }
+            return -1;
+        }
+        private static void IncreaseWordItterations(ref General[] dictionary, int position)
+        {
+            dictionary[position].number++;
+        }
+        private void AddWordInDictionary(string word, ref General[] dictionary)
+        {
+            General newElement = new General();
+            newElement.number = 1;
+            newElement.name = word;
+            dictionary[indexOfDictionarry++] = newElement;
         }
         private string[] GetWords(string input)
         {
@@ -389,11 +436,11 @@ namespace TipuriPrimitive
 
             return word;
         }
-        private int PositionInDictionary(string word, List<Words> Dictionary)
+        private int PositionInDictionary(string word, General[] Dictionary)
         {
-            for (int i = 0; i < Dictionary.Count; i++)
+            for (int i = 0; i < Dictionary.Length; i++)
             {
-                if (word == Dictionary[i].word) { return i; }
+                if (word == Dictionary[i].name) { return i; }
             }
             return 0;
         }
