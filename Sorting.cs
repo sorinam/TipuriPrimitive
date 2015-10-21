@@ -32,7 +32,7 @@ namespace TipuriPrimitive
             }
         }
 
-        public static int indexOfDictionarry = 0;
+        //public static int indexOfDictionarry = 0;
 
         [TestMethod]
         public void DisplayLotoNumbersUsingMergeSortAlghorithm()
@@ -307,17 +307,17 @@ namespace TipuriPrimitive
         [TestMethod]
         public void FindAndSortWordsFromAText()
         {
-            string textToOrder = "Orice cuvant care orice numai are multe are multe care multe multe a orice ";
+            string textToOrder = "Orice cuvant care orice care care care numai are multe are multe care multe multe a orice ";
             General[] expectedSortedWords =
             {
              new General("Orice",1),
              new General("cuvant",1),
              new General("numai",1),
              new General("a",1),
-             new General("care",2),
-             new General("orice",2),
              new General("are",2),
+             new General("orice",2),
              new General("multe",4),
+             new General("care",5),
             };
 
             General[] sortedWords = SortWordsFromText(textToOrder);
@@ -327,7 +327,7 @@ namespace TipuriPrimitive
         public void FindAndSortWordsFromEmptyText()
         {
             string textToOrder = " ";
-            General[] expectedSortedWords ={};
+            General[] expectedSortedWords = { };
             General[] sortedWords = SortWordsFromText(textToOrder);
             CollectionAssert.AreEqual(expectedSortedWords, sortedWords);
         }
@@ -335,7 +335,7 @@ namespace TipuriPrimitive
         public void FindAndSortWordsFromATextWithOneString()
         {
             string textToOrder = "zana ";
-            General[] expectedSortedWords = {new General("zana",1) };
+            General[] expectedSortedWords = { new General("zana", 1) };
             General[] sortedWords = SortWordsFromText(textToOrder);
             CollectionAssert.AreEqual(expectedSortedWords, sortedWords);
         }
@@ -399,6 +399,7 @@ namespace TipuriPrimitive
 
         private static General[] CreateDictionary(string textToOrder)
         {
+            int indexOfDictionary = 0;
             string[] Words = GetWords(textToOrder);
             General[] Dictionary = new General[Words.Length];
             string word;
@@ -412,7 +413,8 @@ namespace TipuriPrimitive
                 }
                 else
                 {
-                    AddWordInDictionary(word, ref Dictionary);
+                    AddWordInDictionary(word, ref Dictionary, indexOfDictionary);
+                    indexOfDictionary++;
                 }
             }
             ResizeDictionary(ref Dictionary);
@@ -429,17 +431,17 @@ namespace TipuriPrimitive
 
         private static int FindFirstNullElement(General[] dictionary)
         {
-            int indexOffirstNullElement = BinarySearchIndexOfFirstNullElement(dictionary, 0, dictionary.Length - 1); 
+            int indexOffirstNullElement = BinarySearchIndexOfFirstNullElement(dictionary, 0, dictionary.Length - 1);
             return indexOffirstNullElement;
         }
-        
+
         [TestMethod]
         public void TestBinarySearchMethod1()
         {
             General[] Words = new General[3];
             Words[0].name = "bina";
             Words[0].number = 22;
-            Assert.AreEqual(1,BinarySearchIndexOfFirstNullElement(Words,0,Words.Length-1));
+            Assert.AreEqual(1, BinarySearchIndexOfFirstNullElement(Words, 0, Words.Length - 1));
         }
         [TestMethod]
         public void TestBinarySearchMethod0()
@@ -469,7 +471,7 @@ namespace TipuriPrimitive
             {
                 if (middle > 0)
                 {
-                    if ((((arrayToSearch[middle - 1].number != 0) && (arrayToSearch[middle - 1].name != null))))
+                    if (IsPreviousElementNeNull(arrayToSearch, middle))
                     {
                         return middle;
                     }
@@ -478,27 +480,36 @@ namespace TipuriPrimitive
                         return BinarySearchIndexOfFirstNullElement(arrayToSearch, begin, middle - 1);
                     }
                 }
-            else
+                else
                 {
                     return 0;
                 }
             }
             else
             {
-                return BinarySearchIndexOfFirstNullElement(arrayToSearch, middle + 1,end);
+                return BinarySearchIndexOfFirstNullElement(arrayToSearch, middle + 1, end);
             }
+        }
+
+        private static bool IsPreviousElementNeNull(General[] arrayToSearch, int middle)
+        {
+            if (((arrayToSearch[middle - 1].number != 0) && (arrayToSearch[middle - 1].name != null)))
+            {
+                return true;
+            }
+            return false;
         }
 
         private static void IncreaseWordItterations(ref General[] dictionary, int position)
         {
             dictionary[position].number++;
         }
-        private static void AddWordInDictionary(string word, ref General[] dictionary)
+        private static void AddWordInDictionary(string word, ref General[] dictionary, int indexOfDictionary)
         {
             General newElement = new General();
             newElement.number = 1;
             newElement.name = word;
-            dictionary[indexOfDictionarry++] = newElement;
+            dictionary[indexOfDictionary] = newElement;
         }
 
         private static string[] GetWords(string input)
