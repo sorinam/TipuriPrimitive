@@ -25,7 +25,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+    <CodeAnalysisRuleSet>Custom.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -62,6 +62,7 @@
     <Compile Include="Calculate.cs" />
     <Compile Include="Calculator.cs" />
     <Compile Include="Capre.cs" />
+    <Compile Include="Catalogue.cs" />
     <Compile Include="Columns_BuildArea.cs" />
     <Compile Include="Columns_CalculateArea.cs" />
     <Compile Include="Columns_NoSolution.cs" />
