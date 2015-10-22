@@ -69,7 +69,7 @@ namespace TipuriPrimitive
         }
 
         [TestMethod]
-        public void SortingArrayUSingMergeSortAlghoritm()
+        public void SortingArrayUsingMergeSortAlghoritm()
         {
             int[] sourceArray = { 2 };
             int[] sortedArray = { 2 };
@@ -542,9 +542,8 @@ namespace TipuriPrimitive
         }
 
         [TestMethod]
-        public void CentralizationVotesFromMorePollingPlaces()
-        {
-            int numberOfPollingStations = 4;
+        public void CentralizationVotesFromMorePollingPlacesDifferentNumbersOfCandidates()
+        {          
             GlobalStruct[] list1 = { new GlobalStruct("Cretu Ene", 100), new GlobalStruct("Man Ana", 43), new GlobalStruct("Pop Viorel", 24), new GlobalStruct("Avram Marin", 4) };
             GlobalStruct[] list2 = { new GlobalStruct("Cretu Ene", 154), new GlobalStruct("Man Ana", 87), new GlobalStruct("Pop Viorel", 25), new GlobalStruct("Avram Marin", 14), new GlobalStruct("Pintea Radu", 3) };
             GlobalStruct[] list3 = { new GlobalStruct("Pop Viorel", 45), new GlobalStruct("Avram Marin", 45), new GlobalStruct("Man Ana", 36), new GlobalStruct("Cretu Ene", 25) };
@@ -554,6 +553,48 @@ namespace TipuriPrimitive
 
             GlobalStruct[] expectedVotingList = { new GlobalStruct("Cretu Ene", 326), new GlobalStruct("Man Ana", 188), new GlobalStruct("Avram Marin", 109), new GlobalStruct("Pop Viorel", 94), new GlobalStruct("Popa Vanda", 63), new GlobalStruct("Pintea Radu", 3) };
 
+
+            GlobalStruct[] calculateVotingList = CentralizeAndSortVotes(ReceivedVotingLists);
+
+            CollectionAssert.AreEqual(expectedVotingList, calculateVotingList);
+        }
+        [TestMethod]
+        public void CentralizationVotesFromMorePollingPlacesTheSameNumbersOfCandidates()
+        {
+            GlobalStruct[] list1 = { new GlobalStruct("Cretu Ene", 100), new GlobalStruct("Man Ana", 43), new GlobalStruct("Pop Viorel", 24), new GlobalStruct("Avram Marin", 4) };
+            GlobalStruct[] list2 = { new GlobalStruct("Cretu Ene", 154), new GlobalStruct("Man Ana", 87), new GlobalStruct("Pop Viorel", 25), new GlobalStruct("Avram Marin", 14)};
+            GlobalStruct[] list3 = { new GlobalStruct("Pop Viorel", 45), new GlobalStruct("Avram Marin", 45), new GlobalStruct("Man Ana", 36), new GlobalStruct("Cretu Ene", 25) };
+            GlobalStruct[] list4 = { new GlobalStruct("Cretu Ene", 47), new GlobalStruct("Avram Marin", 46), new GlobalStruct("Man Ana", 22), new GlobalStruct("Pop Viorel", 15) };
+
+            GlobalStruct[][] ReceivedVotingLists = { list1, list2, list3, list4 };
+
+            GlobalStruct[] expectedVotingList = { new GlobalStruct("Cretu Ene", 326), new GlobalStruct("Man Ana", 188), new GlobalStruct("Avram Marin", 109),new GlobalStruct("Pop Viorel",109) };
+
+            GlobalStruct[] calculateVotingList = CentralizeAndSortVotes(ReceivedVotingLists);
+
+            CollectionAssert.AreEqual(expectedVotingList, calculateVotingList);
+        }
+        [TestMethod]
+        public void CentralizationVotesFromOnePollingPlace()
+        {
+            GlobalStruct[] list1 = { new GlobalStruct("Cretu Ene", 100), new GlobalStruct("Man Ana", 43), new GlobalStruct("Pop Viorel", 24), new GlobalStruct("Avram Marin", 4) };
+           
+            GlobalStruct[][] ReceivedVotingLists = { list1 };
+
+            GlobalStruct[] expectedVotingList = { new GlobalStruct("Cretu Ene",100), new GlobalStruct("Man Ana", 43), new GlobalStruct("Pop Viorel", 24), new GlobalStruct("Avram Marin", 4) };
+            
+            GlobalStruct[] calculateVotingList = CentralizeAndSortVotes(ReceivedVotingLists);
+
+            CollectionAssert.AreEqual(expectedVotingList, calculateVotingList);
+        }
+        [TestMethod]
+        public void CentralizationVotesFromNoPollingPlace()
+        {
+            GlobalStruct[] list1 = {};
+
+            GlobalStruct[][] ReceivedVotingLists = { list1 };
+
+            GlobalStruct[] expectedVotingList = {};
 
             GlobalStruct[] calculateVotingList = CentralizeAndSortVotes(ReceivedVotingLists);
 
