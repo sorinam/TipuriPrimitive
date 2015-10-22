@@ -10,8 +10,7 @@ namespace TipuriPrimitive
     public class Sorting
     {
         public enum Priority { High = 1, Medium, Low };
-        public enum Canditates { PopescuIon = 1, ManFlorin, DanMaria, PopLiviu, CretuEne };
-
+  
         public struct Repairs
         {
             public string name;
@@ -23,24 +22,14 @@ namespace TipuriPrimitive
             }
         }
 
-        public struct CanditatesVotes
+        public struct GlobalStruct
         {
-            public Canditates name;
-            public int votes;
-            public CanditatesVotes(Canditates name, int numberOfVotes)
+            public string stringStruct;
+            public int number;
+            public GlobalStruct(string name, int number)
             {
-                this.name = name;
-                this.votes = numberOfVotes;
-            }
-        }
-        public struct DistinctWords
-        {
-            public string word;
-            public int appearences;
-            public DistinctWords(string name, int number)
-            {
-                this.word = name;
-                this.appearences = number;
+                this.stringStruct = name;
+                this.number = number;
             }
         }
 
@@ -317,75 +306,74 @@ namespace TipuriPrimitive
         [TestMethod]
         public void FindAndSortWordsFromAText()
         {
-            string textToOrder = "Orice cuvant care orice care care care numai are multe are multe care multe multe a orice ";
-            DistinctWords[] expectedSortedWords =
+            string textToOrder = "orice cuvant care orice care care care numai are multe are multe care multe multe a orice ";
+            GlobalStruct[] expectedSortedWords =
             {
-             new DistinctWords("Orice",1),
-             new DistinctWords("cuvant",1),
-             new DistinctWords("numai",1),
-             new DistinctWords("a",1),
-             new DistinctWords("are",2),
-             new DistinctWords("orice",2),
-             new DistinctWords("multe",4),
-             new DistinctWords("care",5),
+             new GlobalStruct("cuvant",1),
+             new GlobalStruct("numai",1),
+             new GlobalStruct("a",1),
+             new GlobalStruct("are",2),
+             new GlobalStruct("orice",3),
+             new GlobalStruct("multe",4),
+             new GlobalStruct("care",5),
             };
 
-            DistinctWords[] sortedWords = SortWordsFromText(textToOrder);
+            GlobalStruct[] sortedWords = SortWordsFromText(textToOrder);
             CollectionAssert.AreEqual(expectedSortedWords, sortedWords);
         }
         [TestMethod]
         public void FindAndSortWordsFromEmptyText()
         {
             string textToOrder = " ";
-            DistinctWords[] expectedSortedWords = { };
-            DistinctWords[] sortedWords = SortWordsFromText(textToOrder);
+            GlobalStruct[] expectedSortedWords = { };
+            GlobalStruct[] sortedWords = SortWordsFromText(textToOrder);
             CollectionAssert.AreEqual(expectedSortedWords, sortedWords);
         }
         [TestMethod]
         public void FindAndSortWordsFromATextWithOneString()
         {
             string textToOrder = "zana ";
-            DistinctWords[] expectedSortedWords = { new DistinctWords("zana", 1) };
-            DistinctWords[] sortedWords = SortWordsFromText(textToOrder);
+            GlobalStruct[] expectedSortedWords = { new GlobalStruct("zana", 1) };
+            GlobalStruct[] sortedWords = SortWordsFromText(textToOrder);
             CollectionAssert.AreEqual(expectedSortedWords, sortedWords);
         }
         [TestMethod]
         public void FindAndSortDistinctWordsFromAText()
         {
             string textToOrder = "Mama are mere multe, dar care nu sunt acre!  ";
-            DistinctWords[] expectedSortedWords = {
-            new DistinctWords("Mama", 1),
-            new DistinctWords("are", 1),
-            new DistinctWords("mere", 1) ,
-            new DistinctWords("multe", 1),
-            new DistinctWords("dar", 1),
-            new DistinctWords("care", 1),
-            new DistinctWords("nu", 1),
-            new DistinctWords("sunt", 1),
-            new DistinctWords("acre", 1),
+            GlobalStruct[] expectedSortedWords = {
+            new GlobalStruct("Mama", 1),
+            new GlobalStruct("are", 1),
+            new GlobalStruct("mere", 1) ,
+            new GlobalStruct("multe", 1),
+            new GlobalStruct("dar", 1),
+            new GlobalStruct("care", 1),
+            new GlobalStruct("nu", 1),
+            new GlobalStruct("sunt", 1),
+            new GlobalStruct("acre", 1),
             };
-            DistinctWords[] sortedWords = SortWordsFromText(textToOrder);
+            GlobalStruct[] sortedWords = SortWordsFromText(textToOrder);
             CollectionAssert.AreEqual(expectedSortedWords, sortedWords);
         }
 
-        private DistinctWords[] SortWordsFromText(string textToOrder)
+        private GlobalStruct[] SortWordsFromText(string textToOrder)
         {
-            DistinctWords[] Dictionary = CreateDictionary(textToOrder);
+            GlobalStruct[] Dictionary = CreateDictionary(textToOrder);
             LQuickSort(ref Dictionary, 0, Dictionary.Length - 1);
             return Dictionary;
         }
 
-        private static int LPartition(DistinctWords[] sourceArray, int left, int right)
+        private static int LPartition(GlobalStruct[] sourceArray, int left, int right)
         {
-            var pivot = sourceArray[right].appearences;
-            var pivotName = sourceArray[right].word;
+            var pivot = sourceArray[right].number;
+            var pivotName = sourceArray[right].stringStruct;
             int i = left;
 
             for (int j = left; j < right; j++)
             {
-                if (sourceArray[j].appearences <= pivot)
+                if (sourceArray[j].number <= pivot)
                 {
-                    DistinctWords temp = sourceArray[i];
+                    GlobalStruct temp = sourceArray[i];
                     sourceArray[i] = sourceArray[j];
                     sourceArray[j] = temp;
                     i++;
@@ -393,11 +381,11 @@ namespace TipuriPrimitive
             }
 
             sourceArray[right] = sourceArray[i];
-            sourceArray[i].appearences = pivot;
-            sourceArray[i].word = pivotName;
+            sourceArray[i].number = pivot;
+            sourceArray[i].stringStruct = pivotName;
             return i;
         }
-        private static void LQuickSort(ref DistinctWords[] sourceArray, int left, int right)
+        private static void LQuickSort(ref GlobalStruct[] sourceArray, int left, int right)
         {
             if (left < right)
             {
@@ -407,17 +395,17 @@ namespace TipuriPrimitive
             }
         }
 
-        private static DistinctWords[] CreateDictionary(string textToOrder)
+        private static GlobalStruct[] CreateDictionary(string textToOrder)
         {
             int indexOfDictionary = 0;
             string[] Words = GetWords(textToOrder);
-            DistinctWords[] Dictionary = new DistinctWords[Words.Length];
+            GlobalStruct[] Dictionary = new GlobalStruct[Words.Length];
             string word;
             for (int i = 0; i < Words.Length; i++)
             {
                 word = Words[i];
                 int position = PositionInDictionary(word, Dictionary);
-                if (position > 0)
+                if (position >= 0)
                 {
                     IncreaseWordItterations(ref Dictionary, position);
                 }
@@ -430,7 +418,7 @@ namespace TipuriPrimitive
             ResizeDictionary(ref Dictionary);
             return Dictionary;
         }
-        private static void ResizeDictionary(ref DistinctWords[] dictionary)
+        private static void ResizeDictionary(ref GlobalStruct[] dictionary)
         {
             int index = FindFirstNullElement(dictionary);
             if (index > 0)
@@ -439,7 +427,7 @@ namespace TipuriPrimitive
             }
         }
 
-        private static int FindFirstNullElement(DistinctWords[] dictionary)
+        private static int FindFirstNullElement(GlobalStruct[] dictionary)
         {
             int indexOffirstNullElement = BinarySearchIndexOfFirstNullElement(dictionary, 0, dictionary.Length - 1);
             return indexOffirstNullElement;
@@ -448,36 +436,36 @@ namespace TipuriPrimitive
         [TestMethod]
         public void TestBinarySearchMethod1()
         {
-            DistinctWords[] Words = new DistinctWords[3];
-            Words[0].word = "bina";
-            Words[0].appearences = 22;
+            GlobalStruct[] Words = new GlobalStruct[3];
+            Words[0].stringStruct = "bina";
+            Words[0].number = 22;
             Assert.AreEqual(1, BinarySearchIndexOfFirstNullElement(Words, 0, Words.Length - 1));
         }
         [TestMethod]
         public void TestBinarySearchMethod0()
         {
-            DistinctWords[] Words = new DistinctWords[3];
+            GlobalStruct[] Words = new GlobalStruct[3];
             Assert.AreEqual(0, BinarySearchIndexOfFirstNullElement(Words, 0, Words.Length - 1));
         }
         [TestMethod]
         public void TestBinarySearchMethod2()
         {
-            DistinctWords[] Words = new DistinctWords[3];
-            Words[0].word = "bina";
-            Words[0].appearences = 22;
-            Words[1].word = "bia";
-            Words[1].appearences = 2;
-            Words[2].word = "ba";
-            Words[2].appearences = 32;
+            GlobalStruct[] Words = new GlobalStruct[3];
+            Words[0].stringStruct = "bina";
+            Words[0].number = 22;
+            Words[1].stringStruct = "bia";
+            Words[1].number = 2;
+            Words[2].stringStruct = "ba";
+            Words[2].number = 32;
             Assert.AreEqual(-1, BinarySearchIndexOfFirstNullElement(Words, 0, Words.Length - 1));
         }
 
-        private static int BinarySearchIndexOfFirstNullElement(DistinctWords[] arrayToSearch, int begin, int end)
+        private static int BinarySearchIndexOfFirstNullElement(GlobalStruct[] arrayToSearch, int begin, int end)
         {
             if (begin > end) return -1;
             int middle = begin + (end - begin) / 2;
-            DistinctWords middleElement = arrayToSearch[middle];
-            if ((middleElement.appearences == 0) && (middleElement.word == null))
+            GlobalStruct middleElement = arrayToSearch[middle];
+            if ((middleElement.number == 0) && (middleElement.stringStruct == null))
             {
                 if (middle > 0)
                 {
@@ -501,24 +489,24 @@ namespace TipuriPrimitive
             }
         }
 
-        private static bool IsPreviousElementNeNull(DistinctWords[] arrayToSearch, int middle)
+        private static bool IsPreviousElementNeNull(GlobalStruct[] arrayToSearch, int middle)
         {
-            if (((arrayToSearch[middle - 1].appearences != 0) && (arrayToSearch[middle - 1].word != null)))
+            if (((arrayToSearch[middle - 1].number != 0) && (arrayToSearch[middle - 1].stringStruct != null)))
             {
                 return true;
             }
             return false;
         }
 
-        private static void IncreaseWordItterations(ref DistinctWords[] dictionary, int position)
+        private static void IncreaseWordItterations(ref GlobalStruct[] dictionary, int position)
         {
-            dictionary[position].appearences++;
+            dictionary[position].number++;
         }
-        private static void AddWordInDictionary(string word, ref DistinctWords[] dictionary, int indexOfDictionary)
+        private static void AddWordInDictionary(string word, ref GlobalStruct[] dictionary, int indexOfDictionary)
         {
-            DistinctWords newElement = new DistinctWords();
-            newElement.appearences = 1;
-            newElement.word = word;
+            GlobalStruct newElement = new GlobalStruct();
+            newElement.number = 1;
+            newElement.stringStruct = word;
             dictionary[indexOfDictionary] = newElement;
         }
 
@@ -543,56 +531,91 @@ namespace TipuriPrimitive
             return word;
         }
 
-        private static int PositionInDictionary(string word, DistinctWords[] Dictionary)
+        private static int PositionInDictionary(string word, GlobalStruct[] Dictionary)
         {
             for (int i = 0; i < Dictionary.Length; i++)
             {
-                if (word == Dictionary[i].word)
+                if (word == Dictionary[i].stringStruct)
                 {
                     return i;
                 }
             }
-            return 0;
+            return -1;
         }
 
         [TestMethod]
-        public void CentralizedVotes()
+        public void CentralizingVotes()
         {
-            CanditatesVotes[,] ListOfVotes =
-           {
-             { new CanditatesVotes(Canditates.CretuEne, 10),new CanditatesVotes(Canditates.ManFlorin, 5),new CanditatesVotes(Canditates.DanMaria, 3),new CanditatesVotes(Canditates.PopLiviu, 1),new CanditatesVotes(Canditates.PopescuIon, 0)},
-             { new CanditatesVotes(Canditates.ManFlorin, 15),new CanditatesVotes(Canditates.DanMaria,12), new CanditatesVotes(Canditates.PopescuIon, 7),new CanditatesVotes(Canditates.PopLiviu, 5),new CanditatesVotes(Canditates.CretuEne, 1)},
-             { new CanditatesVotes(Canditates.ManFlorin, 35),new CanditatesVotes(Canditates.DanMaria,32), new CanditatesVotes(Canditates.PopescuIon,17),new CanditatesVotes(Canditates.CretuEne, 2),new CanditatesVotes(Canditates.PopLiviu, 0)}
-            };
-            CanditatesVotes[] expectedVotesResults =
-            {new CanditatesVotes(Canditates.ManFlorin, 45),new CanditatesVotes(Canditates.DanMaria,22), new CanditatesVotes(Canditates.PopescuIon, 7),new CanditatesVotes(Canditates.PopLiviu, 5),new CanditatesVotes(Canditates.CretuEne, 1)
-            };
+            int numberOfVoteSection = 4;
+            GlobalStruct[] list1 = { new GlobalStruct("Cretu Ene",100), new GlobalStruct("Man Ana", 43), new GlobalStruct("Pop Viorel", 24), new GlobalStruct("Avram Marin", 4) };
+            GlobalStruct[] list2 = { new GlobalStruct("Cretu Ene", 154), new GlobalStruct("Man Ana", 87), new GlobalStruct("Pop Viorel", 25), new GlobalStruct("Avram Marin",14),new GlobalStruct("Pintea Radu",3) };
+            GlobalStruct[] list3 = { new GlobalStruct("Pop Viorel", 45), new GlobalStruct("Avram Marin", 45), new GlobalStruct("Man Ana", 36), new GlobalStruct("Cretu Ene", 25) };
+            GlobalStruct[] list4 = { new GlobalStruct("Popa Vanda", 63), new GlobalStruct("Cretu Ene", 47), new GlobalStruct("Avram Marin", 46) ,new GlobalStruct("Man Ana", 22)};
 
-            CanditatesVotes[] calculateVotesResult = CentralizeAndSortVotes(ListOfVotes);
+            GlobalStruct[][] ListOfVotes = {list1,list2,list3,list4 };
 
-            CollectionAssert.AreEqual(expectedVotesResults, calculateVotesResult);
+            GlobalStruct[] expectedVoteResults = new GlobalStruct[numberOfVoteSection];
+
+
+            GlobalStruct[] calculateVotesResult = CentralizeAndSortVotes(ListOfVotes);
+
+            CollectionAssert.AreEqual(expectedVoteResults, calculateVotesResult);
         }
 
-        private CanditatesVotes[] CentralizeAndSortVotes(CanditatesVotes[,] listOfVotes)
-        {
-           int numberOfCanditates = Enum.GetNames(typeof(Canditates)).Length;
-           CanditatesVotes[] CentralizedListOfVotes = new CanditatesVotes[numberOfCanditates];
-            InitialingCetralizedList(ref CentralizedListOfVotes);
-            // CentralizedVotes((CanditatesVotes[,] listOfVotes);
-            return CentralizedListOfVotes;
+        private static GlobalStruct[] CentralizeAndSortVotes(GlobalStruct[][] listOfVotes)
+        {          
+            GlobalStruct[] resultOfVotes=InitializingCanditatesList(listOfVotes[0]);
+            CentralizedVotes(ref resultOfVotes, listOfVotes);
+            return resultOfVotes;
         }
 
-        private void InitialingCetralizedList(ref CanditatesVotes[] centralizedListOfVotes)
+        private static void CentralizedVotes(ref GlobalStruct[] canditatesPosition, GlobalStruct[][] listOfVotes)
         {
-            var valuesOfStructAsArray = Enum.GetValues(typeof(Canditates));
-            int numberOfCanditates = Enum.GetNames(typeof(Canditates)).Length;
-            int[] numberOfVotes = new int[numberOfCanditates];
-            string[,] Sir =new string[numberOfCanditates,2];
-            for (int i=0;i<numberOfCanditates;i++)
+          for(int i=1;i<listOfVotes.Length;i++)
             {
-                Sir[i, 0] = Enum.Parse(Canditates, name);
-
+                AddList(listOfVotes[i],ref canditatesPosition);
+                LQuickSort(ref canditatesPosition, 0, canditatesPosition.Length - 1);
+                Array.Reverse(canditatesPosition);
             }
-             
+        }
+
+        private static void AddList(GlobalStruct[] listFromVoteSection, ref GlobalStruct[] canditatesPosition)
+        {
+            int indexOfList = canditatesPosition.Length-1;
+           foreach (GlobalStruct candidate in listFromVoteSection)
+            {
+                int index = PositionInDictionary(candidate.stringStruct, canditatesPosition);
+                if (index>=0)
+                {
+                    ModifyNumberOfVotes(ref canditatesPosition,index, candidate.number);
+                }
+                else
+                {
+                    indexOfList++;
+                    AddCanditatesInList(candidate, ref canditatesPosition, indexOfList);
+                }
+            }
+        }
+
+        private static void AddCanditatesInList(GlobalStruct candidate, ref GlobalStruct[] canditatesPosition,  int index)
+        {
+            Array.Resize(ref canditatesPosition, index+1);
+
+            GlobalStruct newElement = new GlobalStruct();
+            newElement.number = candidate.number;
+            newElement.stringStruct = candidate.stringStruct;
+
+            canditatesPosition[index] = newElement;
+        }
+        private static void ModifyNumberOfVotes(ref GlobalStruct[] canditatesPosition, int index, int number)
+        {
+            canditatesPosition[index].number += number;                            
+        }
+
+        private static GlobalStruct[] InitializingCanditatesList( GlobalStruct[] list)
+        {
+            GlobalStruct[] temporaryList = new GlobalStruct[list.Length];
+            Array.Copy(list, temporaryList, list.Length);
+            return temporaryList;
         }
     }}
