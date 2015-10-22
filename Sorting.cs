@@ -543,7 +543,8 @@ namespace TipuriPrimitive
 
         [TestMethod]
         public void CentralizationVotesFromMorePollingPlacesDifferentNumbersOfCandidates()
-        {          
+        {
+            string[] listOfCandidates= {"Cretu Ene", "Pop Viorel", "Popa Vanda" , "Avram Marin", "Man Ana" , "Pintea Radu" };       
             GlobalStruct[] list1 = { new GlobalStruct("Cretu Ene", 100), new GlobalStruct("Man Ana", 43), new GlobalStruct("Pop Viorel", 24), new GlobalStruct("Avram Marin", 4) };
             GlobalStruct[] list2 = { new GlobalStruct("Cretu Ene", 154), new GlobalStruct("Man Ana", 87), new GlobalStruct("Pop Viorel", 25), new GlobalStruct("Avram Marin", 14), new GlobalStruct("Pintea Radu", 3) };
             GlobalStruct[] list3 = { new GlobalStruct("Pop Viorel", 45), new GlobalStruct("Avram Marin", 45), new GlobalStruct("Man Ana", 36), new GlobalStruct("Cretu Ene", 25) };
@@ -554,13 +555,14 @@ namespace TipuriPrimitive
             GlobalStruct[] expectedVotingList = { new GlobalStruct("Cretu Ene", 326), new GlobalStruct("Man Ana", 188), new GlobalStruct("Avram Marin", 109), new GlobalStruct("Pop Viorel", 94), new GlobalStruct("Popa Vanda", 63), new GlobalStruct("Pintea Radu", 3) };
 
 
-            GlobalStruct[] calculateVotingList = CentralizeAndSortVotes(ReceivedVotingLists);
+            GlobalStruct[] calculateVotingList = CentralizeAndSortVotes(listOfCandidates,ReceivedVotingLists);
 
             CollectionAssert.AreEqual(expectedVotingList, calculateVotingList);
         }
         [TestMethod]
         public void CentralizationVotesFromMorePollingPlacesTheSameNumbersOfCandidates()
         {
+            string[] listOfCandidates = { "Cretu Ene", "Pop Viorel", "Avram Marin", "Man Ana", "Pintea Radu" };
             GlobalStruct[] list1 = { new GlobalStruct("Cretu Ene", 100), new GlobalStruct("Man Ana", 43), new GlobalStruct("Pop Viorel", 24), new GlobalStruct("Avram Marin", 4) };
             GlobalStruct[] list2 = { new GlobalStruct("Cretu Ene", 154), new GlobalStruct("Man Ana", 87), new GlobalStruct("Pop Viorel", 25), new GlobalStruct("Avram Marin", 14)};
             GlobalStruct[] list3 = { new GlobalStruct("Pop Viorel", 45), new GlobalStruct("Avram Marin", 45), new GlobalStruct("Man Ana", 36), new GlobalStruct("Cretu Ene", 25) };
@@ -568,49 +570,68 @@ namespace TipuriPrimitive
 
             GlobalStruct[][] ReceivedVotingLists = { list1, list2, list3, list4 };
 
-            GlobalStruct[] expectedVotingList = { new GlobalStruct("Cretu Ene", 326), new GlobalStruct("Man Ana", 188), new GlobalStruct("Avram Marin", 109),new GlobalStruct("Pop Viorel",109) };
+            GlobalStruct[] expectedVotingList = { new GlobalStruct("Cretu Ene", 326), new GlobalStruct("Man Ana", 188), new GlobalStruct("Avram Marin", 109), new GlobalStruct("Pop Viorel", 109), new GlobalStruct("Pintea Radu",0) };
 
-            GlobalStruct[] calculateVotingList = CentralizeAndSortVotes(ReceivedVotingLists);
+            GlobalStruct[] calculateVotingList = CentralizeAndSortVotes(listOfCandidates, ReceivedVotingLists);
+
+            CollectionAssert.AreEqual(expectedVotingList, calculateVotingList);
+        }
+        [TestMethod]
+        public void CentralizationVotesFromMorePollingPlacesAllCandidates()
+        {
+            string[] listOfCandidates = { "Cretu Ene", "Pop Viorel", "Avram Marin", "Man Ana" };
+            GlobalStruct[] list1 = { new GlobalStruct("Cretu Ene", 100), new GlobalStruct("Man Ana", 43), new GlobalStruct("Pop Viorel", 24), new GlobalStruct("Avram Marin", 4) };
+            GlobalStruct[] list2 = { new GlobalStruct("Cretu Ene", 154), new GlobalStruct("Man Ana", 87), new GlobalStruct("Pop Viorel", 25), new GlobalStruct("Avram Marin", 14) };
+            GlobalStruct[] list3 = { new GlobalStruct("Pop Viorel", 45), new GlobalStruct("Avram Marin", 45), new GlobalStruct("Man Ana", 36), new GlobalStruct("Cretu Ene", 25) };
+            GlobalStruct[] list4 = { new GlobalStruct("Cretu Ene", 47), new GlobalStruct("Avram Marin", 46), new GlobalStruct("Man Ana", 22), new GlobalStruct("Pop Viorel", 15) };
+
+            GlobalStruct[][] ReceivedVotingLists = { list1, list2, list3, list4 };
+
+            GlobalStruct[] expectedVotingList = { new GlobalStruct("Cretu Ene", 326), new GlobalStruct("Man Ana", 188), new GlobalStruct("Avram Marin", 109), new GlobalStruct("Pop Viorel", 109)};
+
+            GlobalStruct[] calculateVotingList = CentralizeAndSortVotes(listOfCandidates, ReceivedVotingLists);
 
             CollectionAssert.AreEqual(expectedVotingList, calculateVotingList);
         }
         [TestMethod]
         public void CentralizationVotesFromOnePollingPlace()
         {
+            string[] listOfCandidates = { "Pop Viorel", "Popa Vanda", "Avram Marin", "Man Ana", "Pintea Radu" };
             GlobalStruct[] list1 = { new GlobalStruct("Cretu Ene", 100), new GlobalStruct("Man Ana", 43), new GlobalStruct("Pop Viorel", 24), new GlobalStruct("Avram Marin", 4) };
            
             GlobalStruct[][] ReceivedVotingLists = { list1 };
 
-            GlobalStruct[] expectedVotingList = { new GlobalStruct("Cretu Ene",100), new GlobalStruct("Man Ana", 43), new GlobalStruct("Pop Viorel", 24), new GlobalStruct("Avram Marin", 4) };
-            
-            GlobalStruct[] calculateVotingList = CentralizeAndSortVotes(ReceivedVotingLists);
+            GlobalStruct[] expectedVotingList = { new GlobalStruct("Man Ana", 43), new GlobalStruct("Pop Viorel", 24), new GlobalStruct("Avram Marin", 4), new GlobalStruct("Pintea Radu", 0), new GlobalStruct("Popa Vanda", 0) };
+
+            GlobalStruct[] calculateVotingList = CentralizeAndSortVotes(listOfCandidates, ReceivedVotingLists);
 
             CollectionAssert.AreEqual(expectedVotingList, calculateVotingList);
         }
         [TestMethod]
-        public void CentralizationVotesFromNoPollingPlace()
+        public void CentralizationVotesNotReceivedLists()
         {
+            string[] listOfCandidates = { "Cretu Ene", "Pop Viorel", "Popa Vanda" };
             GlobalStruct[] list1 = {};
 
             GlobalStruct[][] ReceivedVotingLists = { list1 };
 
-            GlobalStruct[] expectedVotingList = {};
+            GlobalStruct[] expectedVotingList = { new GlobalStruct("Popa Vanda", 0), new GlobalStruct("Pop Viorel", 0), new GlobalStruct("Cretu Ene", 0) };
 
-            GlobalStruct[] calculateVotingList = CentralizeAndSortVotes(ReceivedVotingLists);
+            GlobalStruct[] calculateVotingList = CentralizeAndSortVotes(listOfCandidates, ReceivedVotingLists);
 
             CollectionAssert.AreEqual(expectedVotingList, calculateVotingList);
         }
 
-        private static GlobalStruct[] CentralizeAndSortVotes(GlobalStruct[][] votingLists)
+        private static GlobalStruct[] CentralizeAndSortVotes(string[]listOfCandidates, GlobalStruct[][] votingLists)
         {
-            GlobalStruct[] centralVotingList = InitializingVotingList(votingLists[0]);
+            GlobalStruct[] centralVotingList = InitializingVotingList(listOfCandidates);
             CentralizingVotingLists(ref centralVotingList, votingLists);
             return centralVotingList;
         }
 
         private static void CentralizingVotingLists(ref GlobalStruct[] centralVotingList, GlobalStruct[][] listOfVotes)
         {
-            for (int i = 1; i < listOfVotes.Length; i++)
+            for (int i = 0; i < listOfVotes.Length; i++)
             {
                 AddListFromOnePollingSection(listOfVotes[i], ref centralVotingList);
                 StructQuickSort(ref centralVotingList, 0, centralVotingList.Length - 1);
@@ -637,7 +658,6 @@ namespace TipuriPrimitive
 
         private static void AddListFromOnePollingSection(GlobalStruct[] listFromVoteSection, ref GlobalStruct[] centralVotingList)
         {
-            int indexOfList = centralVotingList.Length - 1;
             foreach (GlobalStruct candidate in listFromVoteSection)
             {
                 int index = PositionInList(candidate.stringField, centralVotingList);
@@ -645,33 +665,21 @@ namespace TipuriPrimitive
                 {
                     UpdateNumberOfVotesForOneCandidate(ref centralVotingList, index, candidate.numericField);
                 }
-                else
-                {
-                    indexOfList++;
-                    AddCanditateInVotingList(candidate, ref centralVotingList, indexOfList);
-                }
-            }
+         }
         }
-
-        private static void AddCanditateInVotingList(GlobalStruct candidate, ref GlobalStruct[] centralVotingList, int indexOfCentralList)
-        {
-            Array.Resize(ref centralVotingList, indexOfCentralList + 1);
-
-            GlobalStruct newElement = new GlobalStruct();
-            newElement.numericField = candidate.numericField;
-            newElement.stringField = candidate.stringField;
-
-            centralVotingList[indexOfCentralList] = newElement;
-        }
+                
         private static void UpdateNumberOfVotesForOneCandidate(ref GlobalStruct[] canditatesPosition, int index, int number)
         {
             canditatesPosition[index].numericField += number;
         }
 
-        private static GlobalStruct[] InitializingVotingList(GlobalStruct[] list)
+        private static GlobalStruct[] InitializingVotingList(string[] listOfCandidates)
         {
-            GlobalStruct[] temporaryList = new GlobalStruct[list.Length];
-            Array.Copy(list, temporaryList, list.Length);
+            GlobalStruct[] temporaryList = new GlobalStruct[listOfCandidates.Length];
+            for (int i=0;i<listOfCandidates.Length;i++)
+            {
+                temporaryList[i].stringField = listOfCandidates[i];
+            }
             return temporaryList;
         }
     }
