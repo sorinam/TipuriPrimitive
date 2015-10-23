@@ -11,78 +11,111 @@ namespace TipuriPrimitive
         public struct Student
         {
             public string name;
-            public List<uint> Matter1;
-            public List<uint> Matter2;
-            public List<uint> Matter3;
-            public Student(string name, List<uint> Matter1, List<uint> Matter2, List<uint> Matter3)
+            public float finalGrade;
+            public Student(string name, float grade)
             {
                 this.name = name;
-                this.Matter1 = new List<uint>();
-                this.Matter2 = new List<uint>();
-                this.Matter3 = new List<uint>();
+                this.finalGrade = grade;
             }
         }
-        public struct StudentAverage
+        public struct StudentGrades
         {
             public string name;
-            public float averagenumber ;
-            
-            public StudentAverage(string name, float Note)
+            public uint[] Discipline1Grades;
+            public uint[] Discipline2Grades;
+            public uint[] Discipline3Grades;
+            public StudentGrades(string name, uint[] Grades1, uint[] Grades2, uint[] Grades3)
             {
                 this.name = name;
-                this.averagenumber = Note;
+                this.Discipline1Grades = Grades1;
+                this.Discipline2Grades = Grades2;
+                this.Discipline3Grades = Grades3;
             }
         }
 
         [TestMethod]
         public void Students()
         {
-            Student[] ClassCatalogue =
+            StudentGrades[] Catalogue =
                {
-                new Student ("Andrei Maria",new List<uint>{ 10,9},new List<uint> { 10,8,9},new List<uint> {10 }),
-                new Student ("Ban Claudiu",new List<uint>{7,10,9},new List<uint> { 10,10,9},new List<uint> {4,7}),
-                new Student ("Coman Ana",new List<uint>{10,10,7},new List<uint> { 10,8,6},new List<uint> {8,7,9 }),
-                new Student ("Radu Andrei",new List<uint>{ 9,4,7},new List<uint> { 9},new List<uint> {10,9,7 }),
-                new Student ("Toma Dan",new List<uint>{ 10,9},new List<uint> { 8,9},new List<uint> {7,8,6,6 }),
-            };
-            StudentAverage[] ClassAverage=CalculateGeneralAverageForAllStudents(ClassCatalogue);
+            new StudentGrades ("Andrei Maria",new uint[] { 10,9,9},new uint[] {8 },new uint[] {9,10,7 }),
+            new StudentGrades("Ban Andrei",new uint[]{ 10, 10, 9 }, new uint[]{10,9,10,10},new uint[] {9,7 }),
+            new StudentGrades("Vlad Mihai",new uint[]{ 8,10, 9 }, new uint[]{9,10,10},new uint[] {10,7 }),
+            new StudentGrades("Pop Mihai",new uint[]{5,8,10, 9 }, new uint[]{9,4,10,10},new uint[] {10,7,4 }),
+            new StudentGrades ("Man Maria",new uint[] { 10,9},new uint[] {8 ,5},new uint[] {9,10,7 }),
+            new StudentGrades("Bancos Andrei",new uint[]{ 10, 10 }, new uint[]{10,9,10,10},new uint[] {9,7,5 }),
+            new StudentGrades("Vladimir Mihai",new uint[]{ 8,10, 9,10 }, new uint[]{9,10,10},new uint[] {10,7,8 }),
+            new StudentGrades("Popescu Mihai",new uint[]{5,8,10, 9 ,9}, new uint[]{9,4,10,10},new uint[] {10,7,4,8 }),
+                };
+            Student[] StudentsGrades = CalculateGradesForAllStudents(Catalogue);
+            InsertionSortGeneralGrades(ref StudentsGrades);
+            Assert.AreEqual(1, 3);
+
         }
 
-        private static StudentAverage[] CalculateGeneralAverageForAllStudents(Student[] classCatalogue)
-        {   StudentAverage[] studentNotes = new StudentAverage[classCatalogue.Length];
-        
-           StudentAverage studentAverageNotes = new StudentAverage();
-
-           for (int i=0;i<classCatalogue.Length;i++)
+        private void InsertionSortGeneralGrades(ref Student[] studentsGrades)
+        {
+            for (int i = 1; i < studentsGrades.Length; i++)
             {
-                studentAverageNotes.averagenumber = CalculateGeneralAverageForOneStudent(classCatalogue[i]);
-                studentAverageNotes.name = classCatalogue[i].name;
-                studentNotes[i] = studentAverageNotes;
-            }
-            return studentNotes;
-        }
-
-        private static float CalculateGeneralAverageForOneStudent(Student student)
-        {
-            float[] averageForEachMatters = new float[3];
-            averageForEachMatters[0] = CalculateAverageForOneMatter(student.Matter1);
-            averageForEachMatters[1] = CalculateAverageForOneMatter(student.Matter2);
-            averageForEachMatters[2] = CalculateAverageForOneMatter(student.Matter3);
-            return (averageForEachMatters[0] + averageForEachMatters[0] + averageForEachMatters[0]) / 3;
-
-        }
-
-        private static float CalculateAverageForOneMatter(List<uint> Notes)
-        {
-            if (Notes.Count == 0) return 0;
-            float sum = 0;
-             for (int i = 0; i < Notes.Count; i++)
+                if (studentsGrades[i].finalGrade > studentsGrades[i - 1].finalGrade)
                 {
-                    sum += Notes[i];
+                    InsertElementInRightPosition(ref studentsGrades, i);
                 }
-         return sum / Notes.Count;
-            
+
+            }
         }
-    
+
+        private void InsertElementInRightPosition(ref Student[] ListOfGrades, int index)
+        {
+            int j = index;
+            do
+            {
+                if ((ListOfGrades[j].finalGrade) > ListOfGrades[j - 1].finalGrade)
+                {
+                    Swap(ref ListOfGrades[j], ref ListOfGrades[j - 1]);
+                }
+                j--;
+            }
+            while (j > 0 || ((ListOfGrades[j + 1].finalGrade) > ListOfGrades[j].finalGrade));
+        }
+
+        private static void Swap(ref Student firstValue, ref Student secondValue)
+        {
+            var temporary = new Student();
+            temporary = firstValue;
+            firstValue = secondValue;
+            secondValue = temporary;
+        }
+
+        private static Student[] CalculateGradesForAllStudents(StudentGrades[] Catalogue)
+        {
+
+            Student[] studentsGrades = new Student[Catalogue.Length];
+            for (int i = 0; i < Catalogue.Length; i++)
+            {
+                CalculateGradeForAStudent(Catalogue, i, ref studentsGrades);
+            }
+            return studentsGrades;
+        }
+
+        private static void CalculateGradeForAStudent(StudentGrades[] catalogue, int i, ref Student[] studentsGrades)
+        {
+            studentsGrades[i].name = catalogue[i].name;
+            float generalGrade = (CalculateGrade(catalogue[i].Discipline1Grades) + CalculateGrade(catalogue[i].Discipline2Grades) + CalculateGrade(catalogue[i].Discipline3Grades)) / 3;
+            studentsGrades[i].finalGrade = generalGrade;
+        }
+
+        private static float CalculateGrade(uint[] grades)
+        {
+            if (grades.Length == 0) return 0;
+            float sum = 0;
+            for (int i = 0; i < grades.Length; i++)
+            {
+                sum += grades[i];
+            }
+            return sum / grades.Length;
+
+        }
+
     }
 }

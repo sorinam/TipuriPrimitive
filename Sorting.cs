@@ -383,7 +383,7 @@ namespace TipuriPrimitive
             sourceArray[i].stringField = pivotName;
             return i;
         }
-        private static void StructQuickSort(ref GlobalStruct[] sourceArray, int left, int right)
+        public static void StructQuickSort(ref GlobalStruct[] sourceArray, int left, int right)
         {
             if (left < right)
             {
