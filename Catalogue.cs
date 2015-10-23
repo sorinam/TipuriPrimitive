@@ -47,7 +47,7 @@ namespace TipuriPrimitive
             new StudentGrades("Vladimir Mihai",new uint[]{ 8,10, 9,10 }, new uint[]{9,10,10},new uint[] {10,7,8 }),
             new StudentGrades("Popescu Mihai",new uint[]{5,8,10, 9 ,9}, new uint[]{9,4,10,10},new uint[] {10,7,4,8 }),
                 };
-            
+
             Student[] expectedSortedList =
             {
                 new Student ("Ban Andrei",9.14M),
@@ -63,11 +63,11 @@ namespace TipuriPrimitive
             Student[] StudentsGrades = CalculateGradesForAllStudents(Catalogue);
             InsertionSortGeneralGrades(ref StudentsGrades);
 
-            CollectionAssert.AreEqual(expectedSortedList,StudentsGrades);
+            CollectionAssert.AreEqual(expectedSortedList, StudentsGrades);
         }
 
         [TestMethod]
-        public void FindStudentWithSpecifiedGrades()
+        public void FindStudentWithCustomGrades()
         {
             StudentGrades[] Catalogue =
                {
@@ -80,34 +80,241 @@ namespace TipuriPrimitive
             new StudentGrades("Vladimir Mihai",new uint[]{ 8,10, 9,10 }, new uint[]{9,10,10},new uint[] {10,7,8 }),
             new StudentGrades("Popescu Mihai",new uint[]{5,8,10, 9 ,9}, new uint[]{9,4,10,10},new uint[] {10,7,4,8 }),
                 };
-            decimal generalGradeToFind = 8.67M;
-            string expectedStudent = "Andrei Maria";
+            decimal finalGradeToFind = 8.67M;
+            string[] expectedStudent = { "Andrei Maria" };
 
             Student[] StudentsGrades = CalculateGradesForAllStudents(Catalogue);
             InsertionSortGeneralGrades(ref StudentsGrades);
-            string studentFound = BinarySearch(StudentsGrades, generalGradeToFind, 0, StudentsGrades.Length - 1);
+            string[] studentsFound = FindAllStudentsWithCustomGrades(StudentsGrades, finalGradeToFind);
 
-            Assert.AreEqual(expectedStudent,studentFound);
+            CollectionAssert.AreEqual(expectedStudent, studentsFound);
         }
 
-        private static string BinarySearch(Student[] studentsGrades, decimal GradeToFind,int begin,int end)
+        [TestMethod]
+        public void NotFoundStudentWithCustomGrades()
         {
-            if (begin > end) return null;
+            StudentGrades[] Catalogue =
+               {
+            new StudentGrades ("Andrei Maria",new uint[] { 10,9,9},new uint[] {8 },new uint[] {9,10,7 }),
+            new StudentGrades("Ban Andrei",new uint[]{ 10, 10, 9 }, new uint[]{10,9,10,10},new uint[] {9,7 }),
+            new StudentGrades("Vlad Mihai",new uint[]{ 8,10, 9 }, new uint[]{9,10,10},new uint[] {10,7 }),
+            new StudentGrades("Pop Mihai",new uint[]{5,8,10, 9 }, new uint[]{9,4,10,10},new uint[] {10,7,4 }),
+            new StudentGrades ("Man Maria",new uint[] { 10,9},new uint[] {8 ,5},new uint[] {9,10,7 }),
+            new StudentGrades("Bancos Andrei",new uint[]{ 10, 10 }, new uint[]{10,9,10,10},new uint[] {9,7,5 }),
+            new StudentGrades("Vladimir Mihai",new uint[]{ 8,10, 9,10 }, new uint[]{9,10,10},new uint[] {10,7,8 }),
+            new StudentGrades("Popescu Mihai",new uint[]{5,8,10, 9 ,9}, new uint[]{9,4,10,10},new uint[] {10,7,4,8 }),
+                };
+            decimal finalGradeToFind = 8.65M;
+            string[] expectedStudents = null;
+
+            Student[] StudentsGrades = CalculateGradesForAllStudents(Catalogue);
+            InsertionSortGeneralGrades(ref StudentsGrades);
+            string[] studentsFound = FindAllStudentsWithCustomGrades(StudentsGrades, finalGradeToFind);
+
+            CollectionAssert.AreEqual(expectedStudents, studentsFound);
+        }
+        [TestMethod]
+        public void FindAllStudentsWithCustomGrades()
+        {
+            StudentGrades[] Catalogue =
+               {
+            new StudentGrades ("Andrei Maria",new uint[] { 10,9,9},new uint[] {8 },new uint[] {9,10,7 }),
+            new StudentGrades("Ban Andrei",new uint[]{ 10, 10, 9 }, new uint[]{10,9,10,10},new uint[] {9,7 }),
+            new StudentGrades("Vlad Mihai",new uint[]{ 8,10, 9 }, new uint[]{9,10,10},new uint[] {10,7 }),
+            new StudentGrades("Pop Mihai",new uint[]{5,8,10, 9 }, new uint[]{9,4,10,10},new uint[] {10,7,4 }),
+            new StudentGrades ("Man Maria",new uint[] { 10,9},new uint[] {8 ,5},new uint[] {9,10,7 }),
+            new StudentGrades("Bancos Andrei",new uint[]{ 10, 10 }, new uint[]{10,9,10,10},new uint[] {9,7,5 }),
+            new StudentGrades("Vladimir Mihai",new uint[]{ 8,10, 9,10 }, new uint[]{9,10,10},new uint[] {10,7,8 }),
+            new StudentGrades("Popescu Mihai",new uint[]{5,8,10, 9 ,9}, new uint[]{9,4,10,10},new uint[] {10,7,4,8 }),
+            new StudentGrades("Matei Andrei",new uint[]{ 10, 10,10,9 }, new uint[]{10,10},new uint[] {9,7,5 }),
+                };
+            decimal finalGradeToFind = 8.92M;
+            string[] expectedStudents = { "Matei Andrei", "Bancos Andrei" };
+
+            Student[] StudentsGrades = CalculateGradesForAllStudents(Catalogue);
+            InsertionSortGeneralGrades(ref StudentsGrades);
+
+            string[] studentsFound = FindAllStudentsWithCustomGrades(StudentsGrades, finalGradeToFind);
+
+            CollectionAssert.AreEqual(expectedStudents, studentsFound);
+        }
+
+        [TestMethod]
+        public void FindAllTheBestStudents()
+        {
+            StudentGrades[] Catalogue =
+               {
+            new StudentGrades ("Andrei Maria",new uint[] { 10,9,9},new uint[] {8 },new uint[] {9,10,7 }),
+            new StudentGrades("Ban Andrei",new uint[]{ 10, 10, 9 }, new uint[]{10,9,10,10},new uint[] {9,7 }),
+            new StudentGrades("Vlad Mihai",new uint[]{ 8,10, 9 }, new uint[]{9,10,10},new uint[] {10,7 }),
+            new StudentGrades("Pop Mihai",new uint[]{5,8,10, 9 }, new uint[]{9,4,10,10},new uint[] {10,7,4 }),
+            new StudentGrades ("Man Maria",new uint[] { 10,9},new uint[] {8 ,5},new uint[] {9,10,7 }),
+            new StudentGrades("Bancos Andrei",new uint[]{ 10, 10 }, new uint[]{10,9,10,10},new uint[] {9,7,5 }),
+            new StudentGrades("Vladimir Mihai",new uint[]{ 8,9 }, new uint[]{9,7},new uint[] {7,8 }),
+            new StudentGrades("Popescu Mihai",new uint[]{5,8,10, 9 ,9}, new uint[]{9,4,10,10},new uint[] {10,7,4,8 }),
+                };
+
+            Student[] expectedList =
+            {
+                new Student ("Ban Andrei",5M),
+                new Student ("Bancos Andrei",5M),
+            };
+            int specialGrade = 10;
+
+            Student[] StudentsGrades = FindTheBestStudents(Catalogue, specialGrade);
+
+            CollectionAssert.AreEqual(expectedList, StudentsGrades);
+        }
+
+        [TestMethod]
+        public void FindTheBestStudent()
+        {
+            StudentGrades[] Catalogue =
+               {
+            new StudentGrades ("Andrei Maria",new uint[] { 10,9,9},new uint[] {8 },new uint[] {9,10,7 }),
+            new StudentGrades("Ban Andrei",new uint[]{ 10, 10, 9 }, new uint[]{10,9,10,10},new uint[] {9,7 }),
+            new StudentGrades("Vlad Mihai",new uint[]{ 8,10, 9 }, new uint[]{9,10,10},new uint[] {10,7 }),
+            new StudentGrades("Pop Mihai",new uint[]{5,8,10, 9 }, new uint[]{9,4,10,10},new uint[] {10,7,4 }),
+            new StudentGrades ("Man Maria",new uint[] { 10,9},new uint[] {8 ,5},new uint[] {9,10,7 }),
+            new StudentGrades("Bancos Andrei",new uint[]{ 10, 10 }, new uint[]{10,9,10,10},new uint[] {9,7,5 }),
+            new StudentGrades("Vladimir Mihai",new uint[]{ 8,9 }, new uint[]{9,7},new uint[] {7,8 }),
+            new StudentGrades("Popescu Mihai",new uint[]{10,8,10, 10 ,9}, new uint[]{9,4,10,10},new uint[] {10,7,4,8 }),
+                };
+
+            Student[] expectedList =
+            {
+                new Student ("Popescu Mihai",6M),
+            };
+            int specialGrade = 10;
+
+            Student[] StudentsGrades = FindTheBestStudents(Catalogue, specialGrade);
+
+            CollectionAssert.AreEqual(expectedList, StudentsGrades);
+        }
+        [TestMethod]
+        public void NotFoundTheBestStudent()
+        {
+            StudentGrades[] Catalogue =
+               {
+            new StudentGrades ("Andrei Maria",new uint[] { 6,9,9},new uint[] {8 },new uint[] {9,6,7 }),
+            new StudentGrades("Ban Andrei",new uint[]{ 7,  9 }, new uint[]{9,6,5},new uint[] {9,7 }),
+            new StudentGrades("Vlad Mihai",new uint[]{ 8,9, 9 }, new uint[]{9,9,8},new uint[] {9,7 }),
+          };
+
+            Student[] expectedList = new Student[0] ;
+           
+            int specialGrade = 10;
+
+            Student[] StudentsGrades = FindTheBestStudents(Catalogue, specialGrade);
+
+            CollectionAssert.AreEqual(expectedList, StudentsGrades);
+        }
+
+        private static Student[] FindTheBestStudents(StudentGrades[] catalogue, int Grade)
+        {
+            Student[] allTheBestStudents=new Student[0];
+            int max = 0;
+            for (int i = 0; i < catalogue.Length; i++)
+            {
+                int numberOfSpecialGrade = CountGrade(catalogue[i], Grade);
+                if (numberOfSpecialGrade > max)
+                {
+                    max = numberOfSpecialGrade;
+                    Array.Resize(ref allTheBestStudents, 1);
+                    allTheBestStudents[0].name = catalogue[i].name;
+                    allTheBestStudents[0].finalGrade = numberOfSpecialGrade;
+                }
+                else
+                {
+                    if ((numberOfSpecialGrade == max)&&(max!=0))
+                    {
+                        int newsize = allTheBestStudents.Length + 1;
+                        Array.Resize(ref allTheBestStudents, newsize);
+                        allTheBestStudents[newsize - 1].name = catalogue[i].name;
+                        allTheBestStudents[newsize - 1].finalGrade = numberOfSpecialGrade;
+                    }
+                }
+
+            }
+            return allTheBestStudents;
+        }
+
+        private static int CountGrade(StudentGrades studentGrades, int grade)
+        {
+            var number1 = studentGrades.Discipline1Grades;
+            int foundGrade1 = CountGradeForADiscipline(number1, grade);
+            var number2 = studentGrades.Discipline2Grades;
+            int foundGrade2 = CountGradeForADiscipline(number2, grade);
+            var number3 = studentGrades.Discipline3Grades;
+            int foundGrade3 = CountGradeForADiscipline(number3, grade);
+            return foundGrade1 + foundGrade2 + foundGrade3;
+        }
+
+        private static int CountGradeForADiscipline(uint[] number, int grade)
+        {
+            int count = 0;
+            for (int i = 0; i < number.Length; i++)
+            {
+                if (number[i] == grade)
+                {
+                    count++;
+                }
+            }
+            return count;
+        }
+
+        private string[] FindAllStudentsWithCustomGrades(Student[] studentsGrades, decimal generalGradeToFind)
+        {
+
+            int indexofstudentFound = BinarySearch(studentsGrades, generalGradeToFind, 0, studentsGrades.Length - 1);
+            if (indexofstudentFound != -1)
+            {
+                return FindAllStudents(studentsGrades, indexofstudentFound);
+
+            }
+            return null;
+        }
+
+        private string[] FindAllStudents(Student[] studentsGrades, int index)
+        {
+            string[] AllStudents = { studentsGrades[index].name };
+            //right search
+            int j = index + 1;
+            while (j < studentsGrades.Length && (studentsGrades[index].finalGrade == (studentsGrades[j].finalGrade)))
+            {
+                Array.Resize(ref AllStudents, AllStudents.Length + 1);
+                AllStudents[AllStudents.Length - 1] = studentsGrades[j].name;
+                j++;
+            };
+            //left search
+            int k = index - 1;
+            while (k > 0 && (studentsGrades[index].finalGrade == (studentsGrades[k].finalGrade)))
+            {
+                Array.Resize(ref AllStudents, AllStudents.Length + 1);
+                AllStudents[AllStudents.Length - 1] = studentsGrades[k].name;
+                k--;
+            };
+            return AllStudents;
+        }
+
+        private static int BinarySearch(Student[] studentsGrades, decimal GradeToFind, int begin, int end)
+        {
+            if (begin > end) return -1;
             int middle = begin + (end - begin) / 2;
             Student middleElement = studentsGrades[middle];
-            if (GradeToFind<middleElement.finalGrade)
+            if (GradeToFind < middleElement.finalGrade)
             {
-               return  BinarySearch(studentsGrades, GradeToFind, middle + 1, end);
+                return BinarySearch(studentsGrades, GradeToFind, middle + 1, end);
             }
             else
             {
                 if (GradeToFind == middleElement.finalGrade)
                 {
-                    return middleElement.name;
+                    return middle;
                 }
             }
             return BinarySearch(studentsGrades, GradeToFind, begin, middle - 1);
-            
+
         }
 
         private void InsertionSortGeneralGrades(ref Student[] studentsGrades)
@@ -159,7 +366,7 @@ namespace TipuriPrimitive
         {
             studentsGrades[i].name = catalogue[i].name;
             decimal generalGrade = (CalculateGrade(catalogue[i].Discipline1Grades) + CalculateGrade(catalogue[i].Discipline2Grades) + CalculateGrade(catalogue[i].Discipline3Grades)) / 3;
-            studentsGrades[i].finalGrade = Math.Round(generalGrade,2);
+            studentsGrades[i].finalGrade = Math.Round(generalGrade, 2);
         }
 
         private static decimal CalculateGrade(uint[] grades)
