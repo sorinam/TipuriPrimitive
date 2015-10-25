@@ -11,32 +11,32 @@ namespace TipuriPrimitive
         public struct Student
         {
             public string name;
-            public decimal finalGrade;
+            public decimal averageGrade;
             public Student(string name, decimal grade)
             {
                 this.name = name;
-                this.finalGrade = grade;
+                this.averageGrade = grade;
             }
         }
         public struct StudentGrades
         {
             public string name;
-            public uint[] Discipline1Grades;
-            public uint[] Discipline2Grades;
-            public uint[] Discipline3Grades;
+            public uint[] course1Grades;
+            public uint[] course2Grades;
+            public uint[] course3Grades;
             public StudentGrades(string name, uint[] Grades1, uint[] Grades2, uint[] Grades3)
             {
                 this.name = name;
-                this.Discipline1Grades = Grades1;
-                this.Discipline2Grades = Grades2;
-                this.Discipline3Grades = Grades3;
+                this.course1Grades = Grades1;
+                this.course2Grades = Grades2;
+                this.course3Grades = Grades3;
             }
         }
 
         [TestMethod]
         public void SortDescendingStudents()
         {
-            StudentGrades[] Catalogue =
+            StudentGrades[] catalogue =
                {
             new StudentGrades ("Andrei Maria",new uint[] { 10,9,9},new uint[] {8 },new uint[] {9,10,7 }),
             new StudentGrades("Ban Andrei",new uint[]{ 10, 10, 9 }, new uint[]{10,9,10,10},new uint[] {9,7 }),
@@ -59,15 +59,15 @@ namespace TipuriPrimitive
                 new Student ("Popescu Mihai",7.9M),
                 new Student ("Pop Mihai",7.75M),
             };
-            Student[] StudentsGrades = CalculateAverageGradeAndSort(Catalogue);
+            Student[] StudentsGrades = CalculateAverageGradeAndSort(catalogue);
 
             CollectionAssert.AreEqual(expectedSortedList, StudentsGrades);
         }
 
         [TestMethod]
-        public void FindStudentWithCustomGrades()
+        public void FindStudentWithCustomGrade()
         {
-            StudentGrades[] Catalogue =
+            StudentGrades[] catalogue =
                {
             new StudentGrades ("Andrei Maria",new uint[] { 10,9,9},new uint[] {8 },new uint[] {9,10,7 }),
             new StudentGrades("Ban Andrei",new uint[]{ 10, 10, 9 }, new uint[]{10,9,10,10},new uint[] {9,7 }),
@@ -78,19 +78,19 @@ namespace TipuriPrimitive
             new StudentGrades("Vladimir Mihai",new uint[]{ 8,10, 9,10 }, new uint[]{9,10,10},new uint[] {10,7,8 }),
             new StudentGrades("Popescu Mihai",new uint[]{5,8,10, 9 ,9}, new uint[]{9,4,10,10},new uint[] {10,7,4,8 }),
                 };
-            decimal finalGradeToFind = 8.67M;
+            decimal averageGradeToFind = 8.67M;
             string[] expectedStudent = { "Andrei Maria" };
 
-            Student[] StudentsGrades = CalculateAverageGradeAndSort(Catalogue);
-            string[] studentsFound = FindAllStudentsWithCustomGrades(StudentsGrades, finalGradeToFind);
+            Student[] studentsGrades = CalculateAverageGradeAndSort(catalogue);
+            string[] studentsFound = FindAllStudentsWithCustomGrades(studentsGrades, averageGradeToFind);
 
             CollectionAssert.AreEqual(expectedStudent, studentsFound);
         }
 
         [TestMethod]
-        public void NotFoundStudentWithCustomGrades()
+        public void NotFoundStudentWithCustomGrade()
         {
-            StudentGrades[] Catalogue =
+            StudentGrades[] catalogue =
                {
             new StudentGrades ("Andrei Maria",new uint[] { 10,9,9},new uint[] {8 },new uint[] {9,10,7 }),
             new StudentGrades("Ban Andrei",new uint[]{ 10, 10, 9 }, new uint[]{10,9,10,10},new uint[] {9,7 }),
@@ -101,18 +101,18 @@ namespace TipuriPrimitive
             new StudentGrades("Vladimir Mihai",new uint[]{ 8,10, 9,10 }, new uint[]{9,10,10},new uint[] {10,7,8 }),
             new StudentGrades("Popescu Mihai",new uint[]{5,8,10, 9 ,9}, new uint[]{9,4,10,10},new uint[] {10,7,4,8 }),
                 };
-            decimal finalGradeToFind = 8.65M;
+            decimal averageGradeToFind = 8.65M;
             string[] expectedStudents = null;
 
-            Student[] StudentsGrades = CalculateAverageGradeAndSort(Catalogue);
-            string[] studentsFound = FindAllStudentsWithCustomGrades(StudentsGrades, finalGradeToFind);
+            Student[] studentsGrades = CalculateAverageGradeAndSort(catalogue);
+            string[] studentsFound = FindAllStudentsWithCustomGrades(studentsGrades, averageGradeToFind);
 
             CollectionAssert.AreEqual(expectedStudents, studentsFound);
         }
         [TestMethod]
         public void FindAllStudentsWithCustomGrades()
         {
-            StudentGrades[] Catalogue =
+            StudentGrades[] catalogue =
                {
             new StudentGrades ("Andrei Maria",new uint[] { 10,9,9},new uint[] {8 },new uint[] {9,10,7 }),
             new StudentGrades("Ban Andrei",new uint[]{ 10, 10, 9 }, new uint[]{10,9,10,10},new uint[] {9,7 }),
@@ -124,12 +124,12 @@ namespace TipuriPrimitive
             new StudentGrades("Popescu Mihai",new uint[]{5,8,10, 9 ,9}, new uint[]{9,4,10,10},new uint[] {10,7,4,8 }),
             new StudentGrades("Matei Andrei",new uint[]{ 10, 10,10,9 }, new uint[]{10,10},new uint[] {9,7,5 }),
                 };
-            decimal finalGradeToFind = 8.92M;
+            decimal averageGradeToFind = 8.92M;
             string[] expectedStudents = { "Matei Andrei", "Bancos Andrei" };
 
-            Student[] StudentsGrades = CalculateAverageGradeAndSort(Catalogue);
+            Student[] studentsGrades = CalculateAverageGradeAndSort(catalogue);
 
-            string[] studentsFound = FindAllStudentsWithCustomGrades(StudentsGrades, finalGradeToFind);
+            string[] studentsFound = FindAllStudentsWithCustomGrades(studentsGrades, averageGradeToFind);
 
             CollectionAssert.AreEqual(expectedStudents, studentsFound);
         }
@@ -137,7 +137,7 @@ namespace TipuriPrimitive
         [TestMethod]
         public void FindAllTheBestStudents()
         {
-            StudentGrades[] Catalogue =
+            StudentGrades[] catalogue =
                {
             new StudentGrades ("Andrei Maria",new uint[] { 10,9,9},new uint[] {8 },new uint[] {9,10,7 }),
             new StudentGrades("Ban Andrei",new uint[]{ 10, 10, 9 }, new uint[]{10,9,10,10},new uint[] {9,7 }),
@@ -156,15 +156,15 @@ namespace TipuriPrimitive
             };
             int specialGrade = 10;
 
-            Student[] StudentsGrades = FindTheBestStudents(Catalogue, specialGrade);
+            Student[] studentsGrades = FindTheBestStudents(catalogue, specialGrade);
 
-            CollectionAssert.AreEqual(expectedList, StudentsGrades);
+            CollectionAssert.AreEqual(expectedList, studentsGrades);
         }
 
         [TestMethod]
         public void FindTheBestStudent()
         {
-            StudentGrades[] Catalogue =
+            StudentGrades[] catalogue =
                {
             new StudentGrades ("Andrei Maria",new uint[] { 10,9,9},new uint[] {8 },new uint[] {9,10,7 }),
             new StudentGrades("Ban Andrei",new uint[]{ 10, 10, 9 }, new uint[]{10,9,10,10},new uint[] {9,7 }),
@@ -182,9 +182,9 @@ namespace TipuriPrimitive
             };
             int specialGrade = 10;
 
-            Student[] StudentsGrades = FindTheBestStudents(Catalogue, specialGrade);
+            Student[] studentsGrades = FindTheBestStudents(catalogue, specialGrade);
 
-            CollectionAssert.AreEqual(expectedList, StudentsGrades);
+            CollectionAssert.AreEqual(expectedList, studentsGrades);
         }
         [TestMethod]
         public void NotFoundTheBestStudent()
@@ -200,15 +200,15 @@ namespace TipuriPrimitive
 
             int specialGrade = 10;
 
-            Student[] StudentsGrades = FindTheBestStudents(Catalogue, specialGrade);
+            Student[] studentsGrades = FindTheBestStudents(Catalogue, specialGrade);
 
-            CollectionAssert.AreEqual(expectedList, StudentsGrades);
+            CollectionAssert.AreEqual(expectedList, studentsGrades);
         }
 
         [TestMethod]
-        public void FindTheStudentWithLowestGeneralGrade()
+        public void FindTheStudentWithLowestAverageGrade()
         {
-            StudentGrades[] Catalogue =
+            StudentGrades[] catalogue =
                {
             new StudentGrades ("Andrei Maria",new uint[] { 10,9,9},new uint[] {8 },new uint[] {9,10,7 }),
             new StudentGrades("Ban Andrei",new uint[]{ 10, 10, 9 }, new uint[]{10,9,10,10},new uint[] {9,7 }),
@@ -226,14 +226,14 @@ namespace TipuriPrimitive
                 new Student ("Bacos Ana",4.83M),
             };
 
-            Student[] StudentsGrades = FindTheWorstStudents(Catalogue);
+            Student[] studentsGrades = FindTheLowestGrade(catalogue);
 
-            CollectionAssert.AreEqual(expectedList, StudentsGrades);
+            CollectionAssert.AreEqual(expectedList, studentsGrades);
         }
         [TestMethod]
-        public void FindTheStudentsWithTheLowestGeneralGrade()
+        public void FindTheStudentsWithTheLowestAverageGrade()
         {
-            StudentGrades[] Catalogue =
+            StudentGrades[] catalogue =
                {
             new StudentGrades ("Andrei Maria",new uint[] { 10,9,9},new uint[] {8 },new uint[] {9,10,7 }),
             new StudentGrades("Ban Andrei",new uint[]{ 10, 10, 9 }, new uint[]{10,9,10,10},new uint[] {9,7 }),
@@ -252,56 +252,58 @@ namespace TipuriPrimitive
                 new Student ("Popescu Mihai",4.83M),
             };
 
-            Student[] StudentsGrades = FindTheWorstStudents(Catalogue);
+            Student[] studentsGrades = FindTheLowestGrade(catalogue);
 
-            CollectionAssert.AreEqual(expectedList, StudentsGrades);
+            CollectionAssert.AreEqual(expectedList, studentsGrades);
         }
         [TestMethod]
         public void FindTheStudentsInEmptyCatalogue()
         {
-            StudentGrades[] Catalogue = { };
+            StudentGrades[] catalogue = { };
 
             Student[] expectedList = { };
 
-            Student[] StudentsGrades = FindTheWorstStudents(Catalogue);
+            Student[] studentGrades = FindTheLowestGrade(catalogue);
 
-            CollectionAssert.AreEqual(expectedList, StudentsGrades);
+            CollectionAssert.AreEqual(expectedList, studentGrades);
         }
 
-        private Student[] FindTheWorstStudents(StudentGrades[] catalogue)
+        private Student[] FindTheLowestGrade(StudentGrades[] catalogue)
         {
             Student[] studentsGrades = new Student[catalogue.Length];
-            Student[] MinimGrades = new Student[0];
+            Student[] minimGrades = new Student[0];
             decimal minimGrade = 11;
             for (int i = 0; i < catalogue.Length; i++)
             {
                 CalculateGradeForAStudent(catalogue, i, ref studentsGrades);
-                if (studentsGrades[i].finalGrade < minimGrade)
+                if (studentsGrades[i].averageGrade < minimGrade)
                 {
-                    minimGrade = studentsGrades[i].finalGrade;
-                    Array.Resize(ref MinimGrades, 1);
-                    MinimGrades[0].name = studentsGrades[i].name;
-                    MinimGrades[0].finalGrade = studentsGrades[i].finalGrade;
+                    minimGrade = studentsGrades[i].averageGrade;
+                    AddStudentInResultList(ref minimGrades, 0, studentsGrades[i]);
                 }
                 else
                 {
-                    if (studentsGrades[i].finalGrade == minimGrade)
+                    if (studentsGrades[i].averageGrade == minimGrade)
                     {
-                        int newsize = MinimGrades.Length + 1;
-                        Array.Resize(ref MinimGrades, newsize);
-                        MinimGrades[newsize - 1].name = studentsGrades[i].name;
-                        MinimGrades[newsize - 1].finalGrade = studentsGrades[i].finalGrade;
+                        AddStudentInResultList(ref minimGrades, minimGrades.Length, studentsGrades[i]);
                     }
                 }
             }
-            return MinimGrades;
+            return minimGrades;
         }
 
-        private static Student[] CalculateAverageGradeAndSort(StudentGrades[] Catalogue)
+        private static void AddStudentInResultList(ref Student[] minimGrades, int index, Student student)
         {
-            Student[] StudentsGrades = CalculateGradesForAllStudents(Catalogue);
-            InsertionSortGeneralGrades(ref StudentsGrades);
-            return StudentsGrades;
+            Array.Resize(ref minimGrades, index + 1);
+            minimGrades[index].name = student.name;
+            minimGrades[index].averageGrade = student.averageGrade;
+        }
+
+        private static Student[] CalculateAverageGradeAndSort(StudentGrades[] catalogue)
+        {
+            Student[] studentsGrades = CalculateGradesForAllStudents(catalogue);
+            InsertionSortGeneralGrades(ref studentsGrades);
+            return studentsGrades;
         }
 
         private static Student[] FindTheBestStudents(StudentGrades[] catalogue, int Grade)
@@ -314,18 +316,20 @@ namespace TipuriPrimitive
                 if (numberOfSpecialGrade > max)
                 {
                     max = numberOfSpecialGrade;
-                    Array.Resize(ref allTheBestStudents, 1);
-                    allTheBestStudents[0].name = catalogue[i].name;
-                    allTheBestStudents[0].finalGrade = numberOfSpecialGrade;
+                    Student student = new Student();
+                    student.name = catalogue[i].name;
+                    student.averageGrade = numberOfSpecialGrade;
+                    AddStudentInResultList(ref allTheBestStudents, 0, student);
+
                 }
                 else
                 {
                     if ((numberOfSpecialGrade == max) && (max != 0))
                     {
-                        int newsize = allTheBestStudents.Length + 1;
-                        Array.Resize(ref allTheBestStudents, newsize);
-                        allTheBestStudents[newsize - 1].name = catalogue[i].name;
-                        allTheBestStudents[newsize - 1].finalGrade = numberOfSpecialGrade;
+                        Student student = new Student();
+                        student.name = catalogue[i].name;
+                        student.averageGrade = numberOfSpecialGrade;
+                        AddStudentInResultList(ref allTheBestStudents, allTheBestStudents.Length, student);
                     }
                 }
 
@@ -335,11 +339,11 @@ namespace TipuriPrimitive
 
         private static int CountGrade(StudentGrades studentGrades, int grade)
         {
-            var number1 = studentGrades.Discipline1Grades;
+            var number1 = studentGrades.course1Grades;
             int foundGrade1 = CountGradeForADiscipline(number1, grade);
-            var number2 = studentGrades.Discipline2Grades;
+            var number2 = studentGrades.course2Grades;
             int foundGrade2 = CountGradeForADiscipline(number2, grade);
-            var number3 = studentGrades.Discipline3Grades;
+            var number3 = studentGrades.course3Grades;
             int foundGrade3 = CountGradeForADiscipline(number3, grade);
             return foundGrade1 + foundGrade2 + foundGrade3;
         }
@@ -363,51 +367,55 @@ namespace TipuriPrimitive
             int indexofstudentFound = BinarySearch(studentsGrades, generalGradeToFind, 0, studentsGrades.Length - 1);
             if (indexofstudentFound != -1)
             {
-                return FindAllStudents(studentsGrades, indexofstudentFound);
+                return FindAllStudentsWithTheSameGrade(studentsGrades, indexofstudentFound);
 
             }
             return null;
         }
 
-        private static string[] FindAllStudents(Student[] studentsGrades, int index)
+        private static string[] FindAllStudentsWithTheSameGrade(Student[] studentsGrades, int index)
         {
-            string[] AllStudents = { studentsGrades[index].name };
+            string[] allStudents = { studentsGrades[index].name };
             //right search
             int j = index + 1;
-            while (j < studentsGrades.Length && (studentsGrades[index].finalGrade == (studentsGrades[j].finalGrade)))
+            while (j < studentsGrades.Length && (studentsGrades[index].averageGrade == (studentsGrades[j].averageGrade)))
             {
-                Array.Resize(ref AllStudents, AllStudents.Length + 1);
-                AllStudents[AllStudents.Length - 1] = studentsGrades[j].name;
+                AddAnotherStudentToList(ref allStudents, j, studentsGrades[j].name);
                 j++;
             };
             //left search
             int k = index - 1;
-            while (k > 0 && (studentsGrades[index].finalGrade == (studentsGrades[k].finalGrade)))
+            while (k > 0 && (studentsGrades[index].averageGrade == (studentsGrades[k].averageGrade)))
             {
-                Array.Resize(ref AllStudents, AllStudents.Length + 1);
-                AllStudents[AllStudents.Length - 1] = studentsGrades[k].name;
+                AddAnotherStudentToList(ref allStudents, k, studentsGrades[k].name);
                 k--;
             };
-            return AllStudents;
+            return allStudents;
         }
 
-        private static int BinarySearch(Student[] studentsGrades, decimal GradeToFind, int begin, int end)
+        private static void AddAnotherStudentToList(ref string[] allStudents, int j, string nameOfStudent)
+        {
+            Array.Resize(ref allStudents, allStudents.Length + 1);
+            allStudents[allStudents.Length - 1] = nameOfStudent;
+        }
+
+        private static int BinarySearch(Student[] studentsGrades, decimal gradeToFind, int begin, int end)
         {
             if (begin > end) return -1;
             int middle = begin + (end - begin) / 2;
             Student middleElement = studentsGrades[middle];
-            if (GradeToFind < middleElement.finalGrade)
+            if (gradeToFind < middleElement.averageGrade)
             {
-                return BinarySearch(studentsGrades, GradeToFind, middle + 1, end);
+                return BinarySearch(studentsGrades, gradeToFind, middle + 1, end);
             }
             else
             {
-                if (GradeToFind == middleElement.finalGrade)
+                if (gradeToFind == middleElement.averageGrade)
                 {
                     return middle;
                 }
             }
-            return BinarySearch(studentsGrades, GradeToFind, begin, middle - 1);
+            return BinarySearch(studentsGrades, gradeToFind, begin, middle - 1);
 
         }
 
@@ -415,7 +423,7 @@ namespace TipuriPrimitive
         {
             for (int i = 1; i < studentsGrades.Length; i++)
             {
-                if (studentsGrades[i].finalGrade > studentsGrades[i - 1].finalGrade)
+                if (studentsGrades[i].averageGrade > studentsGrades[i - 1].averageGrade)
                 {
                     InsertElementInRightPosition(ref studentsGrades, i);
                 }
@@ -423,18 +431,18 @@ namespace TipuriPrimitive
             }
         }
 
-        private static void InsertElementInRightPosition(ref Student[] ListOfGrades, int index)
+        private static void InsertElementInRightPosition(ref Student[] listOfGrades, int index)
         {
             int j = index;
             do
             {
-                if ((ListOfGrades[j].finalGrade) > ListOfGrades[j - 1].finalGrade)
+                if ((listOfGrades[j].averageGrade) > listOfGrades[j - 1].averageGrade)
                 {
-                    Swap(ref ListOfGrades[j], ref ListOfGrades[j - 1]);
+                    Swap(ref listOfGrades[j], ref listOfGrades[j - 1]);
                 }
                 j--;
             }
-            while (j > 0 || ((ListOfGrades[j + 1].finalGrade) > ListOfGrades[j].finalGrade));
+            while (j > 0 || ((listOfGrades[j + 1].averageGrade) > listOfGrades[j].averageGrade));
         }
 
         private static void Swap(ref Student firstValue, ref Student secondValue)
@@ -445,13 +453,13 @@ namespace TipuriPrimitive
             secondValue = temporary;
         }
 
-        private static Student[] CalculateGradesForAllStudents(StudentGrades[] Catalogue)
+        private static Student[] CalculateGradesForAllStudents(StudentGrades[] catalogue)
         {
 
-            Student[] studentsGrades = new Student[Catalogue.Length];
-            for (int i = 0; i < Catalogue.Length; i++)
+            Student[] studentsGrades = new Student[catalogue.Length];
+            for (int i = 0; i < catalogue.Length; i++)
             {
-                CalculateGradeForAStudent(Catalogue, i, ref studentsGrades);
+                CalculateGradeForAStudent(catalogue, i, ref studentsGrades);
             }
             return studentsGrades;
         }
@@ -459,8 +467,8 @@ namespace TipuriPrimitive
         private static void CalculateGradeForAStudent(StudentGrades[] catalogue, int i, ref Student[] studentsGrades)
         {
             studentsGrades[i].name = catalogue[i].name;
-            decimal generalGrade = (CalculateGrade(catalogue[i].Discipline1Grades) + CalculateGrade(catalogue[i].Discipline2Grades) + CalculateGrade(catalogue[i].Discipline3Grades)) / 3;
-            studentsGrades[i].finalGrade = Math.Round(generalGrade, 2);
+            decimal generalGrade = (CalculateGrade(catalogue[i].course1Grades) + CalculateGrade(catalogue[i].course2Grades) + CalculateGrade(catalogue[i].course3Grades)) / 3;
+            studentsGrades[i].averageGrade = Math.Round(generalGrade, 2);
         }
 
         private static decimal CalculateGrade(uint[] grades)
