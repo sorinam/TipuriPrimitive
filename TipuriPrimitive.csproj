@@ -96,6 +96,7 @@
     <Compile Include="Excel_InvalidColNb.cs" />
     <Compile Include="Recursivitate.cs" />
     <Compile Include="Sorting.cs" />
+    <Compile Include="SortLotoNumbers.cs" />
     <Compile Include="Sportiv.cs" />
     <Compile Include="Train_CalcBirdDist.cs" />
     <Compile Include="Train_CalcBirdDistance.cs" />
